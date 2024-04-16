@@ -45,15 +45,12 @@ module SortedContainers
       add(value)
     end
 
-    # Removes a value from the sorted list.
-    #
-    # @param value [Object] The value to remove.
     def remove(value)
       i = bisect_left(@maxes, value)
-      return if i == @maxes.size
+      raise "Value not found: #{value}" if i == @maxes.size
 
-      idx = @lists[i].index(value)
-      raise "Value not found: #{value}" unless idx
+      idx = bisect_left(@lists[i], value)
+      raise "Value not found: #{value}" unless @lists[i][idx] == value
 
       internal_delete(i, idx)
     end
