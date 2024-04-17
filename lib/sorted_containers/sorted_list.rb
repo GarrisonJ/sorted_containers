@@ -2,10 +2,10 @@
 
 # The SortedContainers module provides data structures for sorted collections.
 module SortedContainers
-  class Error < StandardError; end
-
   # The SortedList class is a sorted list implementation.
   class SortedList
+    include Enumerable
+    
     DEFAULT_LOAD_FACTOR = 1000
 
     attr_reader :size
@@ -114,6 +114,15 @@ module SortedContainers
     # @return [Array] An array representation of the sorted list.
     def to_a
       @lists.flatten
+    end
+
+    # Iterates over each value in the sorted list.
+    #
+    # @yield [value] Gives each value to the block.
+    def each(&block)
+      @lists.each do |sublist|
+        sublist.each(&block)
+      end
     end
 
     private

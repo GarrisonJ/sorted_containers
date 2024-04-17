@@ -7,10 +7,14 @@ require_relative "sorted_list"
 module SortedContainers
   # The SortedSet class is a sorted set implementation.
   class SortedSet
+    include Enumerable
+
     # Initializes a new instance of the SortedSet class.
-    def initialize
-      @set = Set.new
-      @list = SortedContainers::SortedList.new
+    #
+    # @param iterable [Array] The initial elements of the sorted set.
+    def initialize(iterable = [])
+      @set = Set.new(iterable)
+      @list = SortedContainers::SortedList.new(iterable)
     end
 
     # Adds an item to the sorted set.
@@ -53,6 +57,13 @@ module SortedContainers
     # @return [Boolean] `true` if the item is included, `false` otherwise.
     def include?(item)
       @set.include?(item)
+    end
+
+    # Returns the items in the sorted set as an array.
+    #
+    # @return [Array] The items in the sorted set.
+    def to_a
+      @list.to_a
     end
 
     # Iterates over each item in the sorted set.
