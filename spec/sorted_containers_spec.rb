@@ -5,9 +5,90 @@ RSpec.describe SortedContainers do
     expect(SortedContainers::VERSION).not_to be nil
   end
 
-  it "should be able to create a SortedList" do
-    list = SortedContainers::SortedList.new
-    expect(list).to be_a(SortedContainers::SortedList)
+  describe SortedContainers::SortedSet do
+    it "sorts items after being added in an arbitrary order" do
+      set = SortedContainers::SortedSet.new
+      set.add(5)
+      set.add(2)
+      set.add(7)
+      set.add(1)
+      set.add(4)
+      expect(set.to_a).to eq([1, 2, 4, 5, 7])
+    end
+
+    it "should return true if the value is in the set" do
+      set = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
+      expect(set.include?(3)).to be true
+    end
+
+    it "should remove the value from the set" do
+      set = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
+      set.delete(3)
+      expect(set.to_a).to eq([1, 2, 4, 5])
+    end
+
+    it "should return the number of elements in the set" do
+      set = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
+      expect(set.size).to eq(5)
+    end
+
+    it "should iterate over each item in the set" do
+      set = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
+      items = set.map { |item| item }
+      expect(items).to eq([1, 2, 3, 4, 5])
+    end
+
+    it "should sort hundreds of values" do
+      set = SortedContainers::SortedSet.new
+      (1..1000).to_a.shuffle.each do |i|
+        set.add(i)
+      end
+      expect(set.to_a).to eq((1..1000).to_a)
+    end
+  end
+
+  describe SortedContainers::SortedDict do
+    it "should return the value for the given key" do
+      dict = SortedContainers::SortedDict.new
+      dict[:a] = 1
+      dict[:b] = 2
+      dict[:c] = 3
+      expect(dict[:b]).to eq(2)
+    end
+
+    it "should return the keys in the dictionary" do
+      dict = SortedContainers::SortedDict.new
+      dict[:a] = 1
+      dict[:b] = 2
+      dict[:c] = 3
+      expect(dict.keys).to eq(%i[a b c])
+    end
+
+    it "should return the values in the dictionary" do
+      dict = SortedContainers::SortedDict.new
+      dict[:a] = 1
+      dict[:b] = 2
+      dict[:c] = 3
+      expect(dict.values).to eq([1, 2, 3])
+    end
+
+    it "should iterate over each key-value pair in the dictionary" do
+      dict = SortedContainers::SortedDict.new
+      dict[:a] = 1
+      dict[:b] = 2
+      dict[:c] = 3
+      pairs = dict.map { |key, value| [key, value] }
+      expect(pairs).to eq([[:a, 1], [:b, 2], [:c, 3]])
+    end
+
+    it "should remove the value for the given key" do
+      dict = SortedContainers::SortedDict.new
+      dict[:a] = 1
+      dict[:b] = 2
+      dict[:c] = 3
+      dict.delete(:b)
+      expect(dict.keys).to eq(%i[a c])
+    end
   end
 
   describe SortedContainers::SortedList do
