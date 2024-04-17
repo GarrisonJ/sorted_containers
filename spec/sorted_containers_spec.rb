@@ -145,6 +145,12 @@ RSpec.describe SortedContainers do
       expect { list.delete_at(5) }.to raise_error("Index out of range")
     end
 
+    it "should pop the last value from the list" do
+      list = SortedContainers::SortedList.new([1, 2, 3, 4, 5])
+      expect(list.pop).to eq(5)
+      expect(list.to_a).to eq([1, 2, 3, 4])
+    end
+
     it "should sort hundreds of values" do
       list = SortedContainers::SortedList.new
       (1..1000).to_a.shuffle.each do |i|

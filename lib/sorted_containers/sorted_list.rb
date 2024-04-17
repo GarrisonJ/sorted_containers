@@ -5,7 +5,7 @@ module SortedContainers
   # The SortedList class is a sorted list implementation.
   class SortedList
     include Enumerable
-    
+
     DEFAULT_LOAD_FACTOR = 1000
 
     attr_reader :size
@@ -87,6 +87,23 @@ module SortedContainers
       end
 
       raise "Index out of range" unless deleted
+    end
+
+    # Pops the last value from the sorted list.
+    #
+    # @return [Object] The last value in the list.
+    def pop
+      raise "List is empty" if @size.zero?
+
+      value = @lists.last.pop
+      if @lists.last.empty?
+        @lists.pop
+        @maxes.pop
+      else
+        @maxes[-1] = @lists.last.last
+      end
+      @size -= 1
+      value
     end
 
     # Clears the sorted list, removing all values.
