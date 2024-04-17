@@ -9,6 +9,9 @@ Metrics/BlockLength:
   Exclude:
     - "**/*_spec.rb"
 
+Metrics/ClassLength:
+  Max: 200
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
