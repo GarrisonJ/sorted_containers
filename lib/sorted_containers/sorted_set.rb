@@ -12,9 +12,9 @@ module SortedContainers
     # Initializes a new instance of the SortedSet class.
     #
     # @param iterable [Array] The initial elements of the sorted set.
-    def initialize(iterable = [])
+    def initialize(iterable = [], load_factor: SortedList::DEFAULT_LOAD_FACTOR)
       @set = Set.new(iterable)
-      @list = SortedContainers::SortedList.new(iterable)
+      @list = SortedContainers::SortedList.new(iterable, load_factor: load_factor)
     end
 
     # Adds an item to the sorted set.
@@ -34,6 +34,27 @@ module SortedContainers
       add(item)
     end
 
+    # Retrieves the item at the specified index.
+    #
+    # @param index [Integer] The index of the item to retrieve.
+    def [](index)
+      @list[index]
+    end
+
+    # Retrieves the first item in the sorted set.
+    #
+    # @return [Object] The first item.
+    def first
+      @list.first
+    end
+
+    # Retrieves the last item in the sorted set.
+    #
+    # @return [Object] The last item.
+    def last
+      @list.last
+    end
+
     # Removes an item from the sorted set.
     #
     # @param item [Object] The item to be removed.
@@ -41,7 +62,7 @@ module SortedContainers
       return unless @set.include?(item)
 
       @set.delete(item)
-      @list.remove(item)
+      @list.delete(item)
     end
 
     # Returns the number of items in the sorted set.

@@ -7,9 +7,9 @@ module SortedContainers
     include Enumerable
 
     # Initializes a new instance of the SortedDict class.
-    def initialize
+    def initialize(load_factor: SortedList::DEFAULT_LOAD_FACTOR)
       @dictionary = {}
-      @sorted_list = SortedList.new
+      @sorted_list = SortedList.new(load_factor: load_factor)
     end
 
     # Retrieves the value associated with the specified key.
@@ -27,7 +27,7 @@ module SortedContainers
     # @param value [Object] The value to be associated with the key.
     # @return [Object] The value that was associated with the key.
     def []=(key, value)
-      @sorted_list.remove(key) if @dictionary.key?(key)
+      @sorted_list.delete(key) if @dictionary.key?(key)
       @sorted_list.add(key)
       @dictionary[key] = value
     end
@@ -40,7 +40,7 @@ module SortedContainers
       return unless @dictionary.key?(key)
 
       @dictionary.delete(key)
-      @sorted_list.remove(key)
+      @sorted_list.delete(key)
     end
 
     # Returns an array of all the keys in the SortedDict.

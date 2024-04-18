@@ -27,6 +27,11 @@ RSpec.describe SortedContainers do
       expect(set.to_a).to eq([1, 2, 4, 5])
     end
 
+    it "should return the value indexed by the given index" do
+      set = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
+      expect(set[2]).to eq(3)
+    end
+
     it "should return the number of elements in the set" do
       set = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
       expect(set.size).to eq(5)
@@ -102,14 +107,19 @@ RSpec.describe SortedContainers do
       expect(list.to_a).to eq([1, 2, 4, 5, 7])
     end
 
+    it "should set the load factor to the provided value" do
+      list = SortedContainers::SortedList.new([], load_factor: 100)
+      expect(list.instance_variable_get(:@load_factor)).to eq(100)
+    end
+
     it "should return true if the value is in the list" do
       list = SortedContainers::SortedList.new([1, 2, 3, 4, 5])
       expect(list.contains(3)).to be true
     end
 
-    it "should remove the value from the list" do
+    it "should delete the value from the list" do
       list = SortedContainers::SortedList.new([1, 2, 3, 4, 5])
-      list.remove(3)
+      list.delete(3)
       expect(list.to_a).to eq([1, 2, 4, 5])
     end
 

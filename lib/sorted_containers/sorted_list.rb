@@ -13,10 +13,10 @@ module SortedContainers
     # Initializes a new SortedList object.
     #
     # @param iterable [Enumerable] An optional iterable object to initialize the list with.
-    def initialize(iterable = [])
+    def initialize(iterable = [], load_factor: DEFAULT_LOAD_FACTOR)
       @lists = []
       @maxes = []
-      @load_factor = DEFAULT_LOAD_FACTOR
+      @load_factor = load_factor
       @size = 0
       update(iterable)
     end
@@ -45,7 +45,7 @@ module SortedContainers
       add(value)
     end
 
-    def remove(value)
+    def delete(value)
       i = bisect_left(@maxes, value)
       raise "Value not found: #{value}" if i == @maxes.size
 
@@ -67,6 +67,24 @@ module SortedContainers
 
         index -= sublist.size
       end
+    end
+
+    # Retrieves the last value in the sorted list.
+    #
+    # @return [Object] The last value in the list.
+    def last
+      raise "List is empty" if @size.zero?
+
+      @lists.last.last
+    end
+
+    # Retrieves the first value in the sorted list.
+    #
+    # @return [Object] The first value in the list.
+    def first
+      raise "List is empty" if @size.zero?
+
+      @lists.first.first
     end
 
     # Deletes the value at the specified index.
