@@ -7,6 +7,8 @@ module SortedContainers
     include Enumerable
 
     # Initializes a new instance of the SortedDict class.
+    #
+    # @param load_factor [Integer] The load factor for the SortedDict.
     def initialize(load_factor: SortedList::DEFAULT_LOAD_FACTOR)
       @dictionary = {}
       @sorted_list = SortedList.new(load_factor: load_factor)

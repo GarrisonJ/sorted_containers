@@ -13,6 +13,7 @@ module SortedContainers
     # Initializes a new SortedList object.
     #
     # @param iterable [Enumerable] An optional iterable object to initialize the list with.
+    # @param load_factor [Integer] The load factor for the list.
     def initialize(iterable = [], load_factor: DEFAULT_LOAD_FACTOR)
       @lists = []
       @maxes = []
@@ -45,6 +46,9 @@ module SortedContainers
       add(value)
     end
 
+    # Deletes a value from the sorted list.
+    #
+    # @param value [Object] The value to delete.
     def delete(value)
       i = bisect_left(@maxes, value)
       raise "Value not found: #{value}" if i == @maxes.size

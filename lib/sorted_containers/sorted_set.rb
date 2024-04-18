@@ -12,6 +12,7 @@ module SortedContainers
     # Initializes a new instance of the SortedSet class.
     #
     # @param iterable [Array] The initial elements of the sorted set.
+    # @param load_factor [Integer] The load factor for the sorted set.
     def initialize(iterable = [], load_factor: SortedList::DEFAULT_LOAD_FACTOR)
       @set = Set.new(iterable)
       @list = SortedContainers::SortedList.new(iterable, load_factor: load_factor)
