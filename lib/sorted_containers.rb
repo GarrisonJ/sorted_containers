@@ -3,7 +3,7 @@
 require_relative "sorted_containers/version"
 require_relative "sorted_containers/sorted_array"
 require_relative "sorted_containers/sorted_set"
-require_relative "sorted_containers/sorted_dict"
+require_relative "sorted_containers/sorted_hash"
 
 module SortedContainers
   class Error < StandardError; end
