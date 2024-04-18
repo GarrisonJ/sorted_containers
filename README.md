@@ -2,7 +2,7 @@
 
 SortedContainers is a _fast_ implementation of sorted lists, sets, and dictionaries in pure Ruby. It is based on the [sortedcontainers](https://grantjenks.com/docs/sortedcontainers/) Python library by Grant Jenks.
 
-SortedContainers provides three main classes: `SortedList`, `SortedSet`, and `SortedDict`. Each class is a drop-in replacement for the corresponding Ruby class, but with the added benefit of maintaining the elements in sorted order.
+SortedContainers provides three main classes: `SortedArray`, `SortedSet`, and `SortedDict`. Each class is a drop-in replacement for the corresponding Ruby class, but with the added benefit of maintaining the elements in sorted order.
 
 SortedContainers exploits the fact that modern computers are really good at shifting elements around in memory. We sacrifice theroetical time complexity for practical performance. In practice, SortedContainers is _fast_.
 
@@ -43,8 +43,8 @@ gem install sorted_containers
 ```ruby
 require 'sorted_containers'
 
-# Create a new SortedList
-list = SortedContainers::SortedList.new
+# Create a new SortedArray
+list = SortedContainers::SortedArray.new
 
 # Add elements to the list
 list << 3

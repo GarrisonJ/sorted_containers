@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors = ["Garrison Jensen"]
   spec.email = ["garrison.jensen@gmail.com"]
 
-  spec.summary = "A collection of sorted containers including SortedList, SortedDict, and SortedSet."
-  spec.description = "A collection of sorted containers including SortedList, SortedDict, and SortedSet."
+  spec.summary = "A collection of sorted containers including SortedArray, SortedDict, and SortedSet."
+  spec.description = "A collection of sorted containers including SortedArray, SortedDict, and SortedSet."
   spec.homepage = "https://www.github.com/GarrisonJ/sorted_containers"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.0.0"

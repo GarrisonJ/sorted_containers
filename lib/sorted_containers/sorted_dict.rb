@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "sorted_array"
+
 # The SortedContainers module provides data structures for sorted collections.
 module SortedContainers
   # The SortedDict class represents a sorted dictionary.
@@ -9,9 +11,9 @@ module SortedContainers
     # Initializes a new instance of the SortedDict class.
     #
     # @param load_factor [Integer] The load factor for the SortedDict.
-    def initialize(load_factor: SortedList::DEFAULT_LOAD_FACTOR)
+    def initialize(load_factor: SortedArray::DEFAULT_LOAD_FACTOR)
       @dictionary = {}
-      @sorted_list = SortedList.new(load_factor: load_factor)
+      @sorted_array = SortedArray.new(load_factor: load_factor)
     end
 
     # Retrieves the value associated with the specified key.
@@ -29,8 +31,8 @@ module SortedContainers
     # @param value [Object] The value to be associated with the key.
     # @return [Object] The value that was associated with the key.
     def []=(key, value)
-      @sorted_list.delete(key) if @dictionary.key?(key)
-      @sorted_list.add(key)
+      @sorted_array.delete(key) if @dictionary.key?(key)
+      @sorted_array.add(key)
       @dictionary[key] = value
     end
 
@@ -42,21 +44,21 @@ module SortedContainers
       return unless @dictionary.key?(key)
 
       @dictionary.delete(key)
-      @sorted_list.delete(key)
+      @sorted_array.delete(key)
     end
 
     # Returns an array of all the keys in the SortedDict.
     #
     # @return [Array] An array of all the keys.
     def keys
-      @sorted_list.to_a
+      @sorted_array.to_a
     end
 
     # Returns an array of all the values in the SortedDict.
     #
     # @return [Array] An array of all the values.
     def values
-      @sorted_list.to_a.map { |key| @dictionary[key] }
+      @sorted_array.to_a.map { |key| @dictionary[key] }
     end
 
     # Iterates over each key-value pair in the SortedDict.
@@ -66,7 +68,7 @@ module SortedContainers
     # @yieldparam value [Object] The value of the current key-value pair.
     # @return [void]
     def each(&block)
-      @sorted_list.each do |key|
+      @sorted_array.each do |key|
         value = @dictionary[key]
         block.call(key, value)
       end

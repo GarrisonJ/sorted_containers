@@ -2,18 +2,18 @@
 
 # The SortedContainers module provides data structures for sorted collections.
 module SortedContainers
-  # The SortedList class is a sorted list implementation.
-  class SortedList
+  # The SortedArray class is a sorted array implementation.
+  class SortedArray
     include Enumerable
 
     DEFAULT_LOAD_FACTOR = 1000
 
     attr_reader :size
 
-    # Initializes a new SortedList object.
+    # Initializes a new SortedArray object.
     #
-    # @param iterable [Enumerable] An optional iterable object to initialize the list with.
-    # @param load_factor [Integer] The load factor for the list.
+    # @param iterable [Enumerable] An optional iterable object to initialize the array with.
+    # @param load_factor [Integer] The load factor for the array.
     def initialize(iterable = [], load_factor: DEFAULT_LOAD_FACTOR)
       @lists = []
       @maxes = []
@@ -22,7 +22,7 @@ module SortedContainers
       update(iterable)
     end
 
-    # Adds a value to the sorted list.
+    # Adds a value to the sorted array.
     #
     # @param value [Object] The value to add.
     def add(value)
@@ -39,14 +39,14 @@ module SortedContainers
       @size += 1
     end
 
-    # Adds a value to the sorted list using the << operator.
+    # Adds a value to the sorted array using the << operator.
     #
     # @param value [Object] The value to add.
     def <<(value)
       add(value)
     end
 
-    # Deletes a value from the sorted list.
+    # Deletes a value from the sorted array.
     #
     # @param value [Object] The value to delete.
     def delete(value)
@@ -73,20 +73,20 @@ module SortedContainers
       end
     end
 
-    # Retrieves the last value in the sorted list.
+    # Retrieves the last value in the sorted array.
     #
-    # @return [Object] The last value in the list.
+    # @return [Object] The last value in the array.
     def last
-      raise "List is empty" if @size.zero?
+      raise "Array is empty" if @size.zero?
 
       @lists.last.last
     end
 
-    # Retrieves the first value in the sorted list.
+    # Retrieves the first value in the sorted array.
     #
-    # @return [Object] The first value in the list.
+    # @return [Object] The first value in the array.
     def first
-      raise "List is empty" if @size.zero?
+      raise "Array is empty" if @size.zero?
 
       @lists.first.first
     end
@@ -111,11 +111,11 @@ module SortedContainers
       raise "Index out of range" unless deleted
     end
 
-    # Pops the last value from the sorted list.
+    # Pops the last value from the sorted array.
     #
-    # @return [Object] The last value in the list.
+    # @return [Object] The last value in the array.
     def pop
-      raise "List is empty" if @size.zero?
+      raise "Array is empty" if @size.zero?
 
       value = @lists.last.pop
       if @lists.last.empty?
@@ -128,14 +128,14 @@ module SortedContainers
       value
     end
 
-    # Clears the sorted list, removing all values.
+    # Clears the sorted array, removing all values.
     def clear
       @lists.clear
       @maxes.clear
       @size = 0
     end
 
-    # Checks if the sorted list contains a value.
+    # Checks if the sorted array contains a value.
     #
     # @param value [Object] The value to check.
     # @return [Boolean] True if the value is found, false otherwise.
@@ -148,14 +148,14 @@ module SortedContainers
       idx < sublist.size && sublist[idx] == value
     end
 
-    # Converts the sorted list to an array.
+    # Converts the sorted array to an array.
     #
-    # @return [Array] An array representation of the sorted list.
+    # @return [Array] An array representation of the sorted array.
     def to_a
       @lists.flatten
     end
 
-    # Iterates over each value in the sorted list.
+    # Iterates over each value in the sorted array.
     #
     # @yield [value] Gives each value to the block.
     def each(&block)
@@ -212,9 +212,9 @@ module SortedContainers
       @size -= 1
     end
 
-    # Updates the sorted list with values from an iterable object.
+    # Updates the sorted array with values from an iterable object.
     #
-    # @param iterable [Enumerable] The iterable object to update the list with.
+    # @param iterable [Enumerable] The iterable object to update the array with.
     def update(iterable)
       iterable.each { |item| add(item) }
     end

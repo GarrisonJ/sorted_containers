@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "set"
-require_relative "sorted_list"
+require_relative "sorted_array"
 
 # A module that provides sorted container data structures.
 module SortedContainers
@@ -13,9 +13,9 @@ module SortedContainers
     #
     # @param iterable [Array] The initial elements of the sorted set.
     # @param load_factor [Integer] The load factor for the sorted set.
-    def initialize(iterable = [], load_factor: SortedList::DEFAULT_LOAD_FACTOR)
+    def initialize(iterable = [], load_factor: SortedArray::DEFAULT_LOAD_FACTOR)
       @set = Set.new(iterable)
-      @list = SortedContainers::SortedList.new(iterable, load_factor: load_factor)
+      @list = SortedContainers::SortedArray.new(iterable, load_factor: load_factor)
     end
 
     # Adds an item to the sorted set.
