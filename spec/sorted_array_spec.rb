@@ -18,7 +18,57 @@ RSpec.describe SortedContainers::SortedArray do
 
   it "should return true if the value is in the array" do
     array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-    expect(array.contains(3)).to be true
+    expect(array.include?(3)).to be true
+  end
+
+  it "should return false if the value is not in the array" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.include?(6)).to be false
+  end
+
+  it "should return true if the array is empty" do
+    array = SortedContainers::SortedArray.new
+    expect(array.empty?).to be true
+  end
+
+  it "should return false if the array is not empty" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.empty?).to be false
+  end
+
+  it "should return the first value in the array" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.first).to eq(1)
+  end
+
+  it "should return the last value in the array" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.last).to eq(5)
+  end
+
+  it "should return true if all elements meet a given criterion" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.all? { |i| i > 0 }).to be true
+  end
+
+  it "should return false if all elements do not meet a given criterion" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.all? { |i| i > 1 }).to be false
+  end
+
+  it "should return true if the array contains only truthy elements" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.all?).to be true
+  end
+
+  it "should return true if any elements meet a given criterion" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.any? { |i| i > 4 }).to be true
+  end
+
+  it "should return false if no elements meet a given criterion" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.any? { |i| i > 5 }).to be false
   end
 
   it "should delete the value from the array" do
