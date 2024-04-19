@@ -192,7 +192,7 @@ module SortedContainers
     # @param value [Object] The value to bisect with.
     # @return [Integer] The index where the value should be inserted.
     def bisect_left(array, value)
-      array.bsearch_index { |x| x <=> value } || array.size
+      array.bsearch_index { |x| x >= value } || array.size
     end
 
     # Performs a right bisect on the array.
@@ -201,7 +201,7 @@ module SortedContainers
     # @param value [Object] The value to bisect with.
     # @return [Integer] The index where the value should be inserted.
     def bisect_right(array, value)
-      array.bsearch_index { |x| (x <=> value) == 1 } || array.size
+      array.bsearch_index { |x| x > value } || array.length
     end
 
     # Expands a sublist if it exceeds the load factor.
