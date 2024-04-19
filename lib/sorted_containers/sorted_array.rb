@@ -62,13 +62,14 @@ module SortedContainers
     #
     # @param value [Object] The value to delete.
     def delete(value)
-      i = bisect_left(@maxes, value)
-      raise "Value not found: #{value}" if i == @maxes.size
+      return if @maxes.empty?
+      pos = bisect_left(@maxes, value)
 
-      idx = bisect_left(@lists[i], value)
-      raise "Value not found: #{value}" unless @lists[i][idx] == value
+      return if pos == @maxes.size
 
-      internal_delete(i, idx)
+      idx = bisect_left(@lists[pos], value)
+
+      internal_delete(pos, idx) if @lists[pos][idx] == value
     end
 
     # Retrieves the value at the specified index.
