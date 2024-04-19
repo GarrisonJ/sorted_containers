@@ -161,6 +161,13 @@ module SortedContainers
       idx < sublist.size && sublist[idx] == value
     end
 
+    # Updates the sorted array with values from an iterable object.
+    #
+    # @param iterable [Enumerable] The iterable object to update the array with.
+    def update(iterable)
+      iterable.each { |item| add(item) }
+    end
+
     # Converts the sorted array to an array.
     #
     # @return [Array] An array representation of the sorted array.
@@ -225,11 +232,6 @@ module SortedContainers
       @size -= 1
     end
 
-    # Updates the sorted array with values from an iterable object.
-    #
-    # @param iterable [Enumerable] The iterable object to update the array with.
-    def update(iterable)
-      iterable.each { |item| add(item) }
     end
   end
 end
