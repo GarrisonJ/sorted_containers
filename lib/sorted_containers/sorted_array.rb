@@ -152,7 +152,7 @@ module SortedContainers
     #
     # @param value [Object] The value to check.
     # @return [Boolean] True if the value is found, false otherwise.
-    def contains(value)
+    def include?(value)
       i = bisect_left(@maxes, value)
       return false if i == @maxes.size
 
