@@ -2,15 +2,9 @@ AllCops:
   TargetRubyVersion: 3.0
   NewCops: enable
 
-Metrics/MethodLength:
-  Max: 25
-
 Metrics/BlockLength:
   Exclude:
     - "**/*_spec.rb"
-
-Metrics/ClassLength:
-  Max: 200
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes

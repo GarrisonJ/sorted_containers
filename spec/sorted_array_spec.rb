@@ -148,7 +148,37 @@ RSpec.describe SortedContainers::SortedArray do
 
   it "should raise an error if the index is out of range" do
     array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-    expect { array.delete_at(5) }.to raise_error("Index out of range")
+    expect { array.delete_at(5) }.to raise_error(IndexError)
+  end
+
+  it "bisect_left should return the index where the value should be inserted" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.bisect_left(3)).to eq(2)
+  end
+
+  it "bisect_right should return the index where the value should be inserted" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.bisect_right(3)).to eq(3)
+  end
+
+  it "bisect_left should return the the length of the array if the value is greater than all values" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.bisect_left(6)).to eq(5)
+  end
+
+  it "bisect_right should return the the length of the array if the value is greater than all values" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.bisect_right(6)).to eq(5)
+  end
+
+  it "bisect_left should return 0 if the value is less than all values" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.bisect_left(0)).to eq(0)
+  end
+
+  it "bisect_right should return 0 if the value is less than all values" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.bisect_right(0)).to eq(0)
   end
 
   it "should pop the last value from the array" do
