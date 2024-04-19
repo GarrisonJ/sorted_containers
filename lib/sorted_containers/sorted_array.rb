@@ -26,20 +26,25 @@ module SortedContainers
     #
     # @param value [Object] The value to add.
     def add(value)
-      i = bisect_right(@maxes, value)
-      if i == @maxes.size
-        @lists.push([value])
-        @maxes.push(value)
+      if !@maxes.empty?
+        pos = bisect_right(@maxes, value)
+        if pos == @maxes.size
+          pos -= 1
+          @lists[pos].push(value)
+          @maxes[pos] = value
+        else
+          sub_pos = bisect_right(@lists[pos], value)
+          @lists[pos].insert(sub_pos, value)
+        end
+        expand(pos)
       else
-        idx = bisect_right(@lists[i], value)
-        @lists[i].insert(idx, value)
-        @maxes[i] = @lists[i].last
-        expand(i) if @lists[i].size > (@load_factor * 2)
+        @lists.append([value])
+        @maxes.append(value)
       end
       @size += 1
     end
 
-    # Adds a value to the sorted array using the << operator.
+    # Alias for add
     #
     # @param value [Object] The value to add.
     def <<(value)
