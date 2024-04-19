@@ -26,7 +26,10 @@ module SortedContainers
     #
     # @param value [Object] The value to add.
     def add(value)
-      if !@maxes.empty?
+      if @maxes.empty?
+        @lists.append([value])
+        @maxes.append(value)
+      else
         pos = bisect_right(@maxes, value)
         if pos == @maxes.size
           pos -= 1
@@ -37,9 +40,6 @@ module SortedContainers
           @lists[pos].insert(sub_pos, value)
         end
         expand(pos)
-      else
-        @lists.append([value])
-        @maxes.append(value)
       end
       @size += 1
     end
