@@ -254,6 +254,20 @@ module SortedContainers
       @lists.flatten
     end
 
+    # Returns the maximum value in the sorted array.
+    #
+    # @return [Object] The maximum value in the array.
+    def max
+      @lists.last&.last
+    end
+
+    # Returns the minimum value in the sorted array.
+    #
+    # @return [Object] The minimum value in the array.
+    def min
+      @lists.first&.first
+    end
+
     # Iterates over each value in the sorted array.
     #
     # @yield [value] Gives each value to the block.

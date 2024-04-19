@@ -181,6 +181,26 @@ RSpec.describe SortedContainers::SortedArray do
     expect(array.bisect_right(0)).to eq(0)
   end
 
+  it "should return the minimum value in the array" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.min).to eq(1)
+  end
+
+  it "should return the maximum value in the array" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.max).to eq(5)
+  end
+
+  it "should return nil for the minimum value in an empty array" do
+    array = SortedContainers::SortedArray.new
+    expect(array.min).to be_nil
+  end
+
+  it "should return nil for the maximum value in an empty array" do
+    array = SortedContainers::SortedArray.new
+    expect(array.max).to be_nil
+  end
+
   it "should pop the last value from the array" do
     array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
     expect(array.pop).to eq(5)
