@@ -219,18 +219,31 @@ module SortedContainers
 
     # Deletes a value from a sublist.
     #
-    # @param sublist_index [Integer] The index of the sublist.
+    # @param pos [Integer] The index of the sublist.
     # @param idx [Integer] The index of the value to delete.
-    def internal_delete(sublist_index, idx)
-      @lists[sublist_index].delete_at(idx)
-      if @lists[sublist_index].empty?
-        @lists.delete_at(sublist_index)
-        @maxes.delete_at(sublist_index)
-      else
-        @maxes[sublist_index] = @lists[sublist_index].last
-      end
+    def internal_delete(pos, idx)
+      @lists[pos].delete_at(idx)
       @size -= 1
-    end
+
+      if @lists[pos].size > (@load_factor >> 1)
+        @maxes[pos] = @lists[pos].last
+      elsif @lists.size > 1
+        if pos.zero?
+          pos += 1
+        end
+
+        prev = pos - 1
+        @lists[prev].concat(@lists[pos])
+        @maxes[prev] = @lists[prev].last
+
+        @lists.delete_at(pos)
+        @maxes.delete_at(pos)
+      elsif @lists[pos].size.positive?
+        @maxes[pos] = @lists[pos].last
+      else
+        @lists.delete_at(pos)
+        @maxes.delete_at(pos)
+      end
 
     end
   end
