@@ -3,7 +3,7 @@ AllCops:
   NewCops: enable
 
 Metrics/MethodLength:
-  Max: 15
+  Max: 25
 
 Metrics/BlockLength:
   Exclude:
