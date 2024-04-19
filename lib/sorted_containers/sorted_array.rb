@@ -72,17 +72,28 @@ module SortedContainers
       internal_delete(pos, idx) if @lists[pos][idx] == value
     end
 
-    # Retrieves the value at the specified index.
+    # Tries to match the behavior of Array#[]
     #
-    # @param index [Integer] The index of the value to retrieve.
-    # @return [Object] The value at the specified index.
-    def [](index)
-      raise "Index out of range" if index.negative? || index >= @size
-
-      @lists.each do |sublist|
-        return sublist[index] if index < sublist.size
-
-        index -= sublist.size
+    # @param args [Integer, Range, Enumerator::ArithmeticSequence] The index or range of values to retrieve.
+    def [](*args)
+      case args.size
+      when 1
+        arg = args[0]
+        case arg
+        when Integer
+          get_value_at_index(arg)
+        when Range
+          get_values_from_range(arg)
+        when Enumerator::ArithmeticSequence
+          get_values_from_arithmetic_sequence(arg)
+        else
+          raise TypeError, "no implicit conversion of #{arg.class} into Integer"
+        end
+      when 2
+        start, length = args
+        get_values_from_start_and_length(start, length)
+      else
+        raise ArgumentError, "wrong number of arguments (given #{args.size}, expected 1..2)"
       end
     end
 
@@ -203,6 +214,101 @@ module SortedContainers
     def bisect_right(array, value)
       array.bsearch_index { |x| x > value } || array.length
     end
+
+    # Gets the value at a given index.
+    #
+    # @param index [Integer] The index to get the value from.
+    def get_value_at_index(index)
+      raise "Index out of range" if index.negative? || index >= @size
+
+      @lists.each do |sublist|
+        return sublist[index] if index < sublist.size
+
+        index -= sublist.size
+      end
+    end
+
+    # Gets values from a range.
+    #
+    # @param range [Range] The range to get values from.
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
+    def get_values_from_range(range)
+      start = range.begin
+      start += @size if start.negative?
+      return nil if start.negative?
+
+      length = range.end
+      length += @size if length.negative?
+      length += 1 unless range.exclude_end?
+      length -= start
+      return nil if length.negative?
+
+      result = []
+      @lists.each do |sublist|
+        if start < sublist.size
+          result.concat(sublist[start, length])
+          length -= sublist.size - start
+          break if length <= 0
+
+          start = 0
+        else
+          start -= sublist.size
+        end
+      end
+      result
+    end
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/PerceivedComplexity
+
+    # Gets values from an arithmetic sequence.
+    #
+    # @param sequence [Enumerator::ArithmeticSequence] The arithmetic sequence to get values from.
+    def get_values_from_arithmetic_sequence(sequence)
+      result = []
+      sequence.each do |index|
+        break if index.negative? || index >= @size
+
+        @lists.each do |sublist|
+          if index < sublist.size
+            result << sublist[index]
+            break
+          else
+            index -= sublist.size
+          end
+        end
+      end
+      result
+    end
+
+    # Gets values starting from a given index and continuing for a given length.
+    #
+    # @param start [Integer] The index to start from.
+    # @param length [Integer] The length of the values to get.
+    # @return [Array] The values starting from the given index and continuing for the given length.
+    # rubocop:disable Metrics/PerceivedComplexity
+    def get_values_from_start_and_length(start, length)
+      raise "Index out of range" if start.negative? || start >= @size
+
+      if length.negative?
+        nil
+      else
+        result = []
+        @lists.each do |sublist|
+          if start < sublist.size
+            result.concat(sublist[start, length])
+            length -= sublist.size - start
+            break if length <= 0
+
+            start = 0
+          else
+            start -= sublist.size
+          end
+        end
+        result
+      end
+    end
+    # rubocop:enable Metrics/PerceivedComplexity
 
     # Expands a sublist if it exceeds the load factor.
     #
