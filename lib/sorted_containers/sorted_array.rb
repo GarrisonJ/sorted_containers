@@ -51,6 +51,13 @@ module SortedContainers
       add(value)
     end
 
+    # Checks if Array is empty
+    #
+    # @return [Boolean]
+    def empty?
+      @size.zero?
+    end
+
     # Deletes a value from the sorted array.
     #
     # @param value [Object] The value to delete.
