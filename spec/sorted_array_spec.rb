@@ -36,6 +36,12 @@ RSpec.describe SortedContainers::SortedArray do
     expect(array.empty?).to be false
   end
 
+  it "should update the array with the given values" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    array.update([6, 7, 8, 9, 10])
+    expect(array.to_a).to eq([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+  end
+
   it "should return the first value in the array" do
     array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
     expect(array.first).to eq(1)
@@ -96,6 +102,42 @@ RSpec.describe SortedContainers::SortedArray do
   it "should raise an error if the index is out of range" do
     array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
     expect { array[5] }.to raise_error("Index out of range")
+  end
+
+  # tests array[range] syntax
+  it "should return the values in the given range" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array[1..3]).to eq([2, 3, 4])
+  end
+
+  it "should return the values in the given range excluding the last value" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array[1...3]).to eq([2, 3])
+  end
+
+  it "should return values starting from the given index and continuing for the given length" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array[1, 3]).to eq([2, 3, 4])
+  end
+
+  it "should return values in the arithmetic sequence two dots" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array[(1..).step(2)].to_a).to eq([2, 4])
+  end
+
+  it "should return values in the arithmetic sequence three dots" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array[(1...).step(2)].to_a).to eq([2, 4])
+  end
+
+  it "should return values in the arithmetic sequence with a range" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array[(1..3).step(2)].to_a).to eq([2, 4])
+  end
+
+  it "should return the values in the given range with a negative index" do
+    array = SortedContainers::SortedArray.new([1, 3, 2])
+    expect(array[-1..2]).to eq([3])
   end
 
   it "should delete the value at the given index" do
