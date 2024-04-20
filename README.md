@@ -20,9 +20,13 @@ How big these smaller arrays should be is a trade-off. The default is set DEFAUL
 
 ## Benchmarks
  
-Performance comparison to [SortedSet](https://github.com/knu/sorted_set) a C extension red-black tree implementation (lower is better):
+Performance comparison against [SortedSet](https://github.com/knu/sorted_set) a C extension red-black tree implementation (lower is better).
 
-<!-- Make the images smaller -->
+- 2.6 GHz 6-Core Intel Core i7, 16 GB 2667 MHz DDR4
+- Ruby 3.2.2
+- SortedContainers 0.1.0
+- SortedSet 1.0.3
+
 <img src="benchmark/add_performance_comparison.png" width="50%">
 <img src="benchmark/delete_performance_comparison.png" width="50%">
 <img src="benchmark/iteration_performance_comparison.png" width="50%">
