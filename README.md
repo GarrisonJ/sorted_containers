@@ -18,6 +18,16 @@ This often outperforms the more common tree-based data structures like red-black
 
 How big these smaller arrays should be is a trade-off. The default is set DEFAULT_LOAD_FACTOR = 1000. There is no perfect value and the ideal value will depend on your use case.
 
+## Benchmarks
+ 
+Performance comparison to [SortedSet](https://github.com/knu/sorted_set) a C extension red-black tree implementation (lower is better):
+
+<!-- Make the images smaller -->
+<img src="benchmark/add_performance_comparison.png" width="50%">
+<img src="benchmark/delete_performance_comparison.png" width="50%">
+<img src="benchmark/iteration_performance_comparison.png" width="50%">
+<img src="benchmark/include_performance_comparison.png" width="50%">
+
 ## Installation
 
 Add this line to your application's Gemfile:
