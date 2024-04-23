@@ -54,6 +54,15 @@ module SortedContainers
       @sorted_array.delete(key)
     end
 
+    # Removes the last key-value pair from the SortedHash and returns it as a two-element array.
+    #
+    # @return [Array] A two-element array containing the key and value of the last key-value pair.
+    def pop
+      key = @sorted_array.pop
+      value = @hash.delete(key)
+      [key, value]
+    end
+
     # Returns an array of all the keys in the SortedHash.
     #
     # @return [Array] An array of all the keys.
