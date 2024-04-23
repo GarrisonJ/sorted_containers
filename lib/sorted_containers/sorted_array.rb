@@ -135,11 +135,20 @@ module SortedContainers
     end
 
     # Tries to match the behavior of Array#[]
+    # alias for slice
+    #
+    # @param args [Integer, Range, Enumerator::ArithmeticSequence] The index or range of values to retrieve.
+    # @return [Object, Array] The value or values at the specified index or range.
+    def [](*args)
+      slice(*args)
+    end
+
+    # Tries to match the behavior of Array#slice
     #
     # @param args [Integer, Range, Enumerator::ArithmeticSequence] The index or range of values to retrieve.
     # @return [Object, Array] The value or values at the specified index or range.
     # rubocop:disable Metrics/MethodLength
-    def [](*args)
+    def slice(*args)
       case args.size
       when 1
         arg = args[0]
@@ -161,6 +170,46 @@ module SortedContainers
       end
     end
     # rubocop:enable Metrics/MethodLength
+
+    # Tries to match the behavior of Array#slice!
+    #
+    # @param args [Integer, Range, Enumerator::ArithmeticSequence] The index or range of values to retrieve.
+    # @return [Object, Array] The value or values at the specified index or range.
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/CyclomaticComplexity
+    def slice!(*args)
+      case args.size
+      when 1
+        arg = args[0]
+        case arg
+        when Integer
+          value = get_value_at_index(arg)
+          delete_at(arg)
+          value
+        when Range
+          values = get_values_from_range(arg)
+          values.each { |val| delete(val) }
+          values
+        when Enumerator::ArithmeticSequence
+          values = get_values_from_arithmetic_sequence(arg)
+          values.each { |val| delete(val) }
+          values
+        else
+          raise TypeError, "no implicit conversion of #{arg.class} into Integer"
+        end
+      when 2
+        start, length = args
+        values = get_values_from_start_and_length(start, length)
+        values.each { |val| delete(val) }
+        values
+      else
+        raise ArgumentError, "wrong number of arguments (given #{args.size}, expected 1..2)"
+      end
+    end
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/CyclomaticComplexity
 
     # Retrieves the last value in the sorted array.
     #
@@ -206,6 +255,8 @@ module SortedContainers
     end
 
     # Clears the sorted array, removing all values.
+    #
+    # @return [void]
     def clear
       @lists.clear
       @maxes.clear
@@ -233,23 +284,33 @@ module SortedContainers
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
     def update(iterable)
+      # Convert the iterable to an array and sort it
       values = iterable.to_a.sort
-      if @maxes.any?
-        if values.size * 4 >= @size
-          @lists.append(values)
+
+      # If maxes are already defined and not empty
+      unless @maxes.empty?
+        if values.length * 4 >= @size
+          # If the new values are significant in number, merge all lists and re-sort
+          @lists << values
           values = @lists.flatten.sort
           clear
         else
-          values.each { |value| add(value) }
+          # Otherwise, add each item individually
+          values.each { |val| add(val) }
           return
         end
       end
 
-      values.each_slice(@load_factor) do |slice|
-        @lists.append(slice)
-        @maxes.append(slice.last)
-      end
-      @size = values.size
+      # Break sorted values into chunks of size @load_factor and extend lists
+      @lists += values.each_slice(@load_factor).to_a
+
+      # Update maxes based on the last element of each sublist
+      @maxes = @lists.map(&:last)
+
+      # Update the total length of the list
+      @size = values.length
+
+      # Clear the index as it might be outdated
       @index.clear
     end
     # rubocop:enable Metrics/MethodLength
@@ -348,12 +409,13 @@ module SortedContainers
       array.bsearch_index { |x| x > value } || array.length
     end
 
-    # Gets the value at a given index.
+    # Gets the value at a given index. Supports negative indices.
     #
     # @param index [Integer] The index to get the value from.
     def get_value_at_index(index)
-      raise "Index out of range" if index.negative? || index >= @size
+      raise "Index out of range" if index.abs >= @size
 
+      index += @size if index.negative?
       @lists.each do |sublist|
         return sublist[index] if index < sublist.size
 
@@ -422,50 +484,51 @@ module SortedContainers
     # rubocop:enable Metrics/MethodLength
 
     # Gets values starting from a given index and continuing for a given length.
+    # Supports negative indices.
     #
     # @param start [Integer] The index to start from.
     # @param length [Integer] The length of the values to get.
     # @return [Array] The values starting from the given index and continuing for the given length.
-    # rubocop:disable Metrics/PerceivedComplexity
     # rubocop:disable Metrics/MethodLength
     def get_values_from_start_and_length(start, length)
-      raise "Index out of range" if start.negative? || start >= @size
+      return nil if start >= @size
 
       if length.negative?
         nil
       else
-        result = []
-        @lists.each do |sublist|
-          if start < sublist.size
-            result.concat(sublist[start, length])
-            length -= sublist.size - start
-            break if length <= 0
-
-            start = 0
-          else
-            start -= sublist.size
-          end
+        if start.negative?
+          start += @size
+          return nil if start.negative?
         end
-        result
+
+        result = []
+        while length.positive?
+          break if start >= @size
+
+          loc, idx = pos(start)
+          start += 1
+          length -= 1
+          result << @lists[loc][idx]
+        end
       end
+      result
     end
-    # rubocop:enable Metrics/PerceivedComplexity
     # rubocop:enable Metrics/MethodLength
 
     # Expands a sublist if it exceeds the load factor.
     #
-    # @param sublist_index [Integer] The index of the sublist to expand.
+    # @param pos [Integer] The index of the sublist to expand.
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
-    def expand(sublist_index)
-      sublist = @lists[sublist_index]
-      if sublist.size > (@load_factor << 1)
-        @maxes.insert(sublist_index + 1, sublist.last)
-        half = sublist.slice!(@load_factor, sublist.size - @load_factor)
-        @lists.insert(sublist_index + 1, half)
+    def expand(pos)
+      if @lists[pos].size > (@load_factor << 1)
+        half = @lists[pos].slice!(@load_factor, @lists[pos].size - @load_factor)
+        @maxes[pos] = @lists[pos].last
+        @lists.insert(pos + 1, half)
+        @maxes.insert(pos + 1, half.last)
         @index.clear
       elsif @index.size.positive?
-        child = @offset + sublist_index
+        child = @offset + pos
         while child.positive?
           @index[child] += 1
           child = (child - 1) >> 1
@@ -554,44 +617,51 @@ module SortedContainers
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def build_index
-      row0 = @lists.map(&:size)
+      # Build initial row from the lengths of each sublist
+      row0 = @lists.map(&:length)
 
-      if row0.size == 1
+      # Early return if there is only one sublist
+      if row0.length == 1
         @index = row0
         @offset = 0
         return
       end
 
-      head = row0.each
-      tail = head.each
-      row1 = head.zip(tail).map { |a, b| a + b }
+      # Build the first row by summing consecutive pairs
+      # discard the last element if the row is odd
+      row1 = row0.each_slice(2).map { |a, b| a + b if b }.compact
 
-      row1.append(row0[-1]) if row0.size.odd?
+      # Handle odd number of elements in row0
+      row1 << row0[-1] if row0.length.odd?
 
-      if row1.size == 1
+      # Return early if only one row is needed
+      if row1.length == 1
         @index = row1 + row0
         @offset = 1
         return
       end
 
-      size = 2**(Math.log(row1.size - 1, 2).to_i + 1)
-      row1.concat([0] * (size - row1.size))
+      # Calculate the size for a complete binary tree
+      the_size = 2**(Math.log2(row1.length - 1).to_i + 1)
+      row1 += [0] * (the_size - row1.length)
       tree = [row0, row1]
 
-      while tree[-1].size > 1
-        head = tree[-1].each
-        tail = head.each
-        row = head.zip(tail).map { |a, b| a + b }
-        tree.append(row)
+      while tree.last.length > 1
+        row = []
+        tree.last.each_slice(2) { |a, b| row << (a + b) }
+        tree << row
       end
 
-      @index = tree.reverse.reduce(:+)
-      @offset = (size * 2) - 1
+      # Flatten the tree into the index array
+      tree.reverse_each { |level| @index.concat(level) }
+      @offset = (the_size * 2) - 1
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/PerceivedComplexity
 
     # Convert an index into an index pair (lists index, sublist index)
     # that can be used to access the corresponding lists position.
