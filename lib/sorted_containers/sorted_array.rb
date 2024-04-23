@@ -262,6 +262,37 @@ module SortedContainers
       @lists.flatten
     end
 
+    # Duplicates the sorted array.
+    #
+    # @return [SortedArray] The sorted array.
+    def sort
+      # No need to sort, already sorted
+      dup
+    end
+
+    # Returns self, as the array is already sorted.
+    #
+    # @return [SortedArray] The sorted array.
+    def sort!
+      # No need to sort, already sorted
+      self
+    end
+
+    # Returns a new SortedArray with the same values.
+    #
+    # @return [SortedArray] The duplicated sorted array.
+    def dup
+      # Create a new instance of SortedList with the same values
+      new_instance = self.class.new
+      new_instance.lists = @lists.map(&:dup)
+      new_instance.maxes = @maxes.dup
+      new_instance.index = @index.dup
+      new_instance.offset = @offset
+      new_instance.load_factor = @load_factor
+      new_instance.size = @size
+      new_instance
+    end
+
     # Returns the maximum value in the sorted array.
     #
     # @return [Object] The maximum value in the array.
