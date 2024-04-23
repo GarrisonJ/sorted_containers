@@ -92,6 +92,7 @@ RSpec.describe SortedContainers::SortedArray do
   it "should return the number of elements in the array" do
     array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
     expect(array.size).to eq(5)
+    expect(array.length).to eq(5)
   end
 
   it "should return the value at the given index" do
@@ -140,6 +141,66 @@ RSpec.describe SortedContainers::SortedArray do
     expect(array[-1..2]).to eq([3])
   end
 
+  it "should return the values in the given range with a negative index and length" do
+    array = SortedContainers::SortedArray.new([1, 3, 2])
+    expect(array[-1, 2]).to eq([3])
+  end
+
+  it "should return the values in the given range and remove them from the array" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.slice!(1..3)).to eq([2, 3, 4])
+    expect(array.to_a).to eq([1, 5])
+  end
+
+  it "should return the values in the given range excluding the last value and remove them from the array" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.slice!(1...3)).to eq([2, 3])
+    expect(array.to_a).to eq([1, 4, 5])
+  end
+
+  it "should return values starting from the given index and \
+      continuing for the given length and remove them from the array" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.slice!(1, 3)).to eq([2, 3, 4])
+    expect(array.to_a).to eq([1, 5])
+  end
+
+  it "should return values in the arithmetic sequence two dots and remove them from the array" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.slice!((1..).step(2)).to_a).to eq([2, 4])
+    expect(array.to_a).to eq([1, 3, 5])
+  end
+
+  it "should return values in the arithmetic sequence three dots and remove them from the array" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.slice!((1...).step(2)).to_a).to eq([2, 4])
+    expect(array.to_a).to eq([1, 3, 5])
+  end
+
+  it "should return values in the arithmetic sequence with a range and remove them from the array" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.slice!((1..3).step(2)).to_a).to eq([2, 4])
+    expect(array.to_a).to eq([1, 3, 5])
+  end
+
+  it "should return the values in the given range with a negative index and remove them from the array" do
+    array = SortedContainers::SortedArray.new([1, 3, 2])
+    expect(array.slice!(-1..2)).to eq([3])
+    expect(array.to_a).to eq([1, 2])
+  end
+
+  it "should return the values in the given range with a negative index and length and remove them from the array" do
+    array = SortedContainers::SortedArray.new([1, 3, 2])
+    expect(array.slice!(-1, 2)).to eq([3])
+    expect(array.to_a).to eq([1, 2])
+  end
+
+  it "should return the values in the given range with a negative index and length and remove them from the array" do
+    array = SortedContainers::SortedArray.new([1, 3, 2])
+    expect(array.slice!(-1, 2)).to eq([3])
+    expect(array.to_a).to eq([1, 2])
+  end
+
   it "should delete the value at the given index" do
     array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
     array.delete_at(2)
@@ -181,6 +242,18 @@ RSpec.describe SortedContainers::SortedArray do
     expect(array.bisect_right(0)).to eq(0)
   end
 
+  it "should multiply the array by the given number" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    array *= 2
+    expect(array.to_a).to eq([1, 1, 2, 2, 3, 3, 4, 4, 5, 5])
+  end
+
+  it "should multiply the array by the given large number" do
+    array = SortedContainers::SortedArray.new((1..1000).to_a)
+    array *= 2
+    expect(array.to_a).to eq(((1..1000).to_a * 2).sort)
+  end
+
   it "should return the minimum value in the array" do
     array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
     expect(array.min).to eq(1)
@@ -209,6 +282,22 @@ RSpec.describe SortedContainers::SortedArray do
 
   it "should sort hundreds of values" do
     array = SortedContainers::SortedArray.new
+    (1..1000).to_a.shuffle.each do |i|
+      array.add(i)
+    end
+    expect(array.to_a).to eq((1..1000).to_a)
+  end
+
+  it "a load factor of 3 should work" do
+    array = SortedContainers::SortedArray.new([], load_factor: 3)
+    (1..1000).to_a.shuffle.each do |i|
+      array.add(i)
+    end
+    expect(array.to_a).to eq((1..1000).to_a)
+  end
+
+  it "a load factor of 10 should work" do
+    array = SortedContainers::SortedArray.new([], load_factor: 10)
     (1..1000).to_a.shuffle.each do |i|
       array.add(i)
     end
