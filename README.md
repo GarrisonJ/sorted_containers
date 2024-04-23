@@ -54,84 +54,82 @@ gem install sorted_containers
 
 ## Usage
 
-```ruby
-require 'sorted_containers'
+    require 'sorted_containers'
 
-# Create a new SortedArray
-list = SortedContainers::SortedArray.new
+    # Create a new SortedArray
+    list = SortedContainers::SortedArray.new
 
-# Add elements to the list
-list << 3
-list << 1
-list << 2
+    # Add elements to the list
+    list << 3
+    list << 1
+    list << 2
 
-# Access elements by index
-puts list[0] # => 1
-puts list[1] # => 2
-puts list[2] # => 3
+    # Access elements by index
+    puts list[0] # => 1
+    puts list[1] # => 2
+    puts list[2] # => 3
 
-# Access elements by index
-puts list.first # => 1
-puts list.last # => 3
+    # Access elements by index
+    puts list.first # => 1
+    puts list.last # => 3
 
-# Remove elements from the list
-list.delete(2)
+    # Remove elements from the list
+    list.delete(2)
 
-# Iterate over the list
-list.each do |element|
-  puts element
-end
+    # Iterate over the list
+    list.each do |element|
+      puts element
+    end
 
-# Create a new SortedSet
-set = SortedContainers::SortedSet.new
+    # Create a new SortedSet
+    set = SortedContainers::SortedSet.new
 
-# Add elements to the set
-set << 3
-set << 1
-set << 2
+    # Add elements to the set
+    set << 3
+    set << 1
+    set << 2
 
-# Access elements by index
-puts set[0] # => 1
-puts set[1] # => 2
-puts set[2] # => 3
+    # Access elements by index
+    puts set[0] # => 1
+    puts set[1] # => 2
+    puts set[2] # => 3
 
-# Access elements by index
-puts set.first # => 1
-puts set.last # => 3
+    # Access elements by index
+    puts set.first # => 1
+    puts set.last # => 3
 
-# Remove elements from the set
-set.delete(2)
+    # Remove elements from the set
+    set.delete(2)
 
-# Iterate over the set
-set.each do |element|
-  puts element
-end
+    # Iterate over the set
+    set.each do |element|
+      puts element
+    end
 
-# Create a new SortedHash
-dict = SortedContainers::SortedHash.new
+    # Create a new SortedHash
+    dict = SortedContainers::SortedHash.new
 
-# Add elements to the dict
-dict[3] = 'three'
-dict[1] = 'one'
-dict[2] = 'two'
+    # Add elements to the dict
+    dict[3] = 'three'
+    dict[1] = 'one'
+    dict[2] = 'two'
 
-# Access elements by key
-puts dict[1] # => 'one'
-puts dict[2] # => 'two'
-puts dict[3] # => 'three'
+    # Access elements by key
+    puts dict[1] # => 'one'
+    puts dict[2] # => 'two'
+    puts dict[3] # => 'three'
 
-# Access elements by index
-puts dict.first # => [1, 'one']
-puts dict.last # => [3, 'three']
+    # Access elements by index
+    puts dict.first # => [1, 'one']
+    puts dict.last # => [3, 'three']
 
-# Remove elements from the dict
-dict.delete(2)
+    # Remove elements from the dict
+    dict.delete(2)
 
-# Iterate over the dict
-dict.each do |key, value|
-  puts "#{key}: #{value}"
-end
-```
+    # Iterate over the dict
+    dict.each do |key, value|
+      puts "#{key}: #{value}"
+    end
 
 ## Development
 
