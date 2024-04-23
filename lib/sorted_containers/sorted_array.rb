@@ -10,6 +10,7 @@ module SortedContainers
     DEFAULT_LOAD_FACTOR = 1000
 
     attr_reader :size
+    alias length size
 
     # Initializes a new SortedArray object.
     #
