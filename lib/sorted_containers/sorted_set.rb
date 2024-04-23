@@ -88,6 +88,16 @@ module SortedContainers
       @set.include?(item)
     end
 
+    # @see SortedArray#bisect_left
+    def bisect_left(item)
+      @list.bisect_left(item)
+    end
+
+    # @see SortedArray#bisect_right
+    def bisect_right(item)
+      @list.bisect_right(item)
+    end
+
     # Returns the items in the sorted set as an array.
     #
     # @return [Array] The items in the sorted set.
