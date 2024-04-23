@@ -15,7 +15,7 @@ module SortedContainers
     # @param load_factor [Integer] The load factor for the sorted set.
     def initialize(iterable = [], load_factor: SortedArray::DEFAULT_LOAD_FACTOR)
       @set = Set.new(iterable)
-      @list = SortedContainers::SortedArray.new(iterable, load_factor: load_factor)
+      @list = SortedContainers::SortedArray.new(@set.to_a, load_factor: load_factor)
     end
 
     # Adds an item to the sorted set.
