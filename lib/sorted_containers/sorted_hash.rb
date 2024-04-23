@@ -36,6 +36,13 @@ module SortedContainers
       @hash[key] = value
     end
 
+    # Returns a string representation of the SortedHash.
+    #
+    # @return [String] A string representation of the SortedHash.
+    def to_s
+      "SortedHash({#{keys.map { |key| "#{key}: #{self[key]}" }.join(", ")}})"
+    end
+
     # Deletes the key-value pair associated with the specified key.
     #
     # @param key [Object] The key to delete.

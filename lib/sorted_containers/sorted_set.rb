@@ -42,6 +42,13 @@ module SortedContainers
       @list[index]
     end
 
+    # Returns a string representation of the sorted set.
+    #
+    # @return [String] A string representation of the sorted set.
+    def to_s
+      "SortedSet(#{to_a.join(", ")})"
+    end
+
     # Retrieves the first item in the sorted set.
     #
     # @return [Object] The first item.

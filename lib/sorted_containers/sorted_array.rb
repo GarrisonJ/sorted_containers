@@ -57,6 +57,13 @@ module SortedContainers
       add(value)
     end
 
+    # Returns a string representation of the sorted array.
+    #
+    # @return [String] A string representation of the sorted array.
+    def to_s
+      "SortedArray(#{to_a})"
+    end
+
     # Checks if Array is empty
     #
     # @return [Boolean]
