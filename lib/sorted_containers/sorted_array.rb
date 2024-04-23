@@ -714,6 +714,12 @@ module SortedContainers
 
       total + idx
     end
+
+    protected
+
+    attr_accessor :lists, :maxes, :index, :offset, :load_factor
+
+    attr_writer :size
   end
   # rubocop:enable Metrics/ClassLength
 end
