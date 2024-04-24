@@ -83,6 +83,27 @@ RSpec.describe SortedContainers::SortedArray do
     expect(array.to_a).to eq([1, 2, 4, 5])
   end
 
+  it "should return the number of occurrences of the value in the array" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5, 3])
+    expect(array.count(3)).to eq(2)
+  end
+
+  it "should return 0 if the value is not in the array" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.count(6)).to eq(0)
+  end
+
+  it "should return the number of elements that meet the given criterion" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array.count { |i| i > 3 }).to eq(2)
+  end
+
+  # Test count with lots of values
+  it "should return the number of occurrences of the value in the array with lots of values" do
+    array = SortedContainers::SortedArray.new((1..1000).to_a * 1000)
+    expect(array.count(3)).to eq(1000)
+  end
+
   it "should remove all values from the array" do
     array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
     array.clear

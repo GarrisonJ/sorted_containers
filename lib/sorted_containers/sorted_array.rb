@@ -254,6 +254,23 @@ module SortedContainers
       value
     end
 
+    # Returns the count of elements, based on an argument or block criterion, if given.
+    # With no argument and no block given, returns the number of elements:
+    # With argument object given, returns the number of elements that are == to object:
+    # Uses binary search to find the first and last index of the value.
+    #
+    # @param value [Object] The value to count.
+    # @yield [value] The block to count with.
+    # @return [Integer] The count of elements.
+    def count(value = nil)
+      return super() if block_given?
+      return @size unless value
+
+      left_index = bisect_left(value)
+      right_index = bisect_right(value)
+      right_index - left_index
+    end
+
     # Clears the sorted array, removing all values.
     #
     # @return [void]
@@ -756,11 +773,11 @@ module SortedContainers
 
       [pos - @offset, idx]
     end
+
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/PerceivedComplexity
     # rubocop:enable Metrics/CyclomaticComplexity
-
     def loc(pos, idx)
       return idx if pos.zero?
 
