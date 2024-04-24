@@ -558,27 +558,34 @@ module SortedContainers
     #
     # @param pos [Integer] The index of the sublist.
     # @param idx [Integer] The index of the value to delete.
+    # @return [Object] The value that was deleted.
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     def internal_delete(pos, idx)
-      @lists[pos].delete_at(idx)
+      list = @lists[pos]
+      value = list.delete_at(idx)
       @size -= 1
-      return unless @lists[pos].size < @load_factor >> 1
 
-      @maxes[pos] = @lists[pos].last
+      len_list = list.length
 
-      if @index.size.positive?
-        child = @offset + pos
-        while child.positive?
-          @index[child] -= 1
-          child = (child - 1) >> 1
+      if len_list > (@load_factor >> 1)
+        @maxes[pos] = list.last
+
+        if @index.size.positive?
+          child = @offset + pos
+          while child.positive?
+            @index[child] -= 1
+            child = (child - 1) >> 1
+          end
+          @index[0] -= 1
         end
-        @index[0] -= 1
-      elsif @lists.size > 1
-        pos += 1 if pos.zero?
+      elsif @lists.length > 1
+        if pos.zero?
+          pos += 1
+        end
 
         prev = pos - 1
-        @lists[prev].concat(@lists[pos])
+        @lists[prev].concat(list)
         @maxes[prev] = @lists[prev].last
 
         @lists.delete_at(pos)
@@ -586,13 +593,14 @@ module SortedContainers
         @index.clear
 
         expand(prev)
-      elsif @lists[pos].size.positive?
-        @maxes[pos] = @lists[pos].last
+      elsif len_list.positive?
+        @maxes[pos] = list.last
       else
         @lists.delete_at(pos)
         @maxes.delete_at(pos)
         @index.clear
       end
+      value
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
