@@ -88,13 +88,31 @@ module SortedContainers
       @set.include?(item)
     end
 
+    # Returns an index to insert `value` in the sorted list.
+    #
+    # If the `value` is already present, the insertion point will be before
+    # (to the left of) any existing values.
+    #
+    # Runtime complexity: `O(log(n))` -- approximate.
+    #
     # @see SortedArray#bisect_left
-    def bisect_left(item)
+    # @param value [Object] The value to insert.
+    # @return [Integer] The index to insert the value.
+    def bisect_left(value)
       @list.bisect_left(item)
     end
 
+    # Returns an index to insert `value` in the sorted list.
+    #
+    # If the `value` is already present, the insertion point will be after
+    # (to the right of) any existing values.
+    #
+    # Runtime complexity: `O(log(n))` -- approximate.
+    #
     # @see SortedArray#bisect_right
-    def bisect_right(item)
+    # @param value [Object] The value to insert.
+    # @return [Integer] The index to insert the value.
+    def bisect_right(value)
       @list.bisect_right(item)
     end
 

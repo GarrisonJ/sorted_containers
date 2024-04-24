@@ -36,6 +36,7 @@ module SortedContainers
         @maxes.append(value)
       else
         pos = internal_bisect_right(@maxes, value)
+
         if pos == @maxes.size
           pos -= 1
           @lists[pos].push(value)
@@ -78,10 +79,6 @@ module SortedContainers
     #
     # Runtime complexity: `O(log(n))` -- approximate.
     #
-    # sl = SortedList.new([10, 11, 12, 13, 14])
-    # sl.bisect_left(12)
-    # 2
-    #
     # @param value [Object] The value to insert.
     # @return [Integer] The index to insert the value.
     def bisect_left(value)
@@ -101,10 +98,6 @@ module SortedContainers
     # (to the right of) any existing values.
     #
     # Runtime complexity: `O(log(n))` -- approximate.
-    #
-    # sl = SortedList.new([10, 11, 12, 13, 14])
-    # sl.bisect_right(12)
-    # 3
     #
     # @param value [Object] The value to insert.
     # @return [Integer] The index to insert the value.
@@ -341,7 +334,7 @@ module SortedContainers
       @lists.flatten
     end
 
-    # Duplicates the sorted array.
+    # Array is already sorted. Duplicates the sorted array and returns it.
     #
     # @return [SortedArray] The sorted array.
     def sort
@@ -374,7 +367,7 @@ module SortedContainers
 
     # When non-negative, multiplies returns a new Array with each value repeated `int` times.
     #
-    # @param int [Integer] The integer to multiply the array by.
+    # @param num [Integer] The integer to multiply the array by.
     # @return [SortedArray] The multiplied sorted array.
     def multiply(num)
       values = @lists.flatten * num
