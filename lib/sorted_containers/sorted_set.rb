@@ -78,6 +78,7 @@ module SortedContainers
     # @param index [Integer] The index of the item to remove.
     def delete_at(index)
       return if index.abs >= @list.size
+
       item = @list.delete_at(index)
       @set.delete(item)
       item

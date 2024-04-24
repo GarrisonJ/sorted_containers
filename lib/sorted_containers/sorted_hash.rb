@@ -60,6 +60,7 @@ module SortedContainers
     # @return [Array] A two-element array containing the key and value of the deleted key-value pair.
     def delete_at(index)
       return nil if index.abs >= @sorted_array.size
+
       key = @sorted_array.delete_at(index)
       value = @hash.delete(key)
       [key, value]
@@ -70,6 +71,7 @@ module SortedContainers
     # @return [Array] A two-element array containing the key and value of the first key-value pair.
     def first
       return nil if @sorted_array.empty?
+
       key = @sorted_array.first
       [key, @hash[key]]
     end
@@ -79,6 +81,7 @@ module SortedContainers
     # @return [Array] A two-element array containing the key and value of the first key-value pair.
     def last
       return nil if @sorted_array.empty?
+
       key = @sorted_array.last
       [key, @hash[key]]
     end
@@ -88,6 +91,7 @@ module SortedContainers
     # @return [Array] A two-element array containing the key and value of the last key-value pair.
     def pop
       return nil if @sorted_array.empty?
+
       key = @sorted_array.pop
       value = @hash.delete(key)
       [key, value]
@@ -98,6 +102,7 @@ module SortedContainers
     # @return [Array] A two-element array containing the key and value of the first key-value pair.
     def shift
       return nil if @sorted_array.empty?
+
       key = @sorted_array.shift
       value = @hash.delete(key)
       [key, value]

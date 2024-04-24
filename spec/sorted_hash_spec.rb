@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe SortedContainers::SortedHash do
-
   describe "hash[key]" do
     it "should return the value for the given key" do
       dict = SortedContainers::SortedHash.new

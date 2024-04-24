@@ -229,6 +229,7 @@ module SortedContainers
     # @param index [Integer] The index of the value to delete.
     def delete_at(index)
       return nil if index.abs >= @size
+
       pos, idx = pos(index)
       internal_delete(pos, idx)
     end
@@ -236,6 +237,7 @@ module SortedContainers
     # Pops the last value from the sorted array.
     #
     # @return [Object] The last value in the array.
+    # rubocop:disable Metrics/MethodLength
     def pop
       return nil if @size.zero?
 
@@ -250,10 +252,12 @@ module SortedContainers
       @size -= 1
       value
     end
+    # rubocop:enable Metrics/MethodLength
 
     # Shifts the first value from the sorted array.
     #
     # @return [Object] The first value in the array.
+    # rubocop:disable Metrics/MethodLength
     def shift
       return nil if @size.zero?
 
@@ -268,6 +272,7 @@ module SortedContainers
       @size -= 1
       value
     end
+    # rubocop:enable Metrics/MethodLength
 
     # Returns the count of elements, based on an argument or block criterion, if given.
     # With no argument and no block given, returns the number of elements:
@@ -594,9 +599,7 @@ module SortedContainers
           @index[0] -= 1
         end
       elsif @lists.length > 1
-        if pos.zero?
-          pos += 1
-        end
+        pos += 1 if pos.zero?
 
         prev = pos - 1
         @lists[prev].concat(list)

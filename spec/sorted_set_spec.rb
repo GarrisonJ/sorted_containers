@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe SortedContainers::SortedSet do
-
   describe "to_a" do
     it "sorts items after being added in an arbitrary order" do
       set = SortedContainers::SortedSet.new
