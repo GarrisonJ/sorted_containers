@@ -20,6 +20,40 @@ RSpec.describe SortedContainers::SortedSet do
     end
   end
 
+  describe "bisect_left" do
+    it "should return the index where the value should be inserted" do
+      array = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
+      expect(array.bisect_left(3)).to eq(2)
+    end
+
+    it "should return the the length of the array if the value is greater than all values" do
+      array = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
+      expect(array.bisect_left(6)).to eq(5)
+    end
+
+    it "should return 0 if the value is less than all values" do
+      array = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
+      expect(array.bisect_left(0)).to eq(0)
+    end
+  end
+
+  describe "bisect_right" do
+    it "should return the index where the value should be inserted" do
+      array = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
+      expect(array.bisect_right(3)).to eq(3)
+    end
+
+    it "should return the the length of the array if the value is greater than all values" do
+      array = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
+      expect(array.bisect_right(6)).to eq(5)
+    end
+
+    it "should return 0 if the value is less than all values" do
+      array = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
+      expect(array.bisect_right(0)).to eq(0)
+    end
+  end
+
   describe "delete" do
     it "should remove the value from the set" do
       set = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])

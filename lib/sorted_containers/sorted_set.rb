@@ -110,7 +110,7 @@ module SortedContainers
     # @param value [Object] The value to insert.
     # @return [Integer] The index to insert the value.
     def bisect_left(value)
-      @list.bisect_left(item)
+      @list.bisect_left(value)
     end
 
     # Returns an index to insert `value` in the sorted list.
@@ -124,7 +124,7 @@ module SortedContainers
     # @param value [Object] The value to insert.
     # @return [Integer] The index to insert the value.
     def bisect_right(value)
-      @list.bisect_right(item)
+      @list.bisect_right(value)
     end
 
     # Returns the items in the sorted set as an array.
