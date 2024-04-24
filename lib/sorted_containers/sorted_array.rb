@@ -775,6 +775,10 @@ module SortedContainers
       [pos - @offset, idx]
     end
 
+    # Turns a position and index into an absolute index.
+    #
+    # @param pos [Integer] The position in the index.
+    # @param idx [Integer] The index in the sublist.
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/PerceivedComplexity
