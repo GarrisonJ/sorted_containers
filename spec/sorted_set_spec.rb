@@ -29,6 +29,36 @@ RSpec.describe SortedContainers::SortedSet do
     end
   end
 
+  describe "delete_at" do
+    it "should remove item at the given index" do
+      set = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
+      value = set.delete_at(2)
+      expect(value).to eq(3)
+      expect(set.to_a).to eq([1, 2, 4, 5])
+    end
+
+    it "should return nil if index is out of range" do
+      set = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
+      value = set.delete_at(200)
+      expect(value).to be_nil
+      expect(set.to_a).to eq([1, 2, 3, 4, 5])
+    end
+
+    it "should handle negative indices" do
+      set = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
+      value = set.delete_at(-3)
+      expect(value).to eq(3)
+      expect(set.to_a).to eq([1, 2, 4, 5])
+    end
+
+    it "should handle return nil if negative index is out of range" do
+      set = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
+      value = set.delete_at(-300)
+      expect(value).to be_nil
+      expect(set.to_a).to eq([1, 2, 3, 4, 5])
+    end
+  end
+
   describe "set[index]" do
     it "should return the value indexed by the given index" do
       set = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])

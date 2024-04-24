@@ -73,6 +73,16 @@ module SortedContainers
       @list.delete(item)
     end
 
+    # Removes the item at the specified index.
+    #
+    # @param index [Integer] The index of the item to remove.
+    def delete_at(index)
+      return if index.abs >= @list.size
+      item = @list.delete_at(index)
+      @set.delete(item)
+      item
+    end
+
     # Returns the number of items in the sorted set.
     #
     # @return [Integer] The number of items.
