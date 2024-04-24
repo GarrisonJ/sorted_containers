@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 # The SortedContainers module provides data structures for sorted collections.
+# rubocop:disable Metrics/ClassLength
 module SortedContainers
   # The SortedArray class is a sorted array implementation.
-  # rubocop:disable Metrics/ClassLength
   class SortedArray
     include Enumerable
 
@@ -28,10 +28,11 @@ module SortedContainers
       update(iterable)
     end
 
+    # rubocop:disable Metrics/MethodLength
+
     # Adds a value to the sorted array.
     #
     # @param value [Object] The value to add.
-    # rubocop:disable Metrics/MethodLength
     def add(value)
       if @maxes.empty?
         @lists.append([value])
@@ -51,6 +52,7 @@ module SortedContainers
       end
       @size += 1
     end
+
     # rubocop:enable Metrics/MethodLength
 
     # Alias for add
@@ -138,11 +140,12 @@ module SortedContainers
       slice(*args)
     end
 
+    # rubocop:disable Metrics/MethodLength
+
     # Tries to match the behavior of Array#slice
     #
     # @param args [Integer, Range, Enumerator::ArithmeticSequence] The index or range of values to retrieve.
     # @return [Object, Array] The value or values at the specified index or range.
-    # rubocop:disable Metrics/MethodLength
     def slice(*args)
       case args.size
       when 1
@@ -166,13 +169,14 @@ module SortedContainers
     end
     # rubocop:enable Metrics/MethodLength
 
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/CyclomaticComplexity
+
     # Tries to match the behavior of Array#slice!
     #
     # @param args [Integer, Range, Enumerator::ArithmeticSequence] The index or range of values to retrieve.
     # @return [Object, Array] The value or values at the specified index or range.
-    # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/CyclomaticComplexity
     def slice!(*args)
       case args.size
       when 1
@@ -234,10 +238,11 @@ module SortedContainers
       internal_delete(pos, idx)
     end
 
+    # rubocop:disable Metrics/MethodLength
+
     # Pops the last value from the sorted array.
     #
     # @return [Object] The last value in the array.
-    # rubocop:disable Metrics/MethodLength
     def pop
       return nil if @size.zero?
 
@@ -254,10 +259,11 @@ module SortedContainers
     end
     # rubocop:enable Metrics/MethodLength
 
+    # rubocop:disable Metrics/MethodLength
+
     # Shifts the first value from the sorted array.
     #
     # @return [Object] The first value in the array.
-    # rubocop:disable Metrics/MethodLength
     def shift
       return nil if @size.zero?
 
@@ -315,11 +321,12 @@ module SortedContainers
       idx < sublist.size && sublist[idx] == value
     end
 
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/AbcSize
+
     # Updates the sorted array with values from an iterable object.
     #
     # @param iterable [Enumerable] The iterable object to update the array with.
-    # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/AbcSize
     def update(iterable)
       # Convert the iterable to an array and sort it
       values = iterable.to_a.sort
@@ -457,13 +464,14 @@ module SortedContainers
       @lists[index][sublist_index]
     end
 
-    # Gets values from a range.
-    #
-    # @param range [Range] The range to get values from.
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
+
+    # Gets values from a range.
+    #
+    # @param range [Range] The range to get values from.
     def get_values_from_range(range)
       start = range.begin
       start += @size if start.negative?
@@ -494,11 +502,12 @@ module SortedContainers
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
 
+    # rubocop:disable Metrics/MethodLength
+
     # Gets values from an arithmetic sequence.
     #
     # @param sequence [Enumerator::ArithmeticSequence] The arithmetic sequence to get values from.
     # @return [Array] The values from the arithmetic sequence.
-    # rubocop:disable Metrics/MethodLength
     def get_values_from_arithmetic_sequence(sequence)
       result = []
       sequence.each do |index|
@@ -517,13 +526,14 @@ module SortedContainers
     end
     # rubocop:enable Metrics/MethodLength
 
+    # rubocop:disable Metrics/MethodLength
+
     # Gets values starting from a given index and continuing for a given length.
     # Supports negative indices.
     #
     # @param start [Integer] The index to start from.
     # @param length [Integer] The length of the values to get.
     # @return [Array] The values starting from the given index and continuing for the given length.
-    # rubocop:disable Metrics/MethodLength
     def get_values_from_start_and_length(start, length)
       return nil if start >= @size
 
@@ -549,11 +559,12 @@ module SortedContainers
     end
     # rubocop:enable Metrics/MethodLength
 
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
+
     # Expands a sublist if it exceeds the load factor.
     #
     # @param pos [Integer] The index of the sublist to expand.
-    # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/MethodLength
     def expand(pos)
       if @lists[pos].size > (@load_factor << 1)
         half = @lists[pos].slice!(@load_factor, @lists[pos].size - @load_factor)
@@ -573,13 +584,14 @@ module SortedContainers
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
 
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
+
     # Deletes a value from a sublist.
     #
     # @param pos [Integer] The index of the sublist.
     # @param idx [Integer] The index of the value to delete.
     # @return [Object] The value that was deleted.
-    # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/MethodLength
     def internal_delete(pos, idx)
       list = @lists[pos]
       value = list.delete_at(idx)
@@ -622,6 +634,11 @@ module SortedContainers
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
 
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
+
     # Builds the positional index for indexing the sorted array.
     # Indexes are represented as binary trees in a dense array notation
     # similar to a binary heap.
@@ -654,10 +671,6 @@ module SortedContainers
     #
     # When built, the index can be used for efficient indexing into the list.
     # See the comment and notes on `SortedArray#pos` for details.
-    # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/CyclomaticComplexity
-    # rubocop:disable Metrics/PerceivedComplexity
     def build_index
       # Build initial row from the lengths of each sublist
       row0 = @lists.map(&:length)
@@ -702,6 +715,11 @@ module SortedContainers
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
+
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/CyclomaticComplexity
 
     # Convert an index into an index pair (lists index, sublist index)
     # that can be used to access the corresponding lists position.
@@ -754,10 +772,6 @@ module SortedContainers
     #
     # @param idx [Integer] The index in the sorted list.
     # @return [Array] The (lists index, sublist index) pair.
-    # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/PerceivedComplexity
-    # rubocop:disable Metrics/CyclomaticComplexity
     def pos(idx)
       if idx.negative?
         last_len = @lists[-1].size
@@ -797,14 +811,15 @@ module SortedContainers
       [pos - @offset, idx]
     end
 
-    # Turns a position and index into an absolute index.
-    #
-    # @param pos [Integer] The position in the index.
-    # @param idx [Integer] The index in the sublist.
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/PerceivedComplexity
     # rubocop:enable Metrics/CyclomaticComplexity
+
+    # Turns a position and index into an absolute index.
+    #
+    # @param pos [Integer] The position in the index.
+    # @param idx [Integer] The index in the sublist.
     def loc(pos, idx)
       return idx if pos.zero?
 
@@ -835,5 +850,5 @@ module SortedContainers
 
     attr_writer :size
   end
-  # rubocop:enable Metrics/ClassLength
 end
+# rubocop:enable Metrics/ClassLength
