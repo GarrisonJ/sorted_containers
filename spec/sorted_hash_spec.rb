@@ -42,6 +42,30 @@ RSpec.describe SortedContainers::SortedHash do
       expect(pair).to eq([:c, 3])
       expect(dict.keys).to eq(%i[a b])
     end
+
+    it "should return nil if the hash is empty" do
+      dict = SortedContainers::SortedHash.new
+      pair = dict.pop
+      expect(pair).to be_nil
+    end
+  end
+
+  describe "shift" do
+    it "should remove the first key-value pair from the hash" do
+      dict = SortedContainers::SortedHash.new
+      dict[:a] = 1
+      dict[:b] = 2
+      dict[:c] = 3
+      pair = dict.shift
+      expect(pair).to eq([:a, 1])
+      expect(dict.keys).to eq(%i[b c])
+    end
+
+    it "should return nil if the hash is empty" do
+      dict = SortedContainers::SortedHash.new
+      pair = dict.shift
+      expect(pair).to be_nil
+    end
   end
 
   describe "first" do
@@ -53,6 +77,12 @@ RSpec.describe SortedContainers::SortedHash do
       pair = dict.first
       expect(pair).to eq([:a, 1])
     end
+
+    it "should return nil if the hash is empty" do
+      dict = SortedContainers::SortedHash.new
+      pair = dict.first
+      expect(pair).to be_nil
+    end
   end
 
   describe "last" do
@@ -63,6 +93,12 @@ RSpec.describe SortedContainers::SortedHash do
       dict[:c] = 3
       pair = dict.last
       expect(pair).to eq([:c, 3])
+    end
+
+    it "should return nil if the hash is empty" do
+      dict = SortedContainers::SortedHash.new
+      pair = dict.last
+      expect(pair).to be_nil
     end
   end
 

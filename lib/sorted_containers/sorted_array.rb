@@ -243,8 +243,27 @@ module SortedContainers
       if @lists.last.empty?
         @lists.pop
         @maxes.pop
+        @index.clear
       else
         @maxes[-1] = @lists.last.last
+      end
+      @size -= 1
+      value
+    end
+
+    # Shifts the first value from the sorted array.
+    #
+    # @return [Object] The first value in the array.
+    def shift
+      return nil if @size.zero?
+
+      value = @lists.first.shift
+      if @lists.first.empty?
+        @lists.shift
+        @maxes.shift
+        @index.clear
+      else
+        @maxes[0] = @lists.first.first
       end
       @size -= 1
       value

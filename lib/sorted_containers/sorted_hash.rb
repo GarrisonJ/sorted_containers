@@ -74,7 +74,18 @@ module SortedContainers
     #
     # @return [Array] A two-element array containing the key and value of the last key-value pair.
     def pop
+      return nil if @sorted_array.empty?
       key = @sorted_array.pop
+      value = @hash.delete(key)
+      [key, value]
+    end
+
+    # Removes the first key-value pair from the SortedHash and returns it as a two-element array.
+    #
+    # @return [Array] A two-element array containing the key and value of the first key-value pair.
+    def shift
+      return nil if @sorted_array.empty?
+      key = @sorted_array.shift
       value = @hash.delete(key)
       [key, value]
     end

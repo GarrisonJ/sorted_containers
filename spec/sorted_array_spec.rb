@@ -425,4 +425,17 @@ RSpec.describe SortedContainers::SortedArray do
       expect(array.pop).to be_nil
     end
   end
+
+  describe "shift" do
+    it "should shift the first value from the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.shift).to eq(1)
+      expect(array.to_a).to eq([2, 3, 4, 5])
+    end
+
+    it "should return nil if the array is empty" do
+      array = SortedContainers::SortedArray.new
+      expect(array.shift).to be_nil
+    end
+  end
 end
