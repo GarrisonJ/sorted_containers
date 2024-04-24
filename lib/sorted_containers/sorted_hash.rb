@@ -54,6 +54,22 @@ module SortedContainers
       @sorted_array.delete(key)
     end
 
+    # Retrieves the first key-value pair from the SortedHash as a two-element array.
+    #
+    # @return [Array] A two-element array containing the key and value of the first key-value pair.
+    def first
+      key = @sorted_array.first
+      [key, @hash[key]]
+    end
+
+    # Removes the first key-value pair from the SortedHash and returns it as a two-element array.
+    #
+    # @return [Array] A two-element array containing the key and value of the first key-value pair.
+    def last
+      key = @sorted_array.last
+      [key, @hash[key]]
+    end
+
     # Removes the last key-value pair from the SortedHash and returns it as a two-element array.
     #
     # @return [Array] A two-element array containing the key and value of the last key-value pair.
