@@ -58,6 +58,7 @@ module SortedContainers
     #
     # @return [Array] A two-element array containing the key and value of the first key-value pair.
     def first
+      return nil if @sorted_array.empty?
       key = @sorted_array.first
       [key, @hash[key]]
     end
@@ -66,6 +67,7 @@ module SortedContainers
     #
     # @return [Array] A two-element array containing the key and value of the first key-value pair.
     def last
+      return nil if @sorted_array.empty?
       key = @sorted_array.last
       [key, @hash[key]]
     end
