@@ -431,14 +431,11 @@ module SortedContainers
     #
     # @param index [Integer] The index to get the value from.
     def get_value_at_index(index)
-      raise "Index out of range" if index.abs >= @size
+      return nil if index.abs >= @size
 
-      index += @size if index.negative?
-      @lists.each do |sublist|
-        return sublist[index] if index < sublist.size
-
-        index -= sublist.size
-      end
+      # get index from pos
+      index, sublist_index = pos(index)
+      @lists[index][sublist_index]
     end
 
     # Gets values from a range.
