@@ -59,7 +59,7 @@ module SortedContainers
     # @param index [Integer] The index of the key-value pair to delete.
     # @return [Array] A two-element array containing the key and value of the deleted key-value pair.
     def delete_at(index)
-      return nil if index >= @sorted_array.size
+      return nil if index.abs >= @sorted_array.size
       key = @sorted_array.delete_at(index)
       value = @hash.delete(key)
       [key, value]

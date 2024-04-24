@@ -150,5 +150,14 @@ RSpec.describe SortedContainers::SortedHash do
       expect(pair).to eq([:c, 3])
       expect(dict.keys).to eq(%i[a b])
     end
+
+    it "should return nil if negative index is out of bounds" do
+      dict = SortedContainers::SortedHash.new
+      dict[:a] = 1
+      dict[:b] = 2
+      dict[:c] = 3
+      pair = dict.delete_at(-50)
+      expect(pair).to be_nil
+    end
   end
 end
