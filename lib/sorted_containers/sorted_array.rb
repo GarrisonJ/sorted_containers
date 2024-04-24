@@ -215,7 +215,7 @@ module SortedContainers
     #
     # @return [Object] The last value in the array.
     def last
-      raise "Array is empty" if @size.zero?
+      return nil if @size.zero?
 
       @lists.last.last
     end
@@ -224,7 +224,7 @@ module SortedContainers
     #
     # @return [Object] The first value in the array.
     def first
-      raise "Array is empty" if @size.zero?
+      return nil if @size.zero?
 
       @lists.first.first
     end
@@ -233,6 +233,7 @@ module SortedContainers
     #
     # @param index [Integer] The index of the value to delete.
     def delete_at(index)
+      return nil if index.abs >= @size
       pos, idx = pos(index)
       internal_delete(pos, idx)
     end
@@ -241,7 +242,7 @@ module SortedContainers
     #
     # @return [Object] The last value in the array.
     def pop
-      raise "Array is empty" if @size.zero?
+      return nil if @size.zero?
 
       value = @lists.last.pop
       if @lists.last.empty?

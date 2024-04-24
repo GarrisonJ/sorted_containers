@@ -47,9 +47,19 @@ RSpec.describe SortedContainers::SortedArray do
     expect(array.first).to eq(1)
   end
 
+  it "should return nil if the array is empty" do
+    array = SortedContainers::SortedArray.new
+    expect(array.first).to be_nil
+  end
+
   it "should return the last value in the array" do
     array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
     expect(array.last).to eq(5)
+  end
+
+  it "should return nil if the array is empty" do
+    array = SortedContainers::SortedArray.new
+    expect(array.last).to be_nil
   end
 
   it "should return true if all elements meet a given criterion" do
@@ -121,15 +131,29 @@ RSpec.describe SortedContainers::SortedArray do
     expect(array[2]).to eq(3)
   end
 
-  it "should raise an error if the index is out of range" do
+  it "should handle negative indices" do
     array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-    expect { array[5] }.to raise_error("Index out of range")
+    expect(array[-1]).to eq(5)
   end
 
-  # tests array[range] syntax
+  it "should return nil if negative index is out of range" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array[-6]).to be_nil
+  end
+
+  it "should return nil if the index is out of range" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array[5]).to be_nil
+  end
+
   it "should return the values in the given range" do
     array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
     expect(array[1..3]).to eq([2, 3, 4])
+  end
+
+  it "should return empty array if the range is out of range" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array[5..6]).to eq([])
   end
 
   it "should return the values in the given range excluding the last value" do
@@ -140,6 +164,11 @@ RSpec.describe SortedContainers::SortedArray do
   it "should return values starting from the given index and continuing for the given length" do
     array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
     expect(array[1, 3]).to eq([2, 3, 4])
+  end
+
+  it "should return nil if the index is out of range" do
+    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+    expect(array[5, 1]).to be_nil
   end
 
   it "should return values in the arithmetic sequence two dots" do
@@ -222,15 +251,40 @@ RSpec.describe SortedContainers::SortedArray do
     expect(array.to_a).to eq([1, 2])
   end
 
-  it "should delete the value at the given index" do
-    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-    array.delete_at(2)
-    expect(array.to_a).to eq([1, 2, 4, 5])
-  end
+  describe "delete_at" do
+    it "should delete the value at the given index" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.delete_at(2)
+      expect(array.to_a).to eq([1, 2, 4, 5])
+    end
 
-  it "should raise an error if the index is out of range" do
-    array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-    expect { array.delete_at(5) }.to raise_error(IndexError)
+    it "should return the value at the given index" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.delete_at(2)).to eq(3)
+    end
+
+    it "should return nil if the index is out of range" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.delete_at(5)).to be_nil
+    end
+
+    it "should work when array size is larger than load factor" do
+      array = SortedContainers::SortedArray.new((1..1000).to_a, load_factor: 3)
+      array.delete_at(500)
+      expect(array.size).to eq(999)
+    end
+
+    it "should update the index after deleting an element" do
+      array = SortedContainers::SortedArray.new((1..1000).to_a, load_factor: 3)
+      array.delete_at(50)
+      expect(array[50]).to eq(52)
+    end
+
+    it "should update the index after deleting an element from small array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5], load_factor: 1)
+      array.delete_at(2)
+      expect(array[2]).to eq(4)
+    end
   end
 
   it "bisect_left should return the index where the value should be inserted" do
@@ -299,6 +353,11 @@ RSpec.describe SortedContainers::SortedArray do
     array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
     expect(array.pop).to eq(5)
     expect(array.to_a).to eq([1, 2, 3, 4])
+  end
+
+  it "should return nil if the array is empty" do
+    array = SortedContainers::SortedArray.new
+    expect(array.pop).to be_nil
   end
 
   it "should sort hundreds of values" do
