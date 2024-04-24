@@ -123,4 +123,32 @@ RSpec.describe SortedContainers::SortedHash do
       expect(dict.keys).to eq(%i[a c])
     end
   end
+
+  describe "delete_at" do
+    it "should remove the key-value pair at the given index" do
+      dict = SortedContainers::SortedHash.new
+      dict[:a] = 1
+      dict[:b] = 2
+      dict[:c] = 3
+      pair = dict.delete_at(1)
+      expect(pair).to eq([:b, 2])
+      expect(dict.keys).to eq(%i[a c])
+    end
+
+    it "should return nil if the index is out of bounds" do
+      dict = SortedContainers::SortedHash.new
+      pair = dict.delete_at(0)
+      expect(pair).to be_nil
+    end
+
+    it "should handle negative indices" do
+      dict = SortedContainers::SortedHash.new
+      dict[:a] = 1
+      dict[:b] = 2
+      dict[:c] = 3
+      pair = dict.delete_at(-1)
+      expect(pair).to eq([:c, 3])
+      expect(dict.keys).to eq(%i[a b])
+    end
+  end
 end
