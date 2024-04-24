@@ -67,6 +67,28 @@ RSpec.describe SortedContainers::SortedHash do
     end
   end
 
+  describe "bisect_left" do
+    it "should return the index of the given key in the sorted array" do
+      dict = SortedContainers::SortedHash.new
+      dict[:a] = 1
+      dict[:b] = 2
+      dict[:c] = 3
+      index = dict.bisect_left(:b)
+      expect(index).to eq(1)
+    end
+  end
+
+  describe "bisect_right" do
+    it "should return the index of the given key in the sorted array" do
+      dict = SortedContainers::SortedHash.new
+      dict[:a] = 1
+      dict[:b] = 2
+      dict[:c] = 3
+      index = dict.bisect_right(:b)
+      expect(index).to eq(2)
+    end
+  end
+
   describe "first" do
     it "should return the first key-value pair in the hash" do
       dict = SortedContainers::SortedHash.new

@@ -108,6 +108,20 @@ module SortedContainers
       [key, value]
     end
 
+    # Returns the number of key-value pairs in the SortedHash.
+    #
+    # @return [Integer] The number of key-value pairs.
+    def bisect_left(key)
+      @sorted_array.bisect_left(key)
+    end
+
+    # Returns the number of key-value pairs in the SortedHash.
+    #
+    # @return [Integer] The number of key-value pairs.
+    def bisect_right(key)
+      @sorted_array.bisect_right(key)
+    end
+
     # Returns an array of all the keys in the SortedHash.
     #
     # @return [Array] An array of all the keys.
