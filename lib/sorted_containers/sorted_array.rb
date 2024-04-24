@@ -7,6 +7,8 @@ module SortedContainers
   class SortedArray
     include Enumerable
 
+    # The default load factor for the array.
+    # Sublists are split when they exceed 2 * load_factor
     DEFAULT_LOAD_FACTOR = 1000
 
     attr_reader :size
