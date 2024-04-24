@@ -776,7 +776,7 @@ module SortedContainers
 
         # Right-child nodes are at even indices. At such indices
         # account the total below the left child node.
-        total += @index[pos - 1] if pos.odd?
+        total += @index[pos - 1] if pos.even?
 
         # Advance pos to the parent node.
         pos = (pos - 1) >> 1
