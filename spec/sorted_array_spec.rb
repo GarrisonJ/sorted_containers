@@ -438,4 +438,31 @@ RSpec.describe SortedContainers::SortedArray do
       expect(array.shift).to be_nil
     end
   end
+
+  describe "stress test", :stress do
+    it "should handle arrays with 10_000_000 values" do
+      array = SortedContainers::SortedArray.new
+      (1..10_000_000).to_a.shuffle.each do |i|
+        array.add(i)
+      end
+      expect(array.size).to eq(10_000_000)
+      expect(array.include?(5_000_000)).to be true
+      expect(array.include?(10_000_001)).to be false
+      expect(array.count(5_000_000)).to eq(1)
+      expect(array.bisect_left(5_000_000)).to eq(5_000_000 - 1)
+      expect(array.bisect_right(5_000_000)).to eq(5_000_000)
+      array.delete(5_000_000)
+      expect(array.size).to eq(9_999_999)
+      expect(array.include?(5_000_000)).to be false
+      expect(array.count(5_000_000)).to eq(0)
+      expect(array.bisect_left(5_000_000)).to eq(5_000_000 - 1)
+      expect(array.bisect_right(5_000_000)).to eq(5_000_000 - 1)
+      array.update([5_000_000])
+      expect(array.size).to eq(10_000_000)
+      expect(array.include?(5_000_000)).to be true
+      expect(array.count(5_000_000)).to eq(1)
+      expect(array.bisect_left(5_000_000)).to eq(5_000_000 - 1)
+      expect(array.bisect_right(5_000_000)).to eq(5_000_000)
+    end
+  end
 end
