@@ -19,9 +19,10 @@ Benchmark.bm(15) do |bm|
 
     # Benchmarking original SortedSet
     bm.report("SortedSet #{n}:") do
-      total_time = {add: 0, include: 0, loop: 0, delete: 0}
+      total_time = {initialize: 0, add: 0, include: 0, loop: 0, delete: 0}
       runs.times do
         sorted_set = SortedSet.new
+        total_time[:initialize] += Benchmark.measure { SortedSet.new(list_adds) }.real
         total_time[:add] += Benchmark.measure { list_adds.each { |i| sorted_set.add(i) } }.real
         total_time[:include] += Benchmark.measure { (1..n).map { rand((-0.5*n).to_i..(n*1.5).to_i) }.each { |i| sorted_set.include?(i) } }.real
         total_time[:loop] += Benchmark.measure { sorted_set.each { |i| } }.real
@@ -31,6 +32,7 @@ Benchmark.bm(15) do |bm|
           end
         end.real
       end
+      results_for_n[:initialize_sorted_set] = total_time[:initialize] / runs
       results_for_n[:add_sorted_set] = total_time[:add] / runs
       results_for_n[:include_sorted_set] = total_time[:include] / runs
       results_for_n[:loop_sorted_set] = total_time[:loop] / runs
@@ -39,9 +41,10 @@ Benchmark.bm(15) do |bm|
 
     # Benchmarking custom SortedSet
     bm.report("SortedContainers #{n}:") do
-      total_time = {add: 0, include: 0, loop: 0, delete: 0}
+      total_time = {initialize: 0, add: 0, include: 0, loop: 0, delete: 0}
       runs.times do
         sorted_set = SortedContainers::SortedSet.new
+        total_time[:initialize] += Benchmark.measure { SortedContainers::SortedSet.new(list_adds) }.real
         total_time[:add] += Benchmark.measure { list_adds.each { |i| sorted_set.add(i) } }.real
         total_time[:include] += Benchmark.measure { (1..n).map { rand((-0.5*n).to_i..(n*1.5).to_i) }.each { |i| sorted_set.include?(i) } }.real
         total_time[:loop] += Benchmark.measure { sorted_set.each { |i| } }.real
@@ -51,6 +54,7 @@ Benchmark.bm(15) do |bm|
           end
         end.real
       end
+      results_for_n[:initialize_sorted_containers] = total_time[:initialize] / runs
       results_for_n[:add_sorted_containers] = total_time[:add] / runs
       results_for_n[:include_sorted_containers] = total_time[:include] / runs
       results_for_n[:loop_sorted_containers] = total_time[:loop] / runs

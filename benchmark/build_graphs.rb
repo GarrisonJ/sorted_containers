@@ -9,6 +9,7 @@ data = CSV.read("benchmark_results.csv", headers: true, converters: :numeric)
 # Prepare data arrays
 sizes = data["size"]
 operations = {
+  "initialize" => %w[initialize_sorted_set initialize_sorted_containers],
   "add" => %w[add_sorted_set add_sorted_containers],
   "include" => %w[include_sorted_set include_sorted_containers],
   "iteration" => %w[loop_sorted_set loop_sorted_containers],
@@ -31,7 +32,7 @@ def create_graph(title, _sizes, data1, data2, labels, file_name)
   g.data("SortedContainers::SortedSet", data2)
 
   # X-axis labels
-  g.x_axis_label = "Number of operations"
+  g.x_axis_label = "Number of operations/elements"
 
   # Labels for x_axis
   g.labels = labels
