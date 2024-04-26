@@ -1,10 +1,14 @@
 # SortedContainers
 
-SortedContainers is a fast implementation of sorted lists, sets, and dictionaries in pure Ruby. It is based on the [sortedcontainers](https://grantjenks.com/docs/sortedcontainers/) Python library by Grant Jenks.
+[Documentation](https://www.rubydoc.info/gems/sorted_containers/0.1.1)
+
+[![Gem Version](https://badge.fury.io/rb/sorted_containers.svg)](https://badge.fury.io/rb/sorted_containers)
+
+SortedContainers is a fast implementation of sorted arrays, sets, and hashes in pure Ruby. It is based on the [sortedcontainers](https://grantjenks.com/docs/sortedcontainers/) Python library by Grant Jenks.
 
 SortedContainers provides three main classes: `SortedArray`, `SortedSet`, and `SortedHash`. Each class is a drop-in replacement for the corresponding Ruby class, but with the added benefit of maintaining the elements in sorted order.
 
-SortedContainers exploits the fact that modern computers are really good at shifting arrays in memory. We sacrifice theroetical time complexity for practical performance. In practice, SortedContainers is fast.
+SortedContainers exploits the fact that modern computers are good at shifting arrays in memory. We sacrifice theoretical time complexity for practical performance. In practice, SortedContainers is fast.
 
 ## How it works
 
@@ -19,12 +23,12 @@ This often outperforms the more common tree-based data structures like red-black
 How big the subarrays are is a trade-off. You can modify how big you want to subarrays by setting the `load_factor`. The default is set to DEFAULT_LOAD_FACTOR = 1000. The subarray is split when its size is `2*load_factor`. There is no perfect value. The ideal value will depend on your use case and may require some experimentation.
 
 ## Benchmarks
- 
-Performance comparison against [SortedSet](https://github.com/knu/sorted_set) a C extension red-black tree implementation. Every test was run 5 times and the average was taken.
+
+[SortedSet](https://github.com/knu/sorted_set) is a C extension red-black tree implementation. It is the fastest Ruby implementation of a sorted set that I could find. I used it as a benchmark to compare the performance of SortedContainers.
+
+Every test was run 5 times and the average was taken.
 
 You can see that SortedContainers has compariable performance for add and delete, and much better performance for iteration, initialization, and include.
-
-Note: I do not know why initialization is faster for 4 million than 3 million elements. This was consistant across multiple runs.
 
 - MacBook Pro (16-inch, 2019)
 - 2.6 GHz 6-Core Intel Core i7, 16 GB 2667 MHz DDR4
