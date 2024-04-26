@@ -4,15 +4,12 @@ require "gruff"
 require "csv"
 
 # Read data from CSV
-data = CSV.read("benchmark_results.csv", headers: true, converters: :numeric)
+data = CSV.read("benchmark_results_init.csv", headers: true, converters: :numeric)
 
 # Prepare data arrays
 sizes = data["size"]
 operations = {
-  "add" => %w[add_sorted_set add_sorted_containers],
-  "include" => %w[include_sorted_set include_sorted_containers],
-  "iteration" => %w[loop_sorted_set loop_sorted_containers],
-  "delete" => %w[delete_sorted_set delete_sorted_containers]
+  "initialize" => %w[init_sorted_set init_sorted_containers]
 }
 
 # Method to create and save a graph
@@ -52,6 +49,7 @@ end
 
 # Generate a graph for each operation
 operations.each do |operation, keys|
+  puts "#{operation} #{keys}"
   create_graph(operation, sizes, data[keys[0]], data[keys[1]], labels,
                "#{operation.downcase}_performance_comparison.png")
 end

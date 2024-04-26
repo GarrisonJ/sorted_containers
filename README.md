@@ -1,32 +1,38 @@
 # SortedContainers
 
-SortedContainers is a _fast_ implementation of sorted lists, sets, and dictionaries in pure Ruby. It is based on the [sortedcontainers](https://grantjenks.com/docs/sortedcontainers/) Python library by Grant Jenks.
+SortedContainers is a fast implementation of sorted lists, sets, and dictionaries in pure Ruby. It is based on the [sortedcontainers](https://grantjenks.com/docs/sortedcontainers/) Python library by Grant Jenks.
 
 SortedContainers provides three main classes: `SortedArray`, `SortedSet`, and `SortedHash`. Each class is a drop-in replacement for the corresponding Ruby class, but with the added benefit of maintaining the elements in sorted order.
 
-SortedContainers exploits the fact that modern computers are really good at shifting elements around in memory. We sacrifice theroetical time complexity for practical performance. In practice, SortedContainers is _fast_.
+SortedContainers exploits the fact that modern computers are really good at shifting arrays in memory. We sacrifice theroetical time complexity for practical performance. In practice, SortedContainers is fast.
 
 ## How it works
 
-Computers are really good at shifting arrays around. For that reason, in practice it's often faster to keep an array sorted than to use the usual tree-based data structures.
+Computers are good at shifting arrays. For that reason, it's often faster to keep an array sorted than to use the usual tree-based data structures.
 
-For example, if you have the array `[1, 2, 4, 5]` and you want to insert the element `3`, you can simply shift `4, 5` to the right and insert `3` in the correct position. This is a `O(n)` operation, but it's fast.
+For example, if you have the array `[1, 2, 4, 5]` and want to insert the element `3`, you can shift `4, 5` to the right and insert `3` in the correct position. This is a `O(n)` operation, but in practice it's fast.
 
-But if we have a lot of elements we can do better by breaking up the array into smaller arrays. That way we don't have to shift so many elements whenever we insert. For example, if you have the array `[[1, 2], [4, 5]]` and you want to insert the element `3`, you can simply insert `3` into the first array. 
+But we can do better if we have a lot of elements. We can break up the array into smaller arrays so the shifts don't have to move so many elements. For example, if you have the array `[[1,2,4], [5,6,7]]` and you want to insert the element `3`, you can insert `3` into the first array to get `[[1,2,3,4], [5,6,7]]` and only the element `4` has to be shifted.
 
-This often outperforms the more common tree-based data structures like red-black trees and AVL trees, which have `O(log n)` insertions and deletions. In practice, the `O(n)` insertions and deletions of SortedContainers are faster.
+This often outperforms the more common tree-based data structures like red-black trees with `O(log n)` insertions and deletions. In practice, the `O(n)` insertions and deletions of SortedContainers are faster.
 
-How big these smaller arrays should be is a trade-off. The default is set DEFAULT_LOAD_FACTOR = 1000. There is no perfect value and the ideal value will depend on your use case.
+How big the subarrays are is a trade-off. You can modify how big you want to subarrays by setting the `load_factor`. The default is set to DEFAULT_LOAD_FACTOR = 1000. The subarray is split when its size is `2*load_factor`. There is no perfect value. The ideal value will depend on your use case and may require some experimentation.
 
 ## Benchmarks
  
-Performance comparison against [SortedSet](https://github.com/knu/sorted_set) a C extension red-black tree implementation (lower is better).
+Performance comparison against [SortedSet](https://github.com/knu/sorted_set) a C extension red-black tree implementation. Every test was run 5 times and the average was taken.
 
+You can see that SortedContainers has compariable performance for add and delete, and much better performance for iteration, initialization, and include.
+
+Note: I do not know why initialization is faster for 4 million than 3 million elements. This was consistant across multiple runs.
+
+- MacBook Pro (16-inch, 2019)
 - 2.6 GHz 6-Core Intel Core i7, 16 GB 2667 MHz DDR4
 - Ruby 3.2.2
 - SortedContainers 0.1.0
 - SortedSet 1.0.3
-
+### Results (Lower is better)
+<img src="benchmark/initialize_performance_comparison.png" width="50%">
 <img src="benchmark/add_performance_comparison.png" width="50%">
 <img src="benchmark/delete_performance_comparison.png" width="50%">
 <img src="benchmark/iteration_performance_comparison.png" width="50%">

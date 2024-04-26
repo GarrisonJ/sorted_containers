@@ -6,47 +6,63 @@ require_relative "../lib/sorted_containers/sorted_set"
 require "csv"
 
 sizes = [1_000_000, 2_000_000, 3_000_000, 4_000_000, 5_000_000]
+#sizes = [100_000, 200_000, 300_000, 400_000, 500_000]
+#sizes = [10_000, 20_000, 30_000, 40_000, 50_000]
 results = []
+runs = 5
 
 Benchmark.bm(15) do |bm|
   sizes.each do |n|
-    list = Array.new(n) { rand(0..n) }
+    # The items to be added to the set
+    list_adds = (1..n).to_a.shuffle
     results_for_n = { size: n }
 
     # Benchmarking original SortedSet
     bm.report("SortedSet #{n}:") do
-      sorted_set = SortedSet.new
-      results_for_n[:add_sorted_set] = Benchmark.measure { list.each { |i| sorted_set.add(i) } }.real
-      results_for_n[:include_sorted_set] = Benchmark.measure { list.each { |i| sorted_set.include?(i) } }.real
-      # rubocop:disable Lint/EmptyBlock
-      results_for_n[:loop_sorted_set] = Benchmark.measure { sorted_set.each { |i| } }.real
-      # rubocop:enable Lint/EmptyBlock
-      results_for_n[:delete_sorted_set] = Benchmark.measure { list.shuffle.each { |i| sorted_set.delete(i) } }.real
+      total_time = {add: 0, include: 0, loop: 0, delete: 0}
+      runs.times do
+        sorted_set = SortedSet.new
+        total_time[:add] += Benchmark.measure { list_adds.each { |i| sorted_set.add(i) } }.real
+        total_time[:include] += Benchmark.measure { (1..n).map { rand((-0.5*n).to_i..(n*1.5).to_i) }.each { |i| sorted_set.include?(i) } }.real
+        total_time[:loop] += Benchmark.measure { sorted_set.each { |i| } }.real
+        total_time[:delete] += Benchmark.measure do 
+          list_adds.shuffle.each do |i| 
+            sorted_set.delete(i) 
+          end
+        end.real
+      end
+      results_for_n[:add_sorted_set] = total_time[:add] / runs
+      results_for_n[:include_sorted_set] = total_time[:include] / runs
+      results_for_n[:loop_sorted_set] = total_time[:loop] / runs
+      results_for_n[:delete_sorted_set] = total_time[:delete] / runs
     end
 
     # Benchmarking custom SortedSet
     bm.report("SortedContainers #{n}:") do
-      sorted_set = SortedContainers::SortedSet.new
-      results_for_n[:add_sorted_containers] = Benchmark.measure { list.each { |i| sorted_set.add(i) } }.real
-      results_for_n[:include_sorted_containers] = Benchmark.measure { list.each { |i| sorted_set.include?(i) } }.real
-      # rubocop:disable Lint/EmptyBlock
-      results_for_n[:loop_sorted_containers] = Benchmark.measure { sorted_set.each { |i| } }.real
-      # rubocop:enable Lint/EmptyBlock
-      results_for_n[:delete_sorted_containers] = Benchmark.measure do
-        list.shuffle.each do |i|
-          sorted_set.delete(i)
-        end
-      end.real
+      total_time = {add: 0, include: 0, loop: 0, delete: 0}
+      runs.times do
+        sorted_set = SortedContainers::SortedSet.new
+        total_time[:add] += Benchmark.measure { list_adds.each { |i| sorted_set.add(i) } }.real
+        total_time[:include] += Benchmark.measure { (1..n).map { rand((-0.5*n).to_i..(n*1.5).to_i) }.each { |i| sorted_set.include?(i) } }.real
+        total_time[:loop] += Benchmark.measure { sorted_set.each { |i| } }.real
+        total_time[:delete] += Benchmark.measure do 
+          list_adds.shuffle.each do |i| 
+            sorted_set.delete(i) 
+          end
+        end.real
+      end
+      results_for_n[:add_sorted_containers] = total_time[:add] / runs
+      results_for_n[:include_sorted_containers] = total_time[:include] / runs
+      results_for_n[:loop_sorted_containers] = total_time[:loop] / runs
+      results_for_n[:delete_sorted_containers] = total_time[:delete] / runs
     end
-
     results << results_for_n
   end
 end
 
-# Export results to CSV for visualization
 CSV.open("benchmark_results.csv", "wb") do |csv|
-  csv << results.first.keys # Adds the headers
-  results.each do |data|
-    csv << data.values
+  csv << results.first.keys
+  results.each do |result|
+    csv << result.values
   end
 end
