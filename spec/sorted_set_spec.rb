@@ -60,6 +60,18 @@ RSpec.describe SortedContainers::SortedSet do
       set.delete(3)
       expect(set.to_a).to eq([1, 2, 4, 5])
     end
+
+    it "should return the value if it was removed" do
+      set = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
+      value = set.delete(3)
+      expect(value).to eq(3)
+    end
+
+    it "should return nil if the value was not removed" do
+      set = SortedContainers::SortedSet.new([1, 2, 3, 4, 5])
+      value = set.delete(300)
+      expect(value).to be_nil
+    end
   end
 
   describe "delete_at" do
@@ -121,6 +133,14 @@ RSpec.describe SortedContainers::SortedSet do
         set.add(i)
       end
       expect(set.to_a).to eq((1..1000).to_a)
+    end
+
+    it "<< should be an alias for add" do
+      set = SortedContainers::SortedSet.new
+      set << 1
+      set << 2
+      set << 3
+      expect(set.to_a).to eq([1, 2, 3])
     end
   end
 end
