@@ -27,13 +27,7 @@ module SortedContainers
       @set.add(item)
       @list.add(item)
     end
-
-    # Adds an item to the sorted set using the `<<` operator.
-    #
-    # @param item [Object] The item to be added.
-    def <<(item)
-      add(item)
-    end
+    alias << add
 
     # Retrieves the item at the specified index.
     #
