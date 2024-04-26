@@ -6,8 +6,8 @@ require_relative "../lib/sorted_containers/sorted_set"
 require "csv"
 
 sizes = [1_000_000, 2_000_000, 3_000_000, 4_000_000, 5_000_000]
-#sizes = [100_000, 200_000, 300_000, 400_000, 500_000]
-#sizes = [10_000, 20_000, 30_000, 40_000, 50_000]
+# sizes = [100_000, 200_000, 300_000, 400_000, 500_000]
+# sizes = [10_000, 20_000, 30_000, 40_000, 50_000]
 results = []
 runs = 5
 
@@ -19,16 +19,20 @@ Benchmark.bm(15) do |bm|
 
     # Benchmarking original SortedSet
     bm.report("SortedSet #{n}:") do
-      total_time = {initialize: 0, add: 0, include: 0, loop: 0, delete: 0}
+      total_time = { initialize: 0, add: 0, include: 0, loop: 0, delete: 0 }
       runs.times do
         sorted_set = SortedSet.new
         total_time[:initialize] += Benchmark.measure { SortedSet.new(list_adds) }.real
         total_time[:add] += Benchmark.measure { list_adds.each { |i| sorted_set.add(i) } }.real
-        total_time[:include] += Benchmark.measure { (1..n).map { rand((-0.5*n).to_i..(n*1.5).to_i) }.each { |i| sorted_set.include?(i) } }.real
+        total_time[:include] += Benchmark.measure do
+          (1..n).map do
+            rand((-0.5 * n).to_i..(n * 1.5).to_i)
+          end.each { |i| sorted_set.include?(i) }
+        end.real
         total_time[:loop] += Benchmark.measure { sorted_set.each { |i| } }.real
-        total_time[:delete] += Benchmark.measure do 
-          list_adds.shuffle.each do |i| 
-            sorted_set.delete(i) 
+        total_time[:delete] += Benchmark.measure do
+          list_adds.shuffle.each do |i|
+            sorted_set.delete(i)
           end
         end.real
       end
@@ -41,16 +45,20 @@ Benchmark.bm(15) do |bm|
 
     # Benchmarking custom SortedSet
     bm.report("SortedContainers #{n}:") do
-      total_time = {initialize: 0, add: 0, include: 0, loop: 0, delete: 0}
+      total_time = { initialize: 0, add: 0, include: 0, loop: 0, delete: 0 }
       runs.times do
         sorted_set = SortedContainers::SortedSet.new
         total_time[:initialize] += Benchmark.measure { SortedContainers::SortedSet.new(list_adds) }.real
         total_time[:add] += Benchmark.measure { list_adds.each { |i| sorted_set.add(i) } }.real
-        total_time[:include] += Benchmark.measure { (1..n).map { rand((-0.5*n).to_i..(n*1.5).to_i) }.each { |i| sorted_set.include?(i) } }.real
+        total_time[:include] += Benchmark.measure do
+          (1..n).map do
+            rand((-0.5 * n).to_i..(n * 1.5).to_i)
+          end.each { |i| sorted_set.include?(i) }
+        end.real
         total_time[:loop] += Benchmark.measure { sorted_set.each { |i| } }.real
-        total_time[:delete] += Benchmark.measure do 
-          list_adds.shuffle.each do |i| 
-            sorted_set.delete(i) 
+        total_time[:delete] += Benchmark.measure do
+          list_adds.shuffle.each do |i|
+            sorted_set.delete(i)
           end
         end.real
       end
