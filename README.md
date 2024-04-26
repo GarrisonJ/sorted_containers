@@ -31,12 +31,18 @@ Note: I do not know why initialization is faster for 4 million than 3 million el
 - Ruby 3.2.2
 - SortedContainers 0.1.0
 - SortedSet 1.0.3
+
 ### Results (Lower is better)
-<img src="benchmark/initialize_performance_comparison.png" width="50%">
-<img src="benchmark/add_performance_comparison.png" width="50%">
-<img src="benchmark/delete_performance_comparison.png" width="50%">
-<img src="benchmark/iteration_performance_comparison.png" width="50%">
-<img src="benchmark/include_performance_comparison.png" width="50%">
+
+<img src="https://github.com/GarrisonJ/sorted_containers/blob/main/benchmark/initialize_performance_comparison.png?raw=true" width="50%">
+
+<img src="https://github.com/GarrisonJ/sorted_containers/blob/main/benchmark/add_performance_comparison.png?raw=true" width="50%">
+
+<img src="https://github.com/GarrisonJ/sorted_containers/blob/main/benchmark/delete_performance_comparison.png?raw=true" width="50%">
+
+<img src="https://github.com/GarrisonJ/sorted_containers/blob/main/benchmark/iteration_performance_comparison.png?raw=true" width="50%">
+
+<img src="https://github.com/GarrisonJ/sorted_containers/blob/main/benchmark/include_performance_comparison.png?raw=true" width="50%">
 
 ## Installation
 
