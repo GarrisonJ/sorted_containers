@@ -12,15 +12,19 @@ SortedContainers exploits the fact that modern computers are good at shifting ar
 
 ## How it works
 
-Computers are good at shifting arrays. For that reason, it's often faster to keep an array sorted than to use the usual tree-based data structures.
+Modern computers are good at shifting arrays. For that reason, it's often faster to keep an array sorted than to use the usual tree-based data structures.
 
-For example, if you have the array `[1, 2, 4, 5]` and want to insert the element `3`, you can shift `4, 5` to the right and insert `3` in the correct position. This is a `O(n)` operation, but in practice it's fast.
+For example, if you have the array `[1,2,4,5]` and want to insert the element `3`, you can shift `4, 5` to the right and insert `3` in the correct position. This is a `O(n)` operation, but in practice it's fast.
 
-But we can do better if we have a lot of elements. We can break up the array into smaller arrays so the shifts don't have to move so many elements. For example, if you have the array `[[1,2,4], [5,6,7]]` and you want to insert the element `3`, you can insert `3` into the first array to get `[[1,2,3,4], [5,6,7]]` and only the element `4` has to be shifted.
+You also save memory by not having to store pointers to children nodes, and you benifit from the cache locality of arrays. When you iterate over a sorted array, you are more likely to access elements that are close together in memory.
 
-This often outperforms the more common tree-based data structures like red-black trees with `O(log n)` insertions and deletions. In practice, the `O(n)` insertions and deletions of SortedContainers are faster.
+But we can do better if we have a lot of elements. We can break up the array so fewer elements have to be moved when a new element is inserted. For example, if you have the array `[[1,2,4],[5,6,7]]` and you want to insert the element `3`, you can insert `3` into the first array to get `[[1,2,3,4],[5,6,7]]` and only the element `4` has to be shifted.
 
-How big the subarrays are is a trade-off. You can modify how big you want to subarrays by setting the `load_factor`. The default is set to DEFAULT_LOAD_FACTOR = 1000. The subarray is split when its size is `2*load_factor`. There is no perfect value. The ideal value will depend on your use case and may require some experimentation.
+This often outperforms the more common tree-based data structures like red-black trees with `O(log n)` insertions, deletions, and lookup. We sacrifice theoretical time complexity for practical performance.
+
+The size of the subarrays are a trade-off. You can modify how big you want to subarrays by setting the `load_factor`. The default is set to `DEFAULT_LOAD_FACTOR = 1000`. The subarray is split when its size is `2*load_factor`. There is no perfect value. The ideal value will depend on your use case and may require some experimentation.
+
+SortedSet and SortedHash are implemented using a SortedArray to keep track of the order, and then also use a standard Set and Hash for quick lookups.
 
 ## Benchmarks
 
