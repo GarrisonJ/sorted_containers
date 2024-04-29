@@ -113,6 +113,16 @@ module SortedContainers
       0
     end
 
+    # Returns true if the arrays size and values are equal.
+    #
+    # @param other [SortedArray] The other array to compare.
+    # @return [Boolean] True if the arrays are equal, false otherwise.
+    def ==(other)
+      return false unless other.is_a?(SortedArray)
+
+      size == other.size && each_with_index.all? { |value, index| value == other[index] }
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.

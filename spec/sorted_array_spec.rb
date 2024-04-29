@@ -197,6 +197,38 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "==" do
+    it "should return true if two arrays are equal" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array1 == array2).to be true
+    end
+
+    it "should return false if two arrays are not equal" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 6])
+      expect(array1 == array2).to be false
+    end
+
+    it "should return false if two arrays have different lengths" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5, 6])
+      expect(array1 == array2).to be false
+    end
+
+    it "should return false if one array is empty and the other is not" do
+      array1 = SortedContainers::SortedArray.new
+      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array1 == array2).to be false
+    end
+
+    it "should return true if two empty arrays are equal" do
+      array1 = SortedContainers::SortedArray.new
+      array2 = SortedContainers::SortedArray.new
+      expect(array1 == array2).to be true
+    end
+  end
+
   describe "load_factor" do
     it "should set the load factor to the provided value" do
       array = SortedContainers::SortedArray.new([], load_factor: 100)
