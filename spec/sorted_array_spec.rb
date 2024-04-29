@@ -39,6 +39,12 @@ RSpec.describe SortedContainers::SortedArray do
       array *= 2
       expect(array.to_a).to eq(((1..1000).to_a * 2).sort)
     end
+
+    it "should multiply the array by 0" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array *= 0
+      expect(array.to_a).to eq([])
+    end
   end
 
   describe "+" do
