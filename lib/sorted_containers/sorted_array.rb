@@ -70,37 +70,6 @@ module SortedContainers
       new_instance
     end
 
-    # rubocop:disable Metrics/MethodLength
-
-    # Adds a value to the sorted array.
-    #
-    # @param value [Object] The value to add.
-    def add(value)
-      if @maxes.empty?
-        @lists.append([value])
-        @maxes.append(value)
-      else
-        pos = internal_bisect_right(@maxes, value)
-
-        if pos == @maxes.size
-          pos -= 1
-          @lists[pos].push(value)
-          @maxes[pos] = value
-        else
-          sub_pos = internal_bisect_right(@lists[pos], value)
-          @lists[pos].insert(sub_pos, value)
-        end
-        expand(pos)
-      end
-      @size += 1
-      self
-    end
-    alias << add
-    alias push add
-    alias append add
-
-    # rubocop:enable Metrics/MethodLength
-
     # Returns -1, 0, or 1 as self is less than, equal to, or greater than other. For each index i in self,
     # evaluates self[i] <=> other[i]
     #
@@ -212,6 +181,37 @@ module SortedContainers
       end
       false
     end
+
+    # rubocop:disable Metrics/MethodLength
+
+    # Adds a value to the sorted array.
+    #
+    # @param value [Object] The value to add.
+    def add(value)
+      if @maxes.empty?
+        @lists.append([value])
+        @maxes.append(value)
+      else
+        pos = internal_bisect_right(@maxes, value)
+
+        if pos == @maxes.size
+          pos -= 1
+          @lists[pos].push(value)
+          @maxes[pos] = value
+        else
+          sub_pos = internal_bisect_right(@lists[pos], value)
+          @lists[pos].insert(sub_pos, value)
+        end
+        expand(pos)
+      end
+      @size += 1
+      self
+    end
+    alias << add
+    alias push add
+    alias append add
+
+    # rubocop:enable Metrics/MethodLength
 
     # Returns a string representation of the sorted array.
     #
