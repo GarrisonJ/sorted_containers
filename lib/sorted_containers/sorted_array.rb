@@ -93,8 +93,11 @@ module SortedContainers
         expand(pos)
       end
       @size += 1
+      self
     end
     alias << add
+    alias push add
+    alias append add
 
     # rubocop:enable Metrics/MethodLength
 

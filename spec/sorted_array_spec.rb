@@ -144,6 +144,11 @@ RSpec.describe SortedContainers::SortedArray do
       expect(array.to_a).to eq((1..1000).to_a)
     end
 
+    it "should return the array" do
+      array = SortedContainers::SortedArray.new
+      expect(array.add(5)).to eq(array)
+    end
+
     it "a load factor of 10 should work" do
       array = SortedContainers::SortedArray.new([], load_factor: 10)
       (1..1000).to_a.shuffle.each do |i|
