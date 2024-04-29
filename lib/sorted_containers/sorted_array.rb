@@ -160,6 +160,26 @@ module SortedContainers
     alias [] slice
     # rubocop:enable Metrics/MethodLength
 
+    # Calculates the set of unambiguous abbreviations for the strings in +self+.
+    #
+    #   require 'abbrev'
+    #   SortedArray.new(%w{ car cone }).abbrev
+    #   #=> {"car"=>"car", "ca"=>"car", "cone"=>"cone", "con"=>"cone", "co"=>"cone"}
+    #
+    # The optional +pattern+ parameter is a pattern or a string. Only input
+    # strings that match the pattern or start with the string are included in the
+    # output hash.
+    #
+    #   SortedArray.new(%w{ fast boat day }).abbrev(/^.a/)
+    #   #=> {"fast"=>"fast", "fas"=>"fast", "fa"=>"fast", "day"=>"day", "da"=>"day"}
+    #
+    # @param pattern [Regexp, String] The pattern to match.
+    # @return [Hash] The set of unambiguous abbreviations.
+    # See also Abbrev.abbrev
+    def abbrev(pattern = nil)
+      to_a.abbrev(pattern)
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.

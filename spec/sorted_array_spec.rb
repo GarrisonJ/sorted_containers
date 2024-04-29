@@ -229,6 +229,39 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "abbrev" do
+    require "abbrev"
+
+    it "should return the abbreviations of the array" do
+      basic_array = %w[car cone]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.abbrev).to eq(basic_array.abbrev)
+    end
+
+    it "should only return abbreviations of strings that match the given pattern" do
+      basic_array = %w[fast boat day]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.abbrev(/^.a/)).to eq(basic_array.abbrev(/^.a/))
+    end
+
+    it "should only return abbreviantions of strings that start with the given string" do
+      basic_array = %w[fast boat day]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.abbrev("da")).to eq(basic_array.abbrev("da"))
+    end
+
+    it "should return an empty hash if there are no matches" do
+      basic_array = %w[fast boat day]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.abbrev("zz")).to eq(basic_array.abbrev("zz"))
+    end
+
+    it "should return an empty hash if the array is empty" do
+      array = SortedContainers::SortedArray.new
+      expect(array.abbrev).to eq({})
+    end
+  end
+
   describe "load_factor" do
     it "should set the load factor to the provided value" do
       array = SortedContainers::SortedArray.new([], load_factor: 100)
