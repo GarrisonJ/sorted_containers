@@ -321,6 +321,28 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "at" do
+    it "should return the value at the given index" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.at(2)).to eq(3)
+    end
+
+    it "should handle negative indices" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.at(-1)).to eq(5)
+    end
+
+    it "should return nil if negative index is out of range" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.at(-6)).to be_nil
+    end
+
+    it "should raise exception when index is a range" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect { array.at(1..3) }.to raise_error(TypeError)
+    end
+  end
+
   describe "load_factor" do
     it "should set the load factor to the provided value" do
       array = SortedContainers::SortedArray.new([], load_factor: 100)

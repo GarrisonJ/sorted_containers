@@ -213,6 +213,19 @@ module SortedContainers
 
     # rubocop:enable Metrics/MethodLength
 
+    # Returns the element at +Integer+ offset +index+; does not modify +self+.
+    # If +index+ is negative, counts from the end of +self+.
+    # Returns +nil+ if the +index+ is out of range.
+    # Will raise +TypeError+ if the +index+ is not an +Integer+.
+    #
+    # @param index [Integer] The index of the value to retrieve.
+    # @return [Object] The value at the specified index.
+    def at(index)
+      raise TypeError, "no implicit conversion of #{index.class} into Integer" unless index.is_a?(Integer)
+
+      self[index.to_i]
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
