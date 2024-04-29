@@ -60,6 +60,16 @@ module SortedContainers
       new_instance
     end
 
+    # Returns a new SortedArray with the values from the difference of the two arrays.
+    #
+    # @param other [SortedArray] The other array to subtract.
+    # @return [SortedArray] The difference of the two arrays.
+    def -(other)
+      new_instance = self.class.new
+      new_instance.update(to_a - other.to_a)
+      new_instance
+    end
+
     # rubocop:disable Metrics/MethodLength
 
     # Adds a value to the sorted array.
