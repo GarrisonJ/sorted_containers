@@ -3,6 +3,7 @@ AllCops:
   NewCops: enable
   Exclude:
     - "benchmark/**/*"
+    - "vendor/**/*"
 
 Metrics/BlockLength:
   Exclude:
