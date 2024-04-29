@@ -123,6 +123,43 @@ module SortedContainers
       size == other.size && each_with_index.all? { |value, index| value == other[index] }
     end
 
+    # rubocop:disable Metrics/MethodLength
+
+    # Returns elements from array at the specified index or range. Does not modify the array.
+    #
+    # If a single index is provided, returns the value at that index.
+    #
+    # If a range is provided, returns the values in that range.
+    #
+    # If a start index and length are provided, returns the values starting from the start index and
+    # continuing for the given length.
+    #
+    # @param args [Integer, Range, Enumerator::ArithmeticSequence] The index or range of values to retrieve.
+    # @return [Object, Array] The value or values at the specified index or range.
+    def slice(*args)
+      case args.size
+      when 1
+        arg = args[0]
+        case arg
+        when Integer
+          get_value_at_index(arg)
+        when Range
+          get_values_from_range(arg)
+        when Enumerator::ArithmeticSequence
+          get_values_from_arithmetic_sequence(arg)
+        else
+          raise TypeError, "no implicit conversion of #{arg.class} into Integer"
+        end
+      when 2
+        start, length = args
+        get_values_from_start_and_length(start, length)
+      else
+        raise ArgumentError, "wrong number of arguments (given #{args.size}, expected 1..2)"
+      end
+    end
+    alias [] slice
+    # rubocop:enable Metrics/MethodLength
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
@@ -191,44 +228,6 @@ module SortedContainers
 
       internal_delete(pos, idx) if @lists[pos][idx] == value
     end
-
-    # Tries to match the behavior of Array#[]
-    # alias for slice
-    #
-    # @param args [Integer, Range, Enumerator::ArithmeticSequence] The index or range of values to retrieve.
-    # @return [Object, Array] The value or values at the specified index or range.
-    def [](*args)
-      slice(*args)
-    end
-
-    # rubocop:disable Metrics/MethodLength
-
-    # Tries to match the behavior of Array#slice
-    #
-    # @param args [Integer, Range, Enumerator::ArithmeticSequence] The index or range of values to retrieve.
-    # @return [Object, Array] The value or values at the specified index or range.
-    def slice(*args)
-      case args.size
-      when 1
-        arg = args[0]
-        case arg
-        when Integer
-          get_value_at_index(arg)
-        when Range
-          get_values_from_range(arg)
-        when Enumerator::ArithmeticSequence
-          get_values_from_arithmetic_sequence(arg)
-        else
-          raise TypeError, "no implicit conversion of #{arg.class} into Integer"
-        end
-      when 2
-        start, length = args
-        get_values_from_start_and_length(start, length)
-      else
-        raise ArgumentError, "wrong number of arguments (given #{args.size}, expected 1..2)"
-      end
-    end
-    # rubocop:enable Metrics/MethodLength
 
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
