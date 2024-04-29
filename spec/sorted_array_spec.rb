@@ -117,47 +117,6 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
-  describe "add" do
-    it "sorts items after being added in an arbitrary order" do
-      array = SortedContainers::SortedArray.new
-      array.add(5)
-      array.add(2)
-      array.add(7)
-      array.add(1)
-      array.add(4)
-      expect(array.to_a).to eq([1, 2, 4, 5, 7])
-    end
-
-    it "should sort hundreds of values" do
-      array = SortedContainers::SortedArray.new
-      (1..1000).to_a.shuffle.each do |i|
-        array.add(i)
-      end
-      expect(array.to_a).to eq((1..1000).to_a)
-    end
-
-    it "a load factor of 3 should work" do
-      array = SortedContainers::SortedArray.new([], load_factor: 3)
-      (1..1000).to_a.shuffle.each do |i|
-        array.add(i)
-      end
-      expect(array.to_a).to eq((1..1000).to_a)
-    end
-
-    it "should return the array" do
-      array = SortedContainers::SortedArray.new
-      expect(array.add(5)).to eq(array)
-    end
-
-    it "a load factor of 10 should work" do
-      array = SortedContainers::SortedArray.new([], load_factor: 10)
-      (1..1000).to_a.shuffle.each do |i|
-        array.add(i)
-      end
-      expect(array.to_a).to eq((1..1000).to_a)
-    end
-  end
-
   describe "<=>" do
     it "should compare two arrays" do
       array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
@@ -318,6 +277,47 @@ RSpec.describe SortedContainers::SortedArray do
     it "should return false if the array is empty" do
       array = SortedContainers::SortedArray.new
       expect(array.any?).to be false
+    end
+  end
+
+  describe "add" do
+    it "sorts items after being added in an arbitrary order" do
+      array = SortedContainers::SortedArray.new
+      array.add(5)
+      array.add(2)
+      array.add(7)
+      array.add(1)
+      array.add(4)
+      expect(array.to_a).to eq([1, 2, 4, 5, 7])
+    end
+
+    it "should sort hundreds of values" do
+      array = SortedContainers::SortedArray.new
+      (1..1000).to_a.shuffle.each do |i|
+        array.add(i)
+      end
+      expect(array.to_a).to eq((1..1000).to_a)
+    end
+
+    it "a load factor of 3 should work" do
+      array = SortedContainers::SortedArray.new([], load_factor: 3)
+      (1..1000).to_a.shuffle.each do |i|
+        array.add(i)
+      end
+      expect(array.to_a).to eq((1..1000).to_a)
+    end
+
+    it "should return the array" do
+      array = SortedContainers::SortedArray.new
+      expect(array.add(5)).to eq(array)
+    end
+
+    it "a load factor of 10 should work" do
+      array = SortedContainers::SortedArray.new([], load_factor: 10)
+      (1..1000).to_a.shuffle.each do |i|
+        array.add(i)
+      end
+      expect(array.to_a).to eq((1..1000).to_a)
     end
   end
 
