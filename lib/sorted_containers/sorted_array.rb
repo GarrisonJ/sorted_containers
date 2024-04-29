@@ -104,9 +104,7 @@ module SortedContainers
     # @param other [SortedArray] The other array to compare.
     # @return [Integer] -1, 0, or 1 as self is less than, equal to, or greater than other.
     def <=>(other)
-      if size != other.size
-        return size <=> other.size
-      end
+      return size <=> other.size if size != other.size
 
       each_with_index do |value, index|
         return value <=> other[index] if value != other[index]
