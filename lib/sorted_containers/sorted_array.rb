@@ -28,6 +28,16 @@ module SortedContainers
       update(iterable)
     end
 
+    # Returns a new SortedArray with the values from the union of the two arrays.
+    #
+    # @param other [SortedArray] The other array to union with.
+    # @return [SortedArray] The union of the two arrays.
+    def &(other)
+      new_instance = self.class.new
+      new_instance.update(to_a & other.to_a)
+      new_instance
+    end
+
     # rubocop:disable Metrics/MethodLength
 
     # Adds a value to the sorted array.

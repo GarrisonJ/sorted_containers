@@ -1,6 +1,32 @@
 # frozen_string_literal: true
 
 RSpec.describe SortedContainers::SortedArray do
+  describe "&" do
+    it "should return the intersection of two arrays" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([3, 4, 5, 6, 7])
+      expect((array1 & array2).to_a).to eq([3, 4, 5])
+    end
+
+    it "should return an empty array if there is no intersection" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([6, 7, 8, 9, 10])
+      expect((array1 & array2).to_a).to eq([])
+    end
+
+    it "should return an empty array if one of the arrays is empty" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new
+      expect((array1 & array2).to_a).to eq([])
+    end
+
+    it "should return an empty array if both arrays are empty" do
+      array1 = SortedContainers::SortedArray.new
+      array2 = SortedContainers::SortedArray.new
+      expect((array1 & array2).to_a).to eq([])
+    end
+  end
+
   describe "add" do
     it "sorts items after being added in an arbitrary order" do
       array = SortedContainers::SortedArray.new
