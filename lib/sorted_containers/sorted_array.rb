@@ -50,6 +50,16 @@ module SortedContainers
     end
     alias * multiply
 
+    # Returns a new SortedArray with the values from both arrays.
+    #
+    # @param other [SortedArray] The other array to add.
+    # @return [SortedArray] The combined array.
+    def +(other)
+      new_instance = self.class.new
+      new_instance.update(to_a + other.to_a)
+      new_instance
+    end
+
     # rubocop:disable Metrics/MethodLength
 
     # Adds a value to the sorted array.

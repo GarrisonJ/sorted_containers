@@ -27,6 +27,52 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "*" do
+    it "should multiply the array by the given number" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array *= 2
+      expect(array.to_a).to eq([1, 1, 2, 2, 3, 3, 4, 4, 5, 5])
+    end
+
+    it "should multiply the array by the given large number" do
+      array = SortedContainers::SortedArray.new((1..1000).to_a)
+      array *= 2
+      expect(array.to_a).to eq(((1..1000).to_a * 2).sort)
+    end
+  end
+
+  describe "+" do
+    it "should concatenate two arrays" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([6, 7, 8, 9, 10])
+      expect((array1 + array2).to_a).to eq([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    end
+
+    it "should concatenate two arrays with duplicates and sort them" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([3, 4, 5, 6, 7])
+      expect((array1 + array2).to_a).to eq([1, 2, 3, 3, 4, 4, 5, 5, 6, 7])
+    end
+
+    it "should concatenate an empty array with a non-empty array" do
+      array1 = SortedContainers::SortedArray.new
+      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect((array1 + array2).to_a).to eq([1, 2, 3, 4, 5])
+    end
+
+    it "should concatenate a non-empty array with an empty array" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new
+      expect((array1 + array2).to_a).to eq([1, 2, 3, 4, 5])
+    end
+
+    it "should concatenate two empty arrays" do
+      array1 = SortedContainers::SortedArray.new
+      array2 = SortedContainers::SortedArray.new
+      expect((array1 + array2).to_a).to eq([])
+    end
+  end
+
   describe "add" do
     it "sorts items after being added in an arbitrary order" do
       array = SortedContainers::SortedArray.new
@@ -398,20 +444,6 @@ RSpec.describe SortedContainers::SortedArray do
     it "should return 0 if the value is less than all values" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
       expect(array.bisect_right(0)).to eq(0)
-    end
-  end
-
-  describe "*" do
-    it "should multiply the array by the given number" do
-      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-      array *= 2
-      expect(array.to_a).to eq([1, 1, 2, 2, 3, 3, 4, 4, 5, 5])
-    end
-
-    it "should multiply the array by the given large number" do
-      array = SortedContainers::SortedArray.new((1..1000).to_a)
-      array *= 2
-      expect(array.to_a).to eq(((1..1000).to_a * 2).sort)
     end
   end
 
