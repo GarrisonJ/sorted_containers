@@ -94,15 +94,9 @@ module SortedContainers
       end
       @size += 1
     end
+    alias << add
 
     # rubocop:enable Metrics/MethodLength
-
-    # Alias for add
-    #
-    # @param value [Object] The value to add.
-    def <<(value)
-      add(value)
-    end
 
     # Returns a string representation of the sorted array.
     #
