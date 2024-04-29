@@ -38,6 +38,18 @@ module SortedContainers
       new_instance
     end
 
+    # When non-negative, multiplies returns a new Array with each value repeated `int` times.
+    #
+    # @param num [Integer] The integer to multiply the array by.
+    # @return [SortedArray] The multiplied sorted array.
+    def multiply(num)
+      values = @lists.flatten * num
+      new_instance = self.class.new
+      new_instance.update(values)
+      new_instance
+    end
+    alias * multiply
+
     # rubocop:disable Metrics/MethodLength
 
     # Adds a value to the sorted array.
@@ -407,18 +419,6 @@ module SortedContainers
       new_instance.size = @size
       new_instance
     end
-
-    # When non-negative, multiplies returns a new Array with each value repeated `int` times.
-    #
-    # @param num [Integer] The integer to multiply the array by.
-    # @return [SortedArray] The multiplied sorted array.
-    def multiply(num)
-      values = @lists.flatten * num
-      new_instance = self.class.new
-      new_instance.update(values)
-      new_instance
-    end
-    alias * multiply
 
     # Returns the maximum value in the sorted array.
     #
