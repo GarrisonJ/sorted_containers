@@ -153,6 +153,50 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "<=>" do
+    it "should compare two arrays" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array1 <=> array2).to eq(0)
+    end
+
+    it "should compare two arrays with different values" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 6])
+      expect(array1 <=> array2).to eq(-1)
+    end
+
+    it "should compare a shorter array to a longer array" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5, 6])
+      expect(array1 <=> array2).to eq(-1)
+    end
+
+    it "should compare a longer array to a shorter array" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5, 6])
+      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array1 <=> array2).to eq(1)
+    end
+
+    it "should compare an empty array to a non-empty array" do
+      array1 = SortedContainers::SortedArray.new
+      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array1 <=> array2).to eq(-1)
+    end
+
+    it "should compare a non-empty array to an empty array" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new
+      expect(array1 <=> array2).to eq(1)
+    end
+
+    it "should compare two empty arrays" do
+      array1 = SortedContainers::SortedArray.new
+      array2 = SortedContainers::SortedArray.new
+      expect(array1 <=> array2).to eq(0)
+    end
+  end
+
   describe "load_factor" do
     it "should set the load factor to the provided value" do
       array = SortedContainers::SortedArray.new([], load_factor: 100)

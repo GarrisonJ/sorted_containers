@@ -98,6 +98,23 @@ module SortedContainers
 
     # rubocop:enable Metrics/MethodLength
 
+    # Returns -1, 0, or 1 as self is less than, equal to, or greater than other. For each index i in self,
+    # evaluates self[i] <=> other[i]
+    #
+    # @param other [SortedArray] The other array to compare.
+    # @return [Integer] -1, 0, or 1 as self is less than, equal to, or greater than other.
+    def <=>(other)
+      if size != other.size
+        return size <=> other.size
+      end
+
+      each_with_index do |value, index|
+        return value <=> other[index] if value != other[index]
+      end
+
+      0
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
