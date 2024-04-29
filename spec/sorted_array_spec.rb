@@ -262,6 +262,33 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "all?" do
+    it "should return true if all elements meet a given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.all? { |i| i > 0 }).to be true
+    end
+
+    it "should return false if all elements do not meet a given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.all? { |i| i > 1 }).to be false
+    end
+
+    it "should return true if the array contains only truthy elements" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.all?).to be true
+    end
+
+    it "should return false if the array contains a falsy element" do
+      array = SortedContainers::SortedArray.new([false, false])
+      expect(array.all?).to be false
+    end
+
+    it "should return true if the array is empty" do
+      array = SortedContainers::SortedArray.new
+      expect(array.all?).to be true
+    end
+  end
+
   describe "load_factor" do
     it "should set the load factor to the provided value" do
       array = SortedContainers::SortedArray.new([], load_factor: 100)

@@ -180,6 +180,21 @@ module SortedContainers
       to_a.abbrev(pattern)
     end
 
+    # Returns true if all elements of self meet the given criterion.
+    # If the block is not given, returns true if all elements are truthy.
+    # If self is empty, returns true.
+    #
+    # @yield [value] The block to check with.
+    # @return [Boolean] True if all elements meet the given criterion, false otherwise.
+    def all?
+      if block_given?
+        each { |value| return false unless yield(value) }
+      else
+        each { |value| return false unless value }
+      end
+      true
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
