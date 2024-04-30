@@ -307,6 +307,14 @@ RSpec.describe SortedContainers::SortedArray do
       expect(array.to_a).to eq((1..1000).to_a)
     end
 
+    it "should handle arrays of arrays" do
+      array = SortedContainers::SortedArray.new
+      array.add([1, 2])
+      array.add([3, 4])
+      array.add([5, 6])
+      expect(array.to_a).to eq([[1, 2], [3, 4], [5, 6]])
+    end
+
     it "should return the array" do
       array = SortedContainers::SortedArray.new
       expect(array.add(5)).to eq(array)

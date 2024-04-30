@@ -526,7 +526,7 @@ module SortedContainers
     #
     # @return [Array] An array representation of the sorted array.
     def to_a
-      @lists.flatten
+      @lists.flatten(1)
     end
 
     # Array is already sorted. Duplicates the sorted array and returns it.
@@ -591,7 +591,7 @@ module SortedContainers
     # @param value [Object] The value to bisect with.
     # @return [Integer] The index where the value should be inserted.
     def internal_bisect_left(array, value)
-      array.bsearch_index { |x| x >= value } || array.size
+      array.bsearch_index { |x| (x <=> value) >= 0 } || array.size
     end
 
     # Performs a right bisect on the array.
@@ -600,7 +600,7 @@ module SortedContainers
     # @param value [Object] The value to bisect with.
     # @return [Integer] The index where the value should be inserted.
     def internal_bisect_right(array, value)
-      array.bsearch_index { |x| x > value } || array.length
+      array.bsearch_index { |x| (x <=> value) == 1 } || array.length
     end
 
     # Gets the value at a given index. Supports negative indices.
