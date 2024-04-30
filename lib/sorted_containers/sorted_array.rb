@@ -262,6 +262,18 @@ module SortedContainers
       loc(pos, idx)
     end
 
+    # Clears the sorted array, removing all values.
+    #
+    # @return [SortedArray] The cleared sorted array.
+    def clear
+      @lists.clear
+      @maxes.clear
+      @index.clear
+      @offset = 0
+      @size = 0
+      self
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
@@ -457,17 +469,6 @@ module SortedContainers
       left_index = bisect_left(value)
       right_index = bisect_right(value)
       right_index - left_index
-    end
-
-    # Clears the sorted array, removing all values.
-    #
-    # @return [void]
-    def clear
-      @lists.clear
-      @maxes.clear
-      @index.clear
-      @offset = 0
-      @size = 0
     end
 
     # Checks if the sorted array contains a value.

@@ -421,6 +421,19 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "clear" do
+    it "should remove all values from the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.clear
+      expect(array.to_a).to eq([])
+    end
+
+    it "should return the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.clear).to eq(array)
+    end
+  end
+
   describe "load_factor" do
     it "should set the load factor to the provided value" do
       array = SortedContainers::SortedArray.new([], load_factor: 100)
@@ -541,14 +554,6 @@ RSpec.describe SortedContainers::SortedArray do
     it "should return the number of occurrences of the value in the array with lots of values" do
       array = SortedContainers::SortedArray.new((1..1000).to_a * 1000)
       expect(array.count(3)).to eq(1000)
-    end
-  end
-
-  describe "clear" do
-    it "should remove all values from the array" do
-      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-      array.clear
-      expect(array.to_a).to eq([])
     end
   end
 
