@@ -16,13 +16,13 @@ Modern computers are good at shifting arrays. For that reason, it's often faster
 
 For example, if you have the array `[1,2,4,5]` and want to insert the element `3`, you can shift `4, 5` to the right and insert `3` in the correct position. This is a `O(n)` operation, but in practice it's fast.
 
-You also save memory by not having to store pointers to children nodes, and you benifit from the cache locality of arrays. When you iterate over a sorted array, you are more likely to access elements that are close together in memory.
+You also save memory by not having to store pointers to children nodes, and you benefit from the cache locality of arrays. When you iterate over a sorted array, you are more likely to access elements that are close together in memory.
 
 But we can do better if we have a lot of elements. We can break up the array so fewer elements have to be moved when a new element is inserted. For example, if you have the array `[[1,2,4],[5,6,7]]` and you want to insert the element `3`, you can insert `3` into the first array to get `[[1,2,3,4],[5,6,7]]` and only the element `4` has to be shifted.
 
-This often outperforms the more common tree-based data structures like red-black trees with `O(log n)` insertions, deletions, and lookup. We sacrifice theoretical time complexity for practical performance.
+This often outperforms the more common tree-based data structures like red-black trees with `O(log n)` insertions, deletions, and lookups. We sacrifice theoretical time complexity for practical performance.
 
-The size of the subarrays are a trade-off. You can modify how big you want to subarrays by setting the `load_factor`. The default is set to `DEFAULT_LOAD_FACTOR = 1000`. The subarray is split when its size is `2*load_factor`. There is no perfect value. The ideal value will depend on your use case and may require some experimentation.
+The size of the subarrays is a trade-off. You can modify how big you want to subarrays by setting the `load_factor`. The default is set to `DEFAULT_LOAD_FACTOR = 1000`. The subarray is split when its size is `2*load_factor`. There is no perfect value. The ideal value will depend on your use case and may require some experimentation.
 
 SortedSet and SortedHash are implemented using a SortedArray to keep track of the order, and then also use a standard Set and Hash for quick lookups.
 
@@ -32,7 +32,7 @@ SortedSet and SortedHash are implemented using a SortedArray to keep track of th
 
 Every test was run 5 times and the average was taken.
 
-You can see that SortedContainers has compariable performance for add and delete, and much better performance for iteration, initialization, and include.
+You can see that SortedContainers has comparable performance for add and delete, and much better performance for iteration, initialization, and include.
 
 - MacBook Pro (16-inch, 2019)
 - 2.6 GHz 6-Core Intel Core i7, 16 GB 2667 MHz DDR4
@@ -67,13 +67,14 @@ bundle install
 ```
 
 Or install it yourself as:
-    
+
 ```bash
 gem install sorted_containers
 ```
 
 ## Usage
 
+```ruby
     require 'sorted_containers'
 
     # Create a new SortedArray
@@ -150,6 +151,7 @@ gem install sorted_containers
     dict.each do |key, value|
       puts "#{key}: #{value}"
     end
+```
 
 ## Development
 
