@@ -274,6 +274,22 @@ module SortedContainers
       self
     end
 
+    # Calls the block, if given, with each element of +self+;
+    # returns a new Array whose elements are the return values from the block.
+    #
+    # If no block is given, returns an Enumerator.
+    #
+    # @yield [value] The block to map with.
+    # @return [Array, Enumerator] The mapped array.
+    def map
+      return to_enum(:map) unless block_given?
+
+      new_instance = self.class.new
+      each { |value| new_instance << yield(value) }
+      new_instance
+    end
+    alias collect map
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
