@@ -213,6 +213,15 @@ module SortedContainers
 
     # rubocop:enable Metrics/MethodLength
 
+    # Returns the first element in +self+ that is an +Array+ whose first element +==+ +obj+:
+    #
+    # @param obj [Object] The object to search for.
+    # @return [Array] The first element in +self+ that is an +Array+ whose first element +==+ +obj+.
+    def assoc(obj)
+      index = bsearch_index { |x| x.is_a?(Array) && x.first >= obj }
+      index.nil? ? nil : self[index]
+    end
+
     # Returns the element at +Integer+ offset +index+; does not modify +self+.
     # If +index+ is negative, counts from the end of +self+.
     # Returns +nil+ if the +index+ is out of range.

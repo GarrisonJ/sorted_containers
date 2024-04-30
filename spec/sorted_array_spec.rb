@@ -321,6 +321,26 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "assoc" do
+    it "should return the first array whose first element is equal to the given key" do
+      basic_array = [[1, 2], [3, 4], [5, 6]]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.assoc(3)).to eq(basic_array.assoc(3))
+    end
+
+    it "should return nil if no array has the given key" do
+      basic_array = [[1, 2], [3, 4], [5, 6]]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.assoc(7)).to eq(basic_array.assoc(7))
+    end
+
+    it "should return nil if the array is empty" do
+      basic_array = []
+      array = SortedContainers::SortedArray.new
+      expect(array.assoc(3)).to eq(basic_array.assoc(3))
+    end
+  end
+
   describe "at" do
     it "should return the value at the given index" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
