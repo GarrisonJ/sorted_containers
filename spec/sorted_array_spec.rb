@@ -343,6 +343,56 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "bsearch" do
+    it "should return the value at the given index" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.bsearch { |x| x >= 3 }).to eq(basic_array.bsearch { |x| x >= 3 })
+    end
+
+    it "should return nil if the value is not found" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.bsearch { |x| x >= 6 }).to eq(basic_array.bsearch { |x| x >= 6 })
+    end
+
+    it "should return nil if the array is empty" do
+      array = SortedContainers::SortedArray.new
+      expect(array.bsearch { |x| x >= 3 }).to be_nil
+    end
+
+    it "should work when load_factor is small enough for a split" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array, load_factor: 2)
+      expect(array.bsearch { |x| x >= 3 }).to eq(basic_array.bsearch { |x| x >= 3 })
+    end
+  end
+
+  describe "bsearch_index" do
+    it "should return the index of the value" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.bsearch_index { |x| x >= 3 }).to eq(basic_array.bsearch_index { |x| x >= 3 })
+    end
+
+    it "should return nil if the value is not found" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.bsearch_index { |x| x >= 6 }).to eq(basic_array.bsearch_index { |x| x >= 6 })
+    end
+
+    it "should return nil if the array is empty" do
+      array = SortedContainers::SortedArray.new
+      expect(array.bsearch_index { |x| x >= 3 }).to be_nil
+    end
+
+    it "should work when load_factor is small enough for a split" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array, load_factor: 2)
+      expect(array.bsearch_index { |x| x >= 3 }).to eq(basic_array.bsearch_index { |x| x >= 3 })
+    end
+  end
+
   describe "load_factor" do
     it "should set the load factor to the provided value" do
       array = SortedContainers::SortedArray.new([], load_factor: 100)

@@ -226,6 +226,33 @@ module SortedContainers
       self[index.to_i]
     end
 
+    # Returns an element from +self+ selected by a binary search.
+    #
+    # @yield [value] The block to search with.
+    # @return [Object] The value selected by the binary search.
+    def bsearch(&block)
+      index_result = bsearch_index(&block)
+
+      return nil if index_result.nil?
+
+      self[index_result]
+    end
+
+    # Returns an index of an element from +self+ selected by a binary search.
+    #
+    # @yield [value] The block to search with.
+    # @return [Integer] The index of the value selected by the binary search.
+    def bsearch_index(&block)
+      return nil if @maxes.empty?
+
+      pos = @maxes.bsearch_index(&block)
+
+      return nil if pos.nil?
+
+      idx = @lists[pos].bsearch_index(&block)
+      loc(pos, idx)
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
