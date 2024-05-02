@@ -434,6 +434,18 @@ module SortedContainers
       new_instance
     end
 
+    # Returns a new SortedArray containing all but the first elements for which the block returns true.
+    # Does not modify the +self+.
+    # If no block is given, an Enumerator is returned instead.
+    #
+    # @yield [value] The block to drop with.
+    # @return [SortedArray, Enumerator] The array with the dropped values.
+    def drop_while
+      return to_enum(:drop_while) unless block_given?
+
+      self.class.new(super)
+    end
+
     # rubocop:enable Naming/MethodParameterName
 
     # Returns a string representation of the sorted array.

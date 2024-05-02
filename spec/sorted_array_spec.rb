@@ -930,6 +930,34 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "drop_while" do
+    it "should drop elements that meet the given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.drop_while { |i| i < 3 }).to eq(SortedContainers::SortedArray.new([3, 4, 5]))
+    end
+
+    it "should return an enumerator if no block is given" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.drop_while).to be_a(Enumerator)
+    end
+
+    it "should stop dropping elements when the block returns false, even if the criterion returns true again" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.drop_while { |i| [1, 5].include?(i) }).to eq(SortedContainers::SortedArray.new([2, 3, 4, 5]))
+    end
+
+    it "enumerator should loop through the array" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.drop_while.to_a).to eq(basic_array.drop_while.to_a)
+    end
+
+    it "should work when array size is larger than load factor" do
+      array = SortedContainers::SortedArray.new((1..1000).to_a, load_factor: 3)
+      expect(array.drop_while { |i| i < 500 }).to eq(SortedContainers::SortedArray.new((500..1000).to_a))
+    end
+  end
+
   describe "size" do
     it "should return the number of elements in the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
