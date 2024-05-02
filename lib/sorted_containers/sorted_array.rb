@@ -380,6 +380,21 @@ module SortedContainers
       internal_delete(pos, idx)
     end
 
+    # Removes each element from the array for which block evaluates to true.
+    #
+    # @yield [value] The block to delete with.
+    # @return [SortedArray] +self+. The array with the deleted values.
+    def delete_if
+      return to_enum(:delete_if) unless block_given?
+
+      to_delete = []
+      each do |value|
+        to_delete << value if yield(value)
+      end
+      to_delete.each { |value| delete(value) }
+      self
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.

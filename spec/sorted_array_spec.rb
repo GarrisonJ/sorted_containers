@@ -723,14 +723,6 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
-  describe "delete" do
-    it "should delete the value from the array" do
-      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-      array.delete(3)
-      expect(array.to_a).to eq([1, 2, 4, 5])
-    end
-  end
-
   describe "count" do
     it "should return the number of occurrences of the value in the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5, 3])
@@ -773,6 +765,74 @@ RSpec.describe SortedContainers::SortedArray do
     it "should return an enumerator if the array is empty" do
       array = SortedContainers::SortedArray.new
       expect(array.cycle).to be_a(Enumerator)
+    end
+  end
+
+  describe "delete" do
+    it "should delete the value from the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.delete(3)
+      expect(array.to_a).to eq([1, 2, 4, 5])
+    end
+  end
+
+  describe "delete_at" do
+    it "should delete the value at the given index" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.delete_at(2)
+      expect(array.to_a).to eq([1, 2, 4, 5])
+    end
+
+    it "should return the value at the given index" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.delete_at(2)).to eq(3)
+    end
+
+    it "should return nil if the index is out of range" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.delete_at(5)).to be_nil
+    end
+
+    it "should work when array size is larger than load factor" do
+      array = SortedContainers::SortedArray.new((1..1000).to_a, load_factor: 3)
+      array.delete_at(500)
+      expect(array.size).to eq(999)
+    end
+
+    it "should update the index after deleting an element" do
+      array = SortedContainers::SortedArray.new((1..1000).to_a, load_factor: 3)
+      array.delete_at(50)
+      expect(array[50]).to eq(52)
+    end
+
+    it "should update the index after deleting an element from small array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5], load_factor: 1)
+      array.delete_at(2)
+      expect(array[2]).to eq(4)
+    end
+  end
+
+  describe "delete_if" do
+    it "should delete elements that meet the given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.delete_if { |i| i > 3 }
+      expect(array.to_a).to eq([1, 2, 3])
+    end
+
+    it "should work when array size is larger than load factor" do
+      array = SortedContainers::SortedArray.new((1..1000).to_a, load_factor: 3)
+      array.delete_if { |i| i > 500 }
+      expect(array.size).to eq(500)
+    end
+
+    it "should return an enumerator if no block is given" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.delete_if).to be_a(Enumerator)
+    end
+
+    it "enumerator should loop through the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.delete_if.to_a).to eq([1, 2, 3, 4, 5])
     end
   end
 
@@ -910,42 +970,6 @@ RSpec.describe SortedContainers::SortedArray do
       array = SortedContainers::SortedArray.new([1, 3, 2])
       expect(array.slice!(-1, 2)).to eq([3])
       expect(array.to_a).to eq([1, 2])
-    end
-  end
-
-  describe "delete_at" do
-    it "should delete the value at the given index" do
-      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-      array.delete_at(2)
-      expect(array.to_a).to eq([1, 2, 4, 5])
-    end
-
-    it "should return the value at the given index" do
-      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-      expect(array.delete_at(2)).to eq(3)
-    end
-
-    it "should return nil if the index is out of range" do
-      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-      expect(array.delete_at(5)).to be_nil
-    end
-
-    it "should work when array size is larger than load factor" do
-      array = SortedContainers::SortedArray.new((1..1000).to_a, load_factor: 3)
-      array.delete_at(500)
-      expect(array.size).to eq(999)
-    end
-
-    it "should update the index after deleting an element" do
-      array = SortedContainers::SortedArray.new((1..1000).to_a, load_factor: 3)
-      array.delete_at(50)
-      expect(array[50]).to eq(52)
-    end
-
-    it "should update the index after deleting an element from small array" do
-      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5], load_factor: 1)
-      array.delete_at(2)
-      expect(array[2]).to eq(4)
     end
   end
 
