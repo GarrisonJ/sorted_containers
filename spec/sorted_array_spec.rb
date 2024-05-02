@@ -504,6 +504,43 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "combination" do
+    it "should return all combinations of the given length" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.combination(3).to_a).to eq(basic_array.combination(3).to_a)
+    end
+
+    it "should return an empty array if the array is empty" do
+      array = SortedContainers::SortedArray.new
+      expect(array.combination(3).to_a).to eq([])
+    end
+
+    it "should return an empty array if the given length is greater than the array length" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.combination(6).to_a).to eq(basic_array.combination(6).to_a)
+    end
+
+    it "should return an empty array if the given length is 0" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.combination(0).to_a).to eq(basic_array.combination(0).to_a)
+    end
+
+    it "should return an empty array if the given length is negative" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.combination(-1).to_a).to eq(basic_array.combination(-1).to_a)
+    end
+
+    it "should work when load_factor is small enough for a split" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array, load_factor: 2)
+      expect(array.combination(3).to_a).to eq(basic_array.combination(3).to_a)
+    end
+  end
+
   describe "load_factor" do
     it "should set the load factor to the provided value" do
       array = SortedContainers::SortedArray.new([], load_factor: 100)
