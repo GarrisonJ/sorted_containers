@@ -335,6 +335,25 @@ module SortedContainers
       to_a.combination(n, &block)
     end
 
+    # Returns a new SortedArray containing of non-nil elements.
+    #
+    # @return [SortedArray] The compacted array.
+    def compact
+      new_instance = self.class.new
+      new_instance.update(to_a.compact)
+      new_instance
+    end
+
+    # Removes nil elements from the SortedArray.
+    #
+    # @return [SortedArray] The compacted array.
+    def compact!
+      values = to_a.compact
+      clear
+      update(values)
+      self
+    end
+
     # rubocop:enable Naming/MethodParameterName
 
     # Returns a string representation of the sorted array.

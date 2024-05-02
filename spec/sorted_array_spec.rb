@@ -541,6 +541,47 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "compact" do
+    it "should remove nil values from the array" do
+      # SortedArray can only contain comparable values
+      # so the only way to have nil values is for all values to be nil
+      array = SortedContainers::SortedArray.new([nil, nil, nil, nil, nil])
+      expect(array.compact).to eq(SortedContainers::SortedArray.new)
+    end
+
+    it "should return the array if there are no nil values" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.compact).to eq(array)
+    end
+
+    it "should return the array if the array is empty" do
+      array = SortedContainers::SortedArray.new
+      expect(array.compact).to eq(array)
+    end
+  end
+
+  describe "compact!" do
+    it "should remove nil values from the array" do
+      # SortedArray can only contain comparable values
+      # so the only way to have nil values is for all values to be nil
+      array = SortedContainers::SortedArray.new([nil, nil, nil, nil, nil])
+      array.compact!
+      expect(array).to eq(SortedContainers::SortedArray.new)
+    end
+
+    it "should return the array if there are no nil values" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.compact!
+      expect(array).to eq(SortedContainers::SortedArray.new([1, 2, 3, 4, 5]))
+    end
+
+    it "should return the array if the array is empty" do
+      array = SortedContainers::SortedArray.new
+      array.compact!
+      expect(array).to eq(SortedContainers::SortedArray.new)
+    end
+  end
+
   describe "load_factor" do
     it "should set the load factor to the provided value" do
       array = SortedContainers::SortedArray.new([], load_factor: 100)
