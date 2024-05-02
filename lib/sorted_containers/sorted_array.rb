@@ -355,6 +355,31 @@ module SortedContainers
       right_index - left_index
     end
 
+    # Deletes a value from the sorted array.
+    #
+    # @param value [Object] The value to delete.
+    def delete(value)
+      return if @maxes.empty?
+
+      pos = internal_bisect_left(@maxes, value)
+
+      return if pos == @maxes.size
+
+      idx = internal_bisect_left(@lists[pos], value)
+
+      internal_delete(pos, idx) if @lists[pos][idx] == value
+    end
+
+    # Deletes the value at the specified index.
+    #
+    # @param index [Integer] The index of the value to delete.
+    def delete_at(index)
+      return nil if index.abs >= @size
+
+      pos, idx = pos(index)
+      internal_delete(pos, idx)
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
@@ -407,21 +432,6 @@ module SortedContainers
 
       idx = internal_bisect_right(@lists[pos], value)
       loc(pos, idx)
-    end
-
-    # Deletes a value from the sorted array.
-    #
-    # @param value [Object] The value to delete.
-    def delete(value)
-      return if @maxes.empty?
-
-      pos = internal_bisect_left(@maxes, value)
-
-      return if pos == @maxes.size
-
-      idx = internal_bisect_left(@lists[pos], value)
-
-      internal_delete(pos, idx) if @lists[pos][idx] == value
     end
 
     # rubocop:disable Metrics/MethodLength
@@ -481,16 +491,6 @@ module SortedContainers
       return nil if @size.zero?
 
       @lists.first.first
-    end
-
-    # Deletes the value at the specified index.
-    #
-    # @param index [Integer] The index of the value to delete.
-    def delete_at(index)
-      return nil if index.abs >= @size
-
-      pos, idx = pos(index)
-      internal_delete(pos, idx)
     end
 
     # rubocop:disable Metrics/MethodLength
