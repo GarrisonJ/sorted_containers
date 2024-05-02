@@ -988,6 +988,26 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "eql?" do
+    it "should return true if the arrays are equal" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array1.eql?(array2)).to be true
+    end
+
+    it "should return false if the arrays are not equal" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 6])
+      expect(array1.eql?(array2)).to be false
+    end
+
+    it "should return false if the arrays are not the same class" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = [1, 2, 3, 4, 5]
+      expect(array1.eql?(array2)).to be false
+    end
+  end
+
   describe "size" do
     it "should return the number of elements in the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])

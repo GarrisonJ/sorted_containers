@@ -477,6 +477,20 @@ module SortedContainers
       @size.zero?
     end
 
+    # Returns +true+ if +self+ and +other+ are the same size,
+    # and if, for each index +i+ in +self+, +self[i].eql? other[i]+
+    #
+    # This method is different from method +SortedArray#==+,
+    # which compares using method +Object#==+
+    #
+    # @param other [SortedArray] The other array to compare.
+    # @return [Boolean] True if the arrays are equal, false otherwise.
+    def eql?(other)
+      return false unless other.is_a?(SortedArray)
+
+      size == other.size && each_with_index.all? { |value, index| value.eql?(other[index]) }
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
