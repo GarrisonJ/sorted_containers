@@ -754,6 +754,28 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "cycle" do
+    it "should loop through the array the given number of times" do
+      array = SortedContainers::SortedArray.new([1, 2, 3])
+      expect(array.cycle(2).to_a).to eq([1, 2, 3, 1, 2, 3])
+    end
+
+    it "should loop through the array forever if no number is given" do
+      array = SortedContainers::SortedArray.new([1, 2, 3])
+      expect(array.cycle.take(7)).to eq([1, 2, 3, 1, 2, 3, 1])
+    end
+
+    it "should return an enumerator if no block is given" do
+      array = SortedContainers::SortedArray.new([1, 2, 3])
+      expect(array.cycle).to be_a(Enumerator)
+    end
+
+    it "should return an enumerator if the array is empty" do
+      array = SortedContainers::SortedArray.new
+      expect(array.cycle).to be_a(Enumerator)
+    end
+  end
+
   describe "size" do
     it "should return the number of elements in the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])

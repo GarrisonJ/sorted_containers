@@ -335,6 +335,8 @@ module SortedContainers
       to_a.combination(n, &block)
     end
 
+    # rubocop:enable Naming/MethodParameterName
+
     # Returns a new SortedArray containing of non-nil elements.
     #
     # @return [SortedArray] The compacted array.
@@ -382,8 +384,6 @@ module SortedContainers
       right_index = bisect_right(value)
       right_index - left_index
     end
-
-    # rubocop:enable Naming/MethodParameterName
 
     # Returns a string representation of the sorted array.
     #
