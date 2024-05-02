@@ -396,6 +396,28 @@ module SortedContainers
       self
     end
 
+    # Finds and returns the object in nested objects that is specified by +index+ and +identifiers+.
+    # The nested objects may be instances of various classes. See Dig methods.
+    #
+    # @param index [Integer] The index of the value to retrieve.
+    # @param identifiers [Array] The identifiers to retrieve the value.
+    # @return [Object] The value at the specified index.
+    def dig(index, *identifiers)
+      result = self[index]
+      return nil if result.nil?
+
+      identifiers.each do |identifier|
+        raise TypeError, "#{result.class} does not have #dig method" unless result.respond_to?(:dig)
+
+        # rubocop:disable Style/SingleArgumentDig
+        result = result.dig(identifier)
+        # rubocop:enable Style/SingleArgumentDig
+        return nil if result.nil?
+      end
+
+      result
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.

@@ -119,7 +119,7 @@ RSpec.describe SortedContainers::SortedArray do
     it "should have an alias of difference" do
       array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
       array2 = SortedContainers::SortedArray.new([3, 4, 5, 6, 7])
-      expect((array1.difference(array2)).to_a).to eq([1, 2])
+      expect(array1.difference(array2).to_a).to eq([1, 2])
     end
   end
 
@@ -841,6 +841,72 @@ RSpec.describe SortedContainers::SortedArray do
       expect(array.delete_if.to_a).to eq([1, 2, 3, 4, 5])
     end
   end
+
+  # rubocop:disable Lint/SingleArgumentDig
+
+  describe "dig" do
+    it "should return the value at the given index" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.dig(2)).to eq(3)
+    end
+
+    it "should return nil if the index is out of range" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.dig(5)).to be_nil
+    end
+
+    it "should return nil if the array is empty" do
+      array = SortedContainers::SortedArray.new
+      expect(array.dig(2)).to be_nil
+    end
+
+    it "should return the value at the given index in an array of arrays" do
+      array = SortedContainers::SortedArray.new([[1, 2], [3, 4], [5, 6]])
+      expect(array.dig(1, 1)).to eq(4)
+    end
+
+    it "should return nil if the index is out of range in an array of arrays" do
+      array = SortedContainers::SortedArray.new([[1, 2], [3, 4], [5, 6]])
+      expect(array.dig(3, 1)).to be_nil
+    end
+
+    it "should return nil if the array is empty in an array of arrays" do
+      array = SortedContainers::SortedArray.new
+      expect(array.dig(1, 1)).to be_nil
+    end
+
+    it "should return raise an error if object doesn't respond to dig" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect { array.dig(1, 1) }.to raise_error(TypeError)
+    end
+
+    it "should query nested objects that respond to dig" do
+      sortabable_class = Class.new do
+        include Comparable
+        attr_reader :value
+
+        def initialize(value)
+          @value = value
+        end
+
+        def <=>(other)
+          @value[:sort] <=> other.value[:sort]
+        end
+
+        def dig(key)
+          @value.dig(key)
+        end
+      end
+      array = SortedContainers::SortedArray.new([
+                                                  sortabable_class.new({ sort: 1, thing: { another: 1 } }),
+                                                  sortabable_class.new({ sort: 2, thing: 2 }),
+                                                  sortabable_class.new({ sort: 3, thing: 3 })
+                                                ])
+      expect(array.dig(0, :thing, :another)).to eq(1)
+    end
+  end
+
+  # rubocop:enable Lint/SingleArgumentDig
 
   describe "size" do
     it "should return the number of elements in the array" do
