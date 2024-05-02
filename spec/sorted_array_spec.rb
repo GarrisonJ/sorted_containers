@@ -973,6 +973,21 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "each_index" do
+    it "should loop through the array" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      array.each_index do |index|
+        expect(array[index]).to eq(basic_array[index])
+      end
+    end
+
+    it "should return an enumerator if no block is given" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.each_index).to be_a(Enumerator)
+    end
+  end
+
   describe "size" do
     it "should return the number of elements in the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])

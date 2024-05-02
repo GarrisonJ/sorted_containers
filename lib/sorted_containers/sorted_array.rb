@@ -458,6 +458,16 @@ module SortedContainers
       end
     end
 
+    # Iterates over each index in the sorted array.
+    #
+    # @yield [index] Gives each index to the block.
+    # @return [Enumerator] If no block is given, an Enumerator is returned.
+    def each_index(&block)
+      return to_enum(:each_index) unless block_given?
+
+      0.upto(@size - 1, &block)
+    end
+
     # rubocop:enable Naming/MethodParameterName
 
     # Returns a string representation of the sorted array.
