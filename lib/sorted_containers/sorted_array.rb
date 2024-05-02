@@ -418,6 +418,24 @@ module SortedContainers
       result
     end
 
+    # rubocop:disable Naming/MethodParameterName
+
+    # Returns a new SortedArray containing all but the first +n+ elements, where +n+ is a non-negative integer.
+    # Does not modify the +self+.
+    #
+    # @param n [Integer] The number of elements to drop.
+    # @return [SortedArray] The array with the dropped values.
+    def drop(n)
+      raise ArgumentError, "attempt to drop negative size" if n.negative?
+      return self.class.new if n >= @size
+
+      new_instance = self.class.new
+      new_instance.update(to_a.drop(n))
+      new_instance
+    end
+
+    # rubocop:enable Naming/MethodParameterName
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.

@@ -908,6 +908,28 @@ RSpec.describe SortedContainers::SortedArray do
 
   # rubocop:enable Lint/SingleArgumentDig
 
+  describe "drop" do
+    it "should return the array without the first n elements" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.drop(2)).to eq(SortedContainers::SortedArray.new([3, 4, 5]))
+    end
+
+    it "should return an empty array if n is greater than the array length" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.drop(6)).to eq(SortedContainers::SortedArray.new)
+    end
+
+    it "should return the array if n is 0" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.drop(0)).to eq(SortedContainers::SortedArray.new([1, 2, 3, 4, 5]))
+    end
+
+    it "should raise an exception if n is negative" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect { array.drop(-1) }.to raise_error(ArgumentError)
+    end
+  end
+
   describe "size" do
     it "should return the number of elements in the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
