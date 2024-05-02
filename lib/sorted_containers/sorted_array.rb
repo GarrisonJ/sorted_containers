@@ -69,6 +69,7 @@ module SortedContainers
       new_instance.update(to_a - other.to_a)
       new_instance
     end
+    alias difference -
 
     # Returns -1, 0, or 1 as self is less than, equal to, or greater than other. For each index i in self,
     # evaluates self[i] <=> other[i]

@@ -115,6 +115,12 @@ RSpec.describe SortedContainers::SortedArray do
       array2 = SortedContainers::SortedArray.new
       expect((array1 - array2).to_a).to eq([])
     end
+
+    it "should have an alias of difference" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([3, 4, 5, 6, 7])
+      expect((array1.difference(array2)).to_a).to eq([1, 2])
+    end
   end
 
   describe "<=>" do
