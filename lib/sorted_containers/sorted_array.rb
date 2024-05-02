@@ -365,6 +365,24 @@ module SortedContainers
       self
     end
 
+    # Returns the count of elements, based on an argument or block criterion, if given.
+    # With no argument and no block given, returns the number of elements:
+    # With argument object given, returns the number of elements that are == to object:
+    # Uses binary search to find the first and last index of the value.
+    #
+    # @param value [Object] The value to count.
+    # @yield [value] The block to count with.
+    # @return [Integer] The count of elements.
+    def count(value = nil)
+      # If block is given, we call super to use the Enumerable#count method
+      return super() if block_given?
+      return @size unless value
+
+      left_index = bisect_left(value)
+      right_index = bisect_right(value)
+      right_index - left_index
+    end
+
     # rubocop:enable Naming/MethodParameterName
 
     # Returns a string representation of the sorted array.
@@ -546,23 +564,6 @@ module SortedContainers
       value
     end
     # rubocop:enable Metrics/MethodLength
-
-    # Returns the count of elements, based on an argument or block criterion, if given.
-    # With no argument and no block given, returns the number of elements:
-    # With argument object given, returns the number of elements that are == to object:
-    # Uses binary search to find the first and last index of the value.
-    #
-    # @param value [Object] The value to count.
-    # @yield [value] The block to count with.
-    # @return [Integer] The count of elements.
-    def count(value = nil)
-      return super() if block_given?
-      return @size unless value
-
-      left_index = bisect_left(value)
-      right_index = bisect_right(value)
-      right_index - left_index
-    end
 
     # Checks if the sorted array contains a value.
     #
