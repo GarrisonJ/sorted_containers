@@ -656,18 +656,6 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
-  describe "empty?" do
-    it "should return true if the array is empty" do
-      array = SortedContainers::SortedArray.new
-      expect(array.empty?).to be true
-    end
-
-    it "should return false if the array is not empty" do
-      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-      expect(array.empty?).to be false
-    end
-  end
-
   describe "update" do
     it "should update the array with the given values" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
@@ -985,6 +973,18 @@ RSpec.describe SortedContainers::SortedArray do
     it "should return an enumerator if no block is given" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
       expect(array.each_index).to be_a(Enumerator)
+    end
+  end
+
+  describe "empty?" do
+    it "should return true if the array is empty" do
+      array = SortedContainers::SortedArray.new
+      expect(array.empty?).to be true
+    end
+
+    it "should return false if the array is not empty" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.empty?).to be false
     end
   end
 

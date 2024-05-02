@@ -434,6 +434,8 @@ module SortedContainers
       new_instance
     end
 
+    # rubocop:enable Naming/MethodParameterName
+
     # Returns a new SortedArray containing all but the first elements for which the block returns true.
     # Does not modify the +self+.
     # If no block is given, an Enumerator is returned instead.
@@ -468,20 +470,18 @@ module SortedContainers
       0.upto(@size - 1, &block)
     end
 
-    # rubocop:enable Naming/MethodParameterName
+    # Checks if Array is empty
+    #
+    # @return [Boolean]
+    def empty?
+      @size.zero?
+    end
 
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
     def to_s
       "SortedArray(#{to_a})"
-    end
-
-    # Checks if Array is empty
-    #
-    # @return [Boolean]
-    def empty?
-      @size.zero?
     end
 
     # Returns an index to insert `value` in the sorted list.
