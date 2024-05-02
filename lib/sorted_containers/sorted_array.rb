@@ -152,36 +152,6 @@ module SortedContainers
       to_a.abbrev(pattern)
     end
 
-    # Returns true if all elements of self meet the given criterion.
-    # If the block is not given, returns true if all elements are truthy.
-    # If self is empty, returns true.
-    #
-    # @yield [value] The block to check with.
-    # @return [Boolean] True if all elements meet the given criterion, false otherwise.
-    def all?
-      if block_given?
-        each { |value| return false unless yield(value) }
-      else
-        each { |value| return false unless value }
-      end
-      true
-    end
-
-    # Returns true if any elements of self meet the given criterion.
-    # If the block is not given, returns true if any elements are truthy.
-    # If self is empty, returns false.
-    #
-    # @yield [value] The block to check with.
-    # @return [Boolean] True if any elements meet the given criterion, false otherwise.
-    def any?
-      if block_given?
-        each { |value| return true if yield(value) }
-      else
-        each { |value| return true if value }
-      end
-      false
-    end
-
     # rubocop:disable Metrics/MethodLength
 
     # Adds a value to the sorted array.
