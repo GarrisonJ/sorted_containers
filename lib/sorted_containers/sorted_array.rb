@@ -446,6 +446,18 @@ module SortedContainers
       self.class.new(super)
     end
 
+    # Iterates over each value in the sorted array.
+    #
+    # @yield [value] Gives each value to the block.
+    # @return [Enumerator] If no block is given, an Enumerator is returned.
+    def each(&block)
+      return to_enum(:each) unless block_given?
+
+      @lists.each do |sublist|
+        sublist.each(&block)
+      end
+    end
+
     # rubocop:enable Naming/MethodParameterName
 
     # Returns a string representation of the sorted array.
@@ -705,15 +717,6 @@ module SortedContainers
     # @return [Object] The minimum value in the array.
     def min
       @lists.first&.first
-    end
-
-    # Iterates over each value in the sorted array.
-    #
-    # @yield [value] Gives each value to the block.
-    def each(&block)
-      @lists.each do |sublist|
-        sublist.each(&block)
-      end
     end
 
     private
