@@ -582,6 +582,55 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "concat" do
+    it "should concatenate two arrays" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([6, 7, 8, 9, 10])
+      array1.concat(array2)
+      expect(array1.to_a).to eq([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    end
+
+    it "should concatenate an empty array with a non-empty array" do
+      array1 = SortedContainers::SortedArray.new
+      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array1.concat(array2)
+      expect(array1.to_a).to eq([1, 2, 3, 4, 5])
+    end
+
+    it "should concatenate a non-empty array with an empty array" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new
+      array1.concat(array2)
+      expect(array1.to_a).to eq([1, 2, 3, 4, 5])
+    end
+
+    it "should concatenate two empty arrays" do
+      array1 = SortedContainers::SortedArray.new
+      array2 = SortedContainers::SortedArray.new
+      array1.concat(array2)
+      expect(array1.to_a).to eq([])
+    end
+
+    it "should concatenate 3 arrays" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3])
+      array2 = SortedContainers::SortedArray.new([4, 5, 6])
+      array3 = SortedContainers::SortedArray.new([7, 8, 9])
+      array1.concat(array2, array3)
+      expect(array1.to_a).to eq([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    end
+
+    it "should concatenate 6 arrays" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3])
+      array2 = SortedContainers::SortedArray.new([4, 5, 6])
+      array3 = SortedContainers::SortedArray.new([7, 8, 9])
+      array4 = SortedContainers::SortedArray.new([10, 11, 12])
+      array5 = SortedContainers::SortedArray.new([13, 14, 15])
+      array6 = SortedContainers::SortedArray.new([16, 17, 18])
+      array1.concat(array2, array3, array4, array5, array6)
+      expect(array1.to_a).to eq([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18])
+    end
+  end
+
   describe "load_factor" do
     it "should set the load factor to the provided value" do
       array = SortedContainers::SortedArray.new([], load_factor: 100)

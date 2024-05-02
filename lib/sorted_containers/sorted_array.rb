@@ -346,11 +346,22 @@ module SortedContainers
 
     # Removes nil elements from the SortedArray.
     #
-    # @return [SortedArray] The compacted array.
+    # @return [SortedArray] +self+. The compacted array.
     def compact!
       values = to_a.compact
       clear
       update(values)
+      self
+    end
+
+    # Adds the elements of one or more arrays to the SortedArray.
+    #
+    # @param other_arrays [Array] The arrays to concatenate.
+    # @return [SortedArray] +self+. The SortedArray with the concatenated values.
+    def concat(*other_arrays)
+      other_arrays.each do |array|
+        update(array)
+      end
       self
     end
 
