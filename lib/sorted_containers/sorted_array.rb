@@ -618,6 +618,68 @@ module SortedContainers
       raise IndexError, "index #{index} outside of array bounds: #{-size}...#{size}"
     end
 
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/MethodLength
+
+    # Fills the array with the given value.
+    #
+    # @overload fill(value)
+    #   @param value [Object] The value to fill the array with.
+    # @overload fill(value, start)
+    #   @param value [Object] The value to fill the array with.
+    #   @param start [Integer] The index to start filling from.
+    # @overload fill(value, start, length)
+    #   @param value [Object] The value to fill the array with.
+    #   @param start [Integer] The index to start filling from.
+    #   @param length [Integer] The length of the values to fill.
+    # @overload fill(value, range)
+    #   @param value [Object] The value to fill the array with.
+    #   @param range [Range] The range of values to fill.
+    # # Overload for if block given
+    # @overload fill
+    #   @yield [index] The block to fill with.
+    # @overload fill(start)
+    #   @param start [Integer] The index to start filling from.
+    #   @yield [index] The block to fill with.
+    # @overload fill(start, length)
+    #   @param start [Integer] The index to start filling from.
+    #   @param length [Integer] The length of the values to fill.
+    #   @yield [index] The block to fill with.
+    # @overload fill(range)
+    #   @param range [Range] The range of values to fill.
+    #   @yield [index] The block to fill with.
+    # @return [SortedArray] +self+. The filled array.
+    def fill(*args, &block)
+      unless block_given?
+        value = args.shift
+        block = proc { value }
+      end
+
+      case args.size
+      when 0
+        fill_range_unsafe(0..@size - 1, block)
+      when 1
+        if args[0].is_a?(Integer)
+          start = args[0]
+          start += @size if start.negative?
+          fill_range_unsafe(start..@size - 1, block)
+        elsif args[0].is_a?(Range)
+          fill_range_unsafe(args[0], block)
+        end
+      when 2
+        start, length = args
+        start += @size if start.negative?
+        fill_range_unsafe(start...(start + length), block)
+      end
+
+      sort! # resort will re-initialize the index and maxes
+      self
+    end
+
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/MethodLength
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
@@ -851,6 +913,25 @@ module SortedContainers
     # @return [Integer] The index where the value should be inserted.
     def internal_bisect_right(array, value)
       array.bsearch_index { |x| (x <=> value) == 1 } || array.length
+    end
+
+    # Updates the index within the range with the block.
+    # Does not update index or maxes. Distrupts the sorted order.
+    #
+    # @param range [Range] The range to update.
+    # @param block [Proc] The block that takes the index and returns the value.
+    def fill_range_unsafe(range, block)
+      range.each { |index| internal_change_unsafe(index, block.call(index)) }
+    end
+
+    # Updates the element at index with the value.
+    # Does not update index or maxes. Distrupts the sorted order.
+    #
+    # @param index [Integer] The index of the value to update.
+    # @param value [Object] The value to update.
+    def internal_change_unsafe(index, value)
+      pos, idx = pos(index)
+      @lists[pos][idx] = value
     end
 
     # Gets the value at a given index. Supports negative indices.

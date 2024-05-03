@@ -1068,6 +1068,76 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "fill" do
+    it "should fill the array with the given value" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.fill(6)
+      expect(array.to_a).to eq([6, 6, 6, 6, 6])
+    end
+
+    it "should fill the array with the given value in the given range" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.fill(6, 1..3)
+      expect(array.to_a).to eq([1, 5, 6, 6, 6])
+    end
+
+    it "should fill the array with the given value in the given range excluding the last value" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.fill(6, 1...3)
+      expect(array.to_a).to eq([1, 4, 5, 6, 6])
+    end
+
+    it "should fill the array with the given value starting from the given index and length" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.fill(6, 1, 3)
+      expect(array.to_a).to eq([1, 5, 6, 6, 6])
+    end
+
+    it "should fill the array with the given value starting from the given nagative index and length" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.fill(6, -1, 1)
+      expect(array.to_a).to eq([1, 2, 3, 4, 6])
+    end
+
+    it "should fill array with given block" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.fill { |i| i * 2 }
+      expect(array.to_a).to eq([0, 2, 4, 6, 8])
+    end
+
+    it "should fill array with given block in the given range" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      array.fill(1..3) { |i| i * 2 }
+      basic_array.fill(1..3) { |i| i * 2 }
+      expect(array.to_a).to eq(basic_array.sort)
+    end
+
+    it "should fill array with given block in the given range excluding the last value" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      array.fill(1...3) { |i| i * 2 }
+      basic_array.fill(1...3) { |i| i * 2 }
+      expect(array.to_a).to eq(basic_array.sort)
+    end
+
+    it "should fill array with given block starting from the given index and length" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      array.fill(1, 3) { |i| i * 2 }
+      basic_array.fill(1, 3) { |i| i * 2 }
+      expect(array.to_a).to eq(basic_array.sort)
+    end
+
+    it "should fill array with given block starting from the given negative index and length" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      array.fill(-1, 1) { |i| i * 2 }
+      basic_array.fill(-1, 1) { |i| i * 2 }
+      expect(array.to_a).to eq(basic_array.sort)
+    end
+  end
+
   describe "size" do
     it "should return the number of elements in the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
