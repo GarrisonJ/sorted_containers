@@ -131,7 +131,118 @@ module SortedContainers
       end
     end
     alias [] slice
+
     # rubocop:enable Metrics/MethodLength
+
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/CyclomaticComplexity
+
+    # Removes elements from array at the specified index or range and returns them. Modifies the array.
+    #
+    # If a single index is provided, returns the value at that index.
+    #
+    # If a range is provided, returns the values in that range.
+    #
+    # If a start index and length are provided, returns the values starting from the start index and
+    # continuing for the given length.
+    #
+    # @param args [Integer, Range, Enumerator::ArithmeticSequence] The index or range of values to retrieve.
+    # @return [Object, Array] The value or values at the specified index or range.
+    def slice!(*args)
+      case args.size
+      when 1
+        arg = args[0]
+        case arg
+        when Integer
+          value = get_value_at_index(arg)
+          delete_at(arg)
+          value
+        when Range
+          values = get_values_from_range(arg)
+          values.each { |val| delete(val) }
+          values
+        when Enumerator::ArithmeticSequence
+          values = get_values_from_arithmetic_sequence(arg)
+          values.each { |val| delete(val) }
+          values
+        else
+          raise TypeError, "no implicit conversion of #{arg.class} into Integer"
+        end
+      when 2
+        start, length = args
+        values = get_values_from_start_and_length(start, length)
+        values.each { |val| delete(val) }
+        values
+      else
+        raise ArgumentError, "wrong number of arguments (given #{args.size}, expected 1..2)"
+      end
+    end
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/CyclomaticComplexity
+
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/PerceivedComplexity
+
+    # Sets the value at the specified index or range.
+    #
+    # If a single index is provided, sets the value at that index.
+    #
+    # If a range is provided, sets the values in that range.
+    #
+    # If a start index and length are provided, sets the values starting from the start index and
+    # continuing for the given length.
+    #
+    # @overload []=(index, value)
+    #   @param index [Integer] The index of the value to set.
+    #   @param value [Object] The value to set.
+    # @overload []=(range, value)
+    #   @param range [Range] The range of values to set.
+    #   @param value [Object] The value to set.
+    # @overload []=(start, length, value)
+    #   @param start [Integer] The index to start from.
+    #   @param length [Integer] The length of the values to set.
+    #   @param value [Object, Array] The value or values to set.
+    # @return [Object, Array] The value or values at the specified index or range.
+    def []=(*args)
+      raise ArgumentError, "wrong number of arguments (given #{args.size}, expected 2..3)" if args.size < 2
+
+      value = args.pop
+      case args.size
+      when 1
+        if args[0].is_a?(Integer)
+          index = args[0]
+          delete_at(index)
+          add(value)
+        elsif args[0].is_a?(Range)
+          range = args[0]
+          values = get_values_from_range(range)
+          values.each { |val| delete(val) }
+          if value.is_a?(Array)
+            value.each { |val| add(val) }
+          else
+            add(value)
+          end
+        else
+          raise TypeError, "no implicit conversion of #{args[0].class} into Integer"
+        end
+      when 2
+        start, length = args
+        values = get_values_from_start_and_length(start, length)
+        values.each { |val| delete(val) }
+        add(value)
+      else
+        raise ArgumentError, "wrong number of arguments (given #{args.size}, expected 2..3)"
+      end
+    end
+
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/PerceivedComplexity
 
     # Calculates the set of unambiguous abbreviations for the strings in +self+.
     #
@@ -553,47 +664,6 @@ module SortedContainers
       idx = internal_bisect_right(@lists[pos], value)
       loc(pos, idx)
     end
-
-    # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/CyclomaticComplexity
-
-    # Tries to match the behavior of Array#slice!
-    #
-    # @param args [Integer, Range, Enumerator::ArithmeticSequence] The index or range of values to retrieve.
-    # @return [Object, Array] The value or values at the specified index or range.
-    def slice!(*args)
-      case args.size
-      when 1
-        arg = args[0]
-        case arg
-        when Integer
-          value = get_value_at_index(arg)
-          delete_at(arg)
-          value
-        when Range
-          values = get_values_from_range(arg)
-          values.each { |val| delete(val) }
-          values
-        when Enumerator::ArithmeticSequence
-          values = get_values_from_arithmetic_sequence(arg)
-          values.each { |val| delete(val) }
-          values
-        else
-          raise TypeError, "no implicit conversion of #{arg.class} into Integer"
-        end
-      when 2
-        start, length = args
-        values = get_values_from_start_and_length(start, length)
-        values.each { |val| delete(val) }
-        values
-      else
-        raise ArgumentError, "wrong number of arguments (given #{args.size}, expected 1..2)"
-      end
-    end
-    # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/CyclomaticComplexity
 
     # Retrieves the last value in the sorted array.
     #

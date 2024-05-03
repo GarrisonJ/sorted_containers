@@ -1047,7 +1047,7 @@ RSpec.describe SortedContainers::SortedArray do
     it "should return the default value if the index is out of range with a block" do
       basic_array = [1, 2, 3, 4, 5]
       array = SortedContainers::SortedArray.new(basic_array)
-      expect(array.fetch(5, 6) { |i| i * 2 }).to eq(basic_array.fetch(5, 6) { |i| i * 2 })
+      expect(array.fetch(5, 6) { |i| i * 2 }).to eq(10)
     end
 
     it "should return the value at the given index with a negative index and block" do
@@ -1059,7 +1059,7 @@ RSpec.describe SortedContainers::SortedArray do
     it "should return the default value if the index is out of range with a negative index and block" do
       basic_array = [1, 2, 3, 4, 5]
       array = SortedContainers::SortedArray.new(basic_array)
-      expect(array.fetch(-6, 6) { |i| i * 2 }).to eq(basic_array.fetch(-6, 6) { |i| i * 2 })
+      expect(array.fetch(-6, 6) { |i| i * 2 }).to eq(-12)
     end
 
     it "should run the given block with index if the index is out of range" do
@@ -1145,6 +1145,44 @@ RSpec.describe SortedContainers::SortedArray do
     it "should return the values in the given range with a negative index and length" do
       array = SortedContainers::SortedArray.new([1, 3, 2])
       expect(array[-1, 2]).to eq([3])
+    end
+  end
+
+  describe "array[index] = value" do
+    it "should set the value at the given index and resort" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array[2] = 6
+      expect(array.to_a).to eq([1, 2, 4, 5, 6])
+    end
+
+    it "should set the value at the given index with a negative index and resort" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array[-1] = 6
+      expect(array.to_a).to eq([1, 2, 3, 4, 6])
+    end
+
+    it "should set the values in the given range to a single value and resort" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array[1..3] = 6
+      expect(array.to_a).to eq([1, 5, 6])
+    end
+
+    it "should set the values at a given index and length to a single value and resort" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array[1, 3] = 6
+      expect(array.to_a).to eq([1, 5, 6])
+    end
+
+    it "should set the values at a given negative index and length to a single value and resort" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array[-1, 2] = 6
+      expect(array.to_a).to eq([1, 2, 3, 4, 6])
+    end
+
+    it "should set the values in the given range and resort" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array[1..3] = [6, 7, 8]
+      expect(array.to_a).to eq([1, 5, 6, 7, 8])
     end
   end
 
