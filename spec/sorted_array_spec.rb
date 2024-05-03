@@ -1138,6 +1138,44 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "select" do
+    it "should return the values that meet the given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.select { |i| i > 3 }).to eq(SortedContainers::SortedArray.new([4, 5]))
+    end
+
+    it "should return an enumerator if no block is given" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.select).to be_a(Enumerator)
+    end
+  end
+
+  describe "select!" do
+    it "should return the values that meet the given criterion and remove the rest" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.select! { |i| i > 3 }
+      expect(array).to eq(SortedContainers::SortedArray.new([4, 5]))
+    end
+
+    it "should return empty SortedArray if no values meet the given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.select! { |i| i > 5 }
+      expect(array).to eq(SortedContainers::SortedArray.new)
+    end
+
+    it "should return an enumerator if no block is given" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.select!).to be_a(Enumerator)
+    end
+
+    it "should create an enumerator that loop removes elements that meet the given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      enumerator = array.select!
+      enumerator.each { |i| i > 3 }
+      expect(array.to_a).to eq([4, 5])
+    end
+  end
+
   describe "size" do
     it "should return the number of elements in the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])

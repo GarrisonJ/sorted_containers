@@ -680,6 +680,43 @@ module SortedContainers
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/MethodLength
+
+    # Calls the block, if given, with each element of +self+;
+    # returns a new SortedArray containing those elements of +self+
+    # for which the block returns a truthy value.
+    #
+    # If no block is given, an Enumerator is returned instead.
+    #
+    # @yield [value] The block to filter with.
+    # @return [SortedArray, Enumerator] The filtered array.
+    def select
+      return to_enum(:select) unless block_given?
+
+      new_values = []
+      each do |value|
+        new_values << value if yield(value)
+      end
+      self.class.new(new_values, load_factor: @load_factor)
+    end
+
+    # Calls the block, if given, with each element of +self+;
+    # returns +self+ with the elements for which the block returns a truthy value.
+    #
+    # If no block is given, returns an Enumerator.
+    #
+    # @yield [value] The block to filter with.
+    # @return [SortedArray, Enumerator] The filtered array.
+    def select!
+      return to_enum(:select!) unless block_given?
+
+      indexes_to_delete = []
+      each_with_index do |value, index|
+        indexes_to_delete << index unless yield(value)
+      end
+      indexes_to_delete.reverse.each { |index| delete_at(index) }
+      self
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
