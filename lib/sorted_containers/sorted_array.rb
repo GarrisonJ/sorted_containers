@@ -491,6 +491,22 @@ module SortedContainers
       size == other.size && each_with_index.all? { |value, index| value.eql?(other[index]) }
     end
 
+    # Returns the element at the specified index, or returns a default value if the index is out of range.
+    # Raises an IndexError if the index is out of range and no default is given.
+    # If a block is given, it is called with the index. The block will supplant the default value if both are given.
+    #
+    # @param index [Integer] The index of the value to retrieve.
+    # @param args [Object] The default value to return if the index is out of range.
+    def fetch(index, *args)
+      return self[index] if index.abs < @size
+
+      return yield(index) if block_given?
+
+      return args[0] if args.size.positive?
+
+      raise IndexError, "index #{index} outside of array bounds: #{-size}...#{size}"
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.

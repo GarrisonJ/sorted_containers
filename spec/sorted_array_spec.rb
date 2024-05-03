@@ -1008,6 +1008,66 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "fetch" do
+    it "should return the value at the given index" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.fetch(2)).to eq(basic_array.fetch(2))
+    end
+
+    it "should return the default value if the index is out of range" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.fetch(5, 6)).to eq(basic_array.fetch(5, 6))
+    end
+
+    it "should return the value at the given index with a negative index" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.fetch(-1)).to eq(basic_array.fetch(-1))
+    end
+
+    it "should return the default value if the index is out of range with a negative index" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.fetch(-6, 6)).to eq(basic_array.fetch(-6, 6))
+    end
+
+    it "should raise an exception if the index is out of range and no default value is given" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect { array.fetch(5) }.to raise_error(IndexError)
+    end
+
+    it "should return the value at the given index with a block" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.fetch(2) { |i| i * 2 }).to eq(basic_array.fetch(2) { |i| i * 2 })
+    end
+
+    it "should return the default value if the index is out of range with a block" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.fetch(5, 6) { |i| i * 2 }).to eq(basic_array.fetch(5, 6) { |i| i * 2 })
+    end
+
+    it "should return the value at the given index with a negative index and block" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.fetch(-1) { |i| i * 2 }).to eq(basic_array.fetch(-1) { |i| i * 2 })
+    end
+
+    it "should return the default value if the index is out of range with a negative index and block" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.fetch(-6, 6) { |i| i * 2 }).to eq(basic_array.fetch(-6, 6) { |i| i * 2 })
+    end
+
+    it "should run the given block with index if the index is out of range" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.fetch(5) { |i| "This is the index #{i}" }).to eq("This is the index 5")
+    end
+  end
+
   describe "size" do
     it "should return the number of elements in the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
