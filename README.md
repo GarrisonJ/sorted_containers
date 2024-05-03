@@ -74,7 +74,6 @@ gem install sorted_containers
 
 ## Usage
 
-```ruby
     require 'sorted_containers'
 
     # Create a new SortedArray
@@ -151,7 +150,6 @@ gem install sorted_containers
     dict.each do |key, value|
       puts "#{key}: #{value}"
     end
-```
 
 ## Development
 
