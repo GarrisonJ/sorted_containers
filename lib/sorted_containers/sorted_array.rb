@@ -714,19 +714,23 @@ module SortedContainers
       @lists.flatten(1)
     end
 
-    # Array is already sorted. Duplicates the sorted array and returns it.
+    # Creates a new SortedArray and resorts the values.
+    # Usefull when the values are modified and the array needs to be resorted.
     #
     # @return [SortedArray] The sorted array.
     def sort
-      # No need to sort, already sorted
-      dup
+      values = to_a
+      self.class.new(values, load_factor: @load_factor)
     end
 
-    # Returns self, as the array is already sorted.
+    # Resorts the values in the array.
+    # Usefull when the values are modified and the array needs to be resorted.
     #
     # @return [SortedArray] The sorted array.
     def sort!
-      # No need to sort, already sorted
+      values = to_a
+      clear
+      update(values)
       self
     end
 

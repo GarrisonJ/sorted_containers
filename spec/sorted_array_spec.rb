@@ -1289,6 +1289,57 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "sort!" do
+    it "should resort the array in place if values have changed" do
+      sortabable_class = Class.new do
+        include Comparable
+        attr_accessor :value
+
+        def initialize(value)
+          @value = value
+        end
+
+        def <=>(other)
+          @value <=> other.value
+        end
+      end
+      a = sortabable_class.new(1)
+      b = sortabable_class.new(2)
+      c = sortabable_class.new(3)
+      array = SortedContainers::SortedArray.new([a, b, c])
+      a.value = 4
+      # Check that the array is not sorted
+      expect(array.to_a).to eq([a, b, c])
+      array.sort!
+      expect(array.to_a).to eq([b, c, a])
+    end
+  end
+
+  describe "sort" do
+    it "should return a new array with the values sorted" do
+      sortabable_class = Class.new do
+        include Comparable
+        attr_accessor :value
+
+        def initialize(value)
+          @value = value
+        end
+
+        def <=>(other)
+          @value <=> other.value
+        end
+      end
+      a = sortabable_class.new(1)
+      b = sortabable_class.new(2)
+      c = sortabable_class.new(3)
+      array = SortedContainers::SortedArray.new([a, b, c])
+      # Check that the array is not sorted
+      a.value = 4
+      expect(array.to_a).to eq([a, b, c])
+      expect(array.sort).to eq(SortedContainers::SortedArray.new([b, c, a]))
+    end
+  end
+
   describe "stress test", :stress do
     it "should handle arrays with 10_000_000 values" do
       array = SortedContainers::SortedArray.new
