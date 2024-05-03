@@ -1148,6 +1148,11 @@ RSpec.describe SortedContainers::SortedArray do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
       expect(array.select).to be_a(Enumerator)
     end
+
+    it "filter should be an alias for select" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.filter { |i| i > 3 }).to eq(SortedContainers::SortedArray.new([4, 5]))
+    end
   end
 
   describe "select!" do
@@ -1173,6 +1178,12 @@ RSpec.describe SortedContainers::SortedArray do
       enumerator = array.select!
       enumerator.each { |i| i > 3 }
       expect(array.to_a).to eq([4, 5])
+    end
+
+    it "filter! should be an alias for select!" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.filter! { |i| i > 3 }
+      expect(array).to eq(SortedContainers::SortedArray.new([4, 5]))
     end
   end
 

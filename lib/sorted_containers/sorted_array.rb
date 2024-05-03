@@ -698,6 +698,7 @@ module SortedContainers
       end
       self.class.new(new_values, load_factor: @load_factor)
     end
+    alias filter select
 
     # Calls the block, if given, with each element of +self+;
     # returns +self+ with the elements for which the block returns a truthy value.
@@ -716,6 +717,7 @@ module SortedContainers
       indexes_to_delete.reverse.each { |index| delete_at(index) }
       self
     end
+    alias filter! select!
 
     # Returns a string representation of the sorted array.
     #
