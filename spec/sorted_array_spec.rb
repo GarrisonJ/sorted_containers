@@ -1279,6 +1279,16 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "inspect" do
+    it "should return a string representation of the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5, 6, 7])
+      expect(array.inspect).to eq(
+        "#<SortedContainers::SortedArray size=7 array_index=[] offset=0 maxes=[7] " \
+        "items=[1, 2, 3, 4, 5, 6, 7]>"
+      )
+    end
+  end
+
   describe "replace" do
     it "should copy the array" do
       array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])

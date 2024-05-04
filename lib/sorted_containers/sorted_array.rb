@@ -799,6 +799,14 @@ module SortedContainers
       idx < sublist.size && sublist[idx] == value
     end
 
+    # Returns a string representation of the sorted array.
+    #
+    # @return [String] A string representation of the sorted array.
+    def inspect
+      "#<#{self.class} size=#{@size} array_index=#{@array_index} " \
+        "offset=#{@offset} maxes=#{@maxes} items=#{to_a.inspect}>"
+    end
+
     # Replaces the contents of +self+ with the contents of +other+.
     #
     # @param other [SortedArray] The other array to replace with.
