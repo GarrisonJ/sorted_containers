@@ -1631,6 +1631,33 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "one?" do
+    it "should return true if only one of the values meet the given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.one? { |i| i == 3 }).to be true
+    end
+
+    it "should return false if more than one of the values meet the given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.one? { |i| i > 3 }).to be false
+    end
+
+    it "should return false if none of the values meet the given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.one? { |i| i > 5 }).to be false
+    end
+
+    it "should return false if the array is empty" do
+      array = SortedContainers::SortedArray.new
+      expect(array.one?).to be false
+    end
+
+    it "should return true if only one of the values is true" do
+      array = SortedContainers::SortedArray.new([true])
+      expect(array.one?).to be true
+    end
+  end
+
   describe "pop" do
     it "should pop the last value from the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
