@@ -1340,6 +1340,17 @@ RSpec.describe SortedContainers::SortedArray do
       $OUTPUT_FIELD_SEPARATOR = old_field_separator
     end
   end
+
+  describe "keep_if" do
+    it "should keep elements that meet the given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.keep_if { |i| i > 3 }
+      expect(array.to_a).to eq([4, 5])
+    end
+
+    it "should return an enumerator if no block is given" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.keep_if).to be_a(Enumerator)
     end
   end
 

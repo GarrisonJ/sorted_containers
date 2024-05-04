@@ -829,6 +829,21 @@ module SortedContainers
       to_a.join(separator)
     end
 
+    # Retains those elements for which the block returns a truthy value; deletes all other elements; returns +self+
+    #
+    # Returns an Enumerator if no block is given.
+    #
+    # @yield [value] The block to keep with.
+    # @return [SortedArray, Enumerator] The array with the kept values.
+    def keep_if
+      return to_enum(:keep_if) unless block_given?
+
+      (@size - 1).downto(0) do |index|
+        delete_at(index) unless yield(self[index])
+      end
+      self
+    end
+
     # Replaces the contents of +self+ with the contents of +other+.
     #
     # @param other [SortedArray] The other array to replace with.
