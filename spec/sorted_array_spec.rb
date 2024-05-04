@@ -1595,6 +1595,25 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "minmax" do
+    it "should return the minimum and maximum values in the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.minmax).to eq([1, 5])
+    end
+
+    it "should return nil for the minimum and maximum values in an empty array" do
+      array = SortedContainers::SortedArray.new
+      expect(array.minmax).to eq([nil, nil])
+    end
+
+    it "should return the minimum and maximum values in the array with a block" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.minmax { |a, b| b <=> a }).to eq(basic_array.minmax { |a, b| b <=> a })
+      expect(array.minmax { |a, b| a <=> b }).to eq(basic_array.minmax { |a, b| a <=> b })
+    end
+  end
+
   describe "pop" do
     it "should pop the last value from the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])

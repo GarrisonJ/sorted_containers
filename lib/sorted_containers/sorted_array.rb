@@ -1059,6 +1059,24 @@ module SortedContainers
       @lists.first&.first
     end
 
+    # Returns a 2-element array containing the minimum and maximum values in the sorted array.
+    # If a block is given, the result of the block is computed for each value in the array,
+    # and the minimum and maximum values are computed from the result.
+    #
+    # @yield [value] The block to compute with.
+    # @return [Array] A 2-element array containing the minimum and maximum values.
+    def minmax
+      if block_given?
+        each.reduce([nil, nil]) do |(min_value, max_value), value|
+          min_value = value if min_value.nil? || yield(value, min_value) < 0
+          max_value = value if max_value.nil? || yield(value, max_value) > 0
+          [min_value, max_value]
+        end
+      else
+        [min, max]
+      end
+    end
+
     private
 
     # Performs a left bisect on the array.
