@@ -1279,6 +1279,15 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "replace" do
+    it "should copy the array" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([6, 7, 8, 9, 10])
+      array1.replace(array2)
+      expect(array1).to eq(array2)
+    end
+  end
+
   describe "array[index]" do
     it "should return the value at the given index" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])

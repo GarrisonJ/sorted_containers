@@ -799,6 +799,20 @@ module SortedContainers
       idx < sublist.size && sublist[idx] == value
     end
 
+    # Replaces the contents of +self+ with the contents of +other+.
+    #
+    # @param other [SortedArray] The other array to replace with.
+    # @return [SortedArray] +self+. The replaced array.
+    def replace(other)
+      @lists = other.lists.map(&:dup)
+      @maxes = other.maxes.dup
+      @array_index = other.array_index.dup
+      @offset = other.offset
+      @load_factor = other.load_factor
+      @size = other.size
+      self
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
