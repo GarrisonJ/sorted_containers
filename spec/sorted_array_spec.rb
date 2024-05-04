@@ -1315,6 +1315,31 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "join" do
+    it "should join the elements of the array with the given separator" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.join(", ")).to eq("1, 2, 3, 4, 5")
+    end
+
+    it "should join the elements of the array with an empty string if no separator is given" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.join).to eq("12345")
+    end
+
+    it "should recursively join the elements of the array with the given separator" do
+      array = SortedContainers::SortedArray.new([[1, 2], [3, 4], [5, 6]])
+      expect(array.join(", ")).to eq("1, 2, 3, 4, 5, 6")
+    end
+
+    it "should join with the default field separator $, if no separator is given" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      old_field_separator = $,
+      $, = "|"
+      expect(array.join).to eq("1|2|3|4|5")
+      $, = old_field_separator
+    end
+  end
+
   describe "replace" do
     it "should copy the array" do
       array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])

@@ -820,6 +820,14 @@ module SortedContainers
       false
     end
 
+    # Returns a +String+ formed by joining each element of the array with the given separator.
+    #
+    # @param separator [String] The separator to join the elements with.
+    # @return [String] The joined string.
+    def join(separator = $,)
+      to_a.join(separator)
+    end
+
     # Replaces the contents of +self+ with the contents of +other+.
     #
     # @param other [SortedArray] The other array to replace with.
