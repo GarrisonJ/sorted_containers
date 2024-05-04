@@ -1295,6 +1295,26 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "intersect?" do
+    it "should return true if the arrays have any elements in common" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([4, 5, 6, 7, 8])
+      expect(array1.intersect?(array2)).to be true
+    end
+
+    it "should return false if the arrays have no elements in common" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([6, 7, 8, 9, 10])
+      expect(array1.intersect?(array2)).to be false
+    end
+
+    it "should compare items with eql? not ==" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([1.0, 2.0, 3.0, 4.0, 5.0])
+      expect(array1.intersect?(array2)).to be false
+    end
+  end
+
   describe "replace" do
     it "should copy the array" do
       array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])

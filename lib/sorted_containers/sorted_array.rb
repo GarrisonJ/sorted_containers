@@ -808,6 +808,18 @@ module SortedContainers
         "offset=#{@offset} maxes=#{@maxes} items=#{to_a.inspect}>"
     end
 
+    # Returns +true+ if the SortedArray and +other+ have at least one element in common, otherwise returns +false+
+    # Elements are compared using +eql?+
+    #
+    # @param other [SortedArray] The other array to compare.
+    # @return [Boolean] +true+ if the array and +other+ have at least one element in common, otherwise +false+
+    def intersect?(other)
+      each do |value|
+        return true if other.include_eql?(value)
+      end
+      false
+    end
+
     # Replaces the contents of +self+ with the contents of +other+.
     #
     # @param other [SortedArray] The other array to replace with.
@@ -1446,6 +1458,15 @@ module SortedContainers
     end
 
     protected
+
+    # Checks if the sorted array includes a value using eql?.
+    #
+    # @param value [Object] The value to check.
+    # @return [Boolean] True if the value is found, false otherwise.
+    def include_eql?(value)
+      index = find_index(value)
+      index ? self[index].eql?(value) : false
+    end
 
     attr_accessor :lists, :maxes, :array_index, :offset, :load_factor
 
