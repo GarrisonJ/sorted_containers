@@ -2,6 +2,7 @@
 
 # The SortedContainers module provides data structures for sorted collections.
 # rubocop:disable Metrics/ClassLength
+require "English"
 module SortedContainers
   # The SortedArray class is a sorted array implementation.
   class SortedArray
@@ -824,7 +825,7 @@ module SortedContainers
     #
     # @param separator [String] The separator to join the elements with.
     # @return [String] The joined string.
-    def join(separator = $,)
+    def join(separator = $OUTPUT_FIELD_SEPARATOR)
       to_a.join(separator)
     end
 

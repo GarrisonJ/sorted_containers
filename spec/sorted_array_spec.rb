@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "English"
 RSpec.describe SortedContainers::SortedArray do
   describe "&" do
     it "should return the intersection of two arrays" do
@@ -1333,10 +1334,12 @@ RSpec.describe SortedContainers::SortedArray do
 
     it "should join with the default field separator $, if no separator is given" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-      old_field_separator = $,
-      $, = "|"
+      old_field_separator = $OUTPUT_FIELD_SEPARATOR
+      $OUTPUT_FIELD_SEPARATOR = "|"
       expect(array.join).to eq("1|2|3|4|5")
-      $, = old_field_separator
+      $OUTPUT_FIELD_SEPARATOR = old_field_separator
+    end
+  end
     end
   end
 
