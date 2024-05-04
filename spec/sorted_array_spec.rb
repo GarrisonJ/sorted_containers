@@ -1259,6 +1259,28 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "hash" do
+    it "equal arrays should have the same hash" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array1.hash).to eq(array2.hash)
+    end
+
+    it "arrays with the same values but different order should have the same hashes" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([5, 4, 3, 2, 1])
+      expect(array1.hash).to eq(array2.hash)
+    end
+
+    it "arrays with different values should have different hashes" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 6])
+      expect(array1.hash).not_to eq(array2.hash)
+    end
+  end
+
+
+
   describe "array[index]" do
     it "should return the value at the given index" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])

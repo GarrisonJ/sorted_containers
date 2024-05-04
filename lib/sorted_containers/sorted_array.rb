@@ -778,6 +778,14 @@ module SortedContainers
       self
     end
 
+    # Returns the integer hash value for the sorted array.
+    # Two arrays with the same content will have the same hash value.
+    #
+    # @return [Integer] The hash value.
+    def hash
+      @lists.hash
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
