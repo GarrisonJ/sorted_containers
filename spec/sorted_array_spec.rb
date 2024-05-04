@@ -666,18 +666,6 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
-  describe "last" do
-    it "should return the last value in the array" do
-      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-      expect(array.last).to eq(5)
-    end
-
-    it "should return nil if the array is empty" do
-      array = SortedContainers::SortedArray.new
-      expect(array.last).to be_nil
-    end
-  end
-
   describe "all?" do
     it "should return true if all elements meet a given criterion" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
@@ -1358,6 +1346,18 @@ RSpec.describe SortedContainers::SortedArray do
     it "should return an enumerator if no block is given" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
       expect(array.keep_if).to be_a(Enumerator)
+    end
+  end
+
+  describe "last" do
+    it "should return the last value in the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.last).to eq(5)
+    end
+
+    it "should return nil if the array is empty" do
+      array = SortedContainers::SortedArray.new
+      expect(array.last).to be_nil
     end
   end
 

@@ -852,6 +852,15 @@ module SortedContainers
       self
     end
 
+    # Retrieves the last value in the sorted array.
+    #
+    # @return [Object] The last value in the array.
+    def last
+      return nil if @size.zero?
+
+      @lists.last.last
+    end
+
     # Replaces the contents of +self+ with the contents of +other+.
     #
     # @param other [SortedArray] The other array to replace with.
@@ -911,15 +920,6 @@ module SortedContainers
 
       idx = internal_bisect_right(@lists[pos], value)
       loc(pos, idx)
-    end
-
-    # Retrieves the last value in the sorted array.
-    #
-    # @return [Object] The last value in the array.
-    def last
-      return nil if @size.zero?
-
-      @lists.last.last
     end
 
     # rubocop:disable Metrics/MethodLength
