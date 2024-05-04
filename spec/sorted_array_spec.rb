@@ -664,18 +664,6 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
-  describe "first" do
-    it "should return the first value in the array" do
-      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-      expect(array.first).to eq(1)
-    end
-
-    it "should return nil if the array is empty" do
-      array = SortedContainers::SortedArray.new
-      expect(array.first).to be_nil
-    end
-  end
-
   describe "last" do
     it "should return the last value in the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
@@ -1219,6 +1207,18 @@ RSpec.describe SortedContainers::SortedArray do
     it "index should be an alias for find_index" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
       expect(array.index { |i| i > 3 }).to eq(3)
+    end
+  end
+
+  describe "first" do
+    it "should return the first value in the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.first).to eq(1)
+    end
+
+    it "should return nil if the array is empty" do
+      array = SortedContainers::SortedArray.new
+      expect(array.first).to be_nil
     end
   end
 

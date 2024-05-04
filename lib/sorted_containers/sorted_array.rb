@@ -742,6 +742,15 @@ module SortedContainers
     end
     alias index find_index
 
+    # Retrieves the first value in the sorted array.
+    #
+    # @return [Object] The first value in the array.
+    def first
+      return nil if @size.zero?
+
+      @lists.first.first
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
@@ -796,15 +805,6 @@ module SortedContainers
       return nil if @size.zero?
 
       @lists.last.last
-    end
-
-    # Retrieves the first value in the sorted array.
-    #
-    # @return [Object] The first value in the array.
-    def first
-      return nil if @size.zero?
-
-      @lists.first.first
     end
 
     # rubocop:disable Metrics/MethodLength
