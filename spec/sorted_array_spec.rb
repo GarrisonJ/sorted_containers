@@ -1222,6 +1222,43 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "flatten" do
+    it "should return a new array with all subarrays flattened" do
+      array = SortedContainers::SortedArray.new([[1, 2], [2, 3], [4, 5]])
+      expect(array.flatten).to eq(SortedContainers::SortedArray.new([1, 2, 2, 3, 4, 5]))
+    end
+
+    it "should recursively flatten the array" do
+      array = SortedContainers::SortedArray.new([[[1], [2]], [[2], [3]], [[4], [5]]])
+      expect(array.flatten).to eq(SortedContainers::SortedArray.new([1, 2, 2, 3, 4, 5]))
+    end
+
+    it "should return a new array with all subarrays flattened to the given depth" do
+      array = SortedContainers::SortedArray.new([[[1], [2]], [[2], [3]], [[4], [5]]])
+      expect(array.flatten(1)).to eq(SortedContainers::SortedArray.new([[1], [2], [2], [3], [4], [5]]))
+    end
+  end
+
+  describe "flatten!" do
+    it "should return a new array with all subarrays flattened" do
+      array = SortedContainers::SortedArray.new([[1, 2], [2, 3], [4, 5]])
+      array.flatten!
+      expect(array).to eq(SortedContainers::SortedArray.new([1, 2, 2, 3, 4, 5]))
+    end
+
+    it "should recursively flatten the array" do
+      array = SortedContainers::SortedArray.new([[[1], [2]], [[2], [3]], [[4], [5]]])
+      array.flatten!
+      expect(array).to eq(SortedContainers::SortedArray.new([1, 2, 2, 3, 4, 5]))
+    end
+
+    it "should return a new array with all subarrays flattened to the given depth" do
+      array = SortedContainers::SortedArray.new([[[1], [2]], [[2], [3]], [[4], [5]]])
+      array.flatten!(1)
+      expect(array).to eq(SortedContainers::SortedArray.new([[1], [2], [2], [3], [4], [5]]))
+    end
+  end
+
   describe "array[index]" do
     it "should return the value at the given index" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])

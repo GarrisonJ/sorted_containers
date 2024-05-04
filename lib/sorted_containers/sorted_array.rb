@@ -751,6 +751,33 @@ module SortedContainers
       @lists.first.first
     end
 
+    # Returns a new SortedArray that is a recursive flattening of the array.
+    #
+    # Each non-array element is unchanged, and each array element is recursively flattened.
+    # When the optional level argument is given, the recursion is limited to that level.
+    #
+    # @param level [Integer] The level to flatten to.
+    # @return [SortedArray] The flattened array.
+    def flatten(level = nil)
+      new_instance = self.class.new
+      new_instance.update(to_a.flatten(level))
+      new_instance
+    end
+
+    # Flattens the array in place.
+    #
+    # Each non-array element is unchanged, and each array element is recursively flattened.
+    # When the optional level argument is given, the recursion is limited to that level.
+    #
+    # @param level [Integer] The level to flatten to.
+    # @return [SortedArray] +self+. The flattened array.
+    def flatten!(level = nil)
+      values = to_a.flatten(level)
+      clear
+      update(values)
+      self
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
