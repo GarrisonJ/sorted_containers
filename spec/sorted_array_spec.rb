@@ -644,18 +644,6 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
-  describe "include?" do
-    it "should return true if the value is in the array" do
-      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-      expect(array.include?(3)).to be true
-    end
-
-    it "should return false if the value is not in the array" do
-      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-      expect(array.include?(6)).to be false
-    end
-  end
-
   describe "update" do
     it "should update the array with the given values" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
@@ -1279,7 +1267,17 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "include?" do
+    it "should return true if the value is in the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.include?(3)).to be true
+    end
 
+    it "should return false if the value is not in the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.include?(6)).to be false
+    end
+  end
 
   describe "array[index]" do
     it "should return the value at the given index" do

@@ -786,6 +786,19 @@ module SortedContainers
       @lists.hash
     end
 
+    # Checks if the sorted array contains a value.
+    #
+    # @param value [Object] The value to check.
+    # @return [Boolean] True if the value is found, false otherwise.
+    def include?(value)
+      i = internal_bisect_left(@maxes, value)
+      return false if i == @maxes.size
+
+      sublist = @lists[i]
+      idx = internal_bisect_left(sublist, value)
+      idx < sublist.size && sublist[idx] == value
+    end
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
@@ -883,19 +896,6 @@ module SortedContainers
       value
     end
     # rubocop:enable Metrics/MethodLength
-
-    # Checks if the sorted array contains a value.
-    #
-    # @param value [Object] The value to check.
-    # @return [Boolean] True if the value is found, false otherwise.
-    def include?(value)
-      i = internal_bisect_left(@maxes, value)
-      return false if i == @maxes.size
-
-      sublist = @lists[i]
-      idx = internal_bisect_left(sublist, value)
-      idx < sublist.size && sublist[idx] == value
-    end
 
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
