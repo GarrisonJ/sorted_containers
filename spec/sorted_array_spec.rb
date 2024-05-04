@@ -1195,6 +1195,33 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "find_index" do
+    it "should return the index of the first element that meets the given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.find_index { |i| i > 3 }).to eq(3)
+    end
+
+    it "should return nil if no elements meet the given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.find_index { |i| i > 5 }).to be_nil
+    end
+
+    it "should return the index of the first occurrence of the value" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5, 3])
+      expect(array.find_index(3)).to eq(2)
+    end
+
+    it "should return nil if the value is not in the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.find_index(6)).to be_nil
+    end
+
+    it "index should be an alias for find_index" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.index { |i| i > 3 }).to eq(3)
+    end
+  end
+
   describe "array[index]" do
     it "should return the value at the given index" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])

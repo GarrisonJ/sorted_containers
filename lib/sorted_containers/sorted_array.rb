@@ -21,7 +21,7 @@ module SortedContainers
     def initialize(iterable = [], load_factor: DEFAULT_LOAD_FACTOR)
       @lists = []
       @maxes = []
-      @index = []
+      @array_index = []
       @offset = 0
       @load_factor = load_factor
       @size = 0
@@ -350,7 +350,7 @@ module SortedContainers
     def clear
       @lists.clear
       @maxes.clear
-      @index.clear
+      @array_index.clear
       @offset = 0
       @size = 0
       self
@@ -719,6 +719,29 @@ module SortedContainers
     end
     alias filter! select!
 
+    # Returns the first index of the value in the sorted array, or returns
+    # the first index that returns true when passed to the block.
+    #
+    # This method will binary search if value is given,
+    # if a block is given, it will iterate through the array.
+    #
+    # @overload find_index(value)
+    #   @param value [Object] The value to find.
+    # @overload find_index
+    #   @yield [value] The block to find with.
+    # @return [Integer] The index of the value.
+    def find_index(value = nil)
+      return nil if @size.zero?
+
+      if block_given?
+        each_with_index { |val, idx| return idx if yield(val) }
+        nil
+      else
+        bsearch_index { |val| val >= value }
+      end
+    end
+    alias index find_index
+
     # Returns a string representation of the sorted array.
     #
     # @return [String] A string representation of the sorted array.
@@ -796,7 +819,7 @@ module SortedContainers
       if @lists.last.empty?
         @lists.pop
         @maxes.pop
-        @index.clear
+        @array_index.clear
       else
         @maxes[-1] = @lists.last.last
       end
@@ -817,7 +840,7 @@ module SortedContainers
       if @lists.first.empty?
         @lists.shift
         @maxes.shift
-        @index.clear
+        @array_index.clear
       else
         @maxes[0] = @lists.first.first
       end
@@ -873,7 +896,7 @@ module SortedContainers
       @size = values.length
 
       # Clear the index as it might be outdated
-      @index.clear
+      @array_index.clear
     end
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
@@ -913,7 +936,7 @@ module SortedContainers
       new_instance = self.class.new
       new_instance.lists = @lists.map(&:dup)
       new_instance.maxes = @maxes.dup
-      new_instance.index = @index.dup
+      new_instance.array_index = @array_index.dup
       new_instance.offset = @offset
       new_instance.load_factor = @load_factor
       new_instance.size = @size
@@ -1091,14 +1114,14 @@ module SortedContainers
         @maxes[pos] = @lists[pos].last
         @lists.insert(pos + 1, half)
         @maxes.insert(pos + 1, half.last)
-        @index.clear
-      elsif @index.size.positive?
+        @array_index.clear
+      elsif @array_index.size.positive?
         child = @offset + pos
         while child.positive?
-          @index[child] += 1
+          @array_index[child] += 1
           child = (child - 1) >> 1
         end
-        @index[0] += 1
+        @array_index[0] += 1
       end
     end
     # rubocop:enable Metrics/AbcSize
@@ -1122,13 +1145,13 @@ module SortedContainers
       if len_list > (@load_factor >> 1)
         @maxes[pos] = list.last
 
-        if @index.size.positive?
+        if @array_index.size.positive?
           child = @offset + pos
           while child.positive?
-            @index[child] -= 1
+            @array_index[child] -= 1
             child = (child - 1) >> 1
           end
-          @index[0] -= 1
+          @array_index[0] -= 1
         end
       elsif @lists.length > 1
         pos += 1 if pos.zero?
@@ -1139,7 +1162,7 @@ module SortedContainers
 
         @lists.delete_at(pos)
         @maxes.delete_at(pos)
-        @index.clear
+        @array_index.clear
 
         expand(prev)
       elsif len_list.positive?
@@ -1147,7 +1170,7 @@ module SortedContainers
       else
         @lists.delete_at(pos)
         @maxes.delete_at(pos)
-        @index.clear
+        @array_index.clear
       end
       value
     end
@@ -1183,7 +1206,7 @@ module SortedContainers
     #
     # Finally, the index is built by concatenating these lists together:
     #
-    #     @index = [14, 5, 9, 3, 2, 4, 5]
+    #     @array_index = [14, 5, 9, 3, 2, 4, 5]
     #
     # An offset storing the start of the first row is also stored:
     #
@@ -1197,7 +1220,7 @@ module SortedContainers
 
       # Early return if there is only one sublist
       if row0.length == 1
-        @index = row0
+        @array_index = row0
         @offset = 0
         return
       end
@@ -1211,7 +1234,7 @@ module SortedContainers
 
       # Return early if only one row is needed
       if row1.length == 1
-        @index = row1 + row0
+        @array_index = row1 + row0
         @offset = 1
         return
       end
@@ -1228,7 +1251,7 @@ module SortedContainers
       end
 
       # Flatten the tree into the index array
-      tree.reverse_each { |level| @index.concat(level) }
+      tree.reverse_each { |level| @array_index.concat(level) }
       @offset = (the_size * 2) - 1
     end
     # rubocop:enable Metrics/AbcSize
@@ -1308,14 +1331,14 @@ module SortedContainers
 
       return 0, idx if idx < @lists[0].size
 
-      build_index if @index.empty?
+      build_index if @array_index.empty?
 
       pos = 0
       child = 1
-      len_index = @index.size
+      len_index = @array_index.size
 
       while child < len_index
-        index_child = @index[child]
+        index_child = @array_index[child]
 
         if idx < index_child
           pos = child
@@ -1343,7 +1366,7 @@ module SortedContainers
     def loc(pos, idx)
       return idx if pos.zero?
 
-      build_index if @index.empty?
+      build_index if @array_index.empty?
 
       # Increment pos to point in the index to @lists[pos].size.
       total = 0
@@ -1355,7 +1378,7 @@ module SortedContainers
 
         # Right-child nodes are at even indices. At such indices
         # account the total below the left child node.
-        total += @index[pos - 1] if pos.even?
+        total += @array_index[pos - 1] if pos.even?
 
         # Advance pos to the parent node.
         pos = (pos - 1) >> 1
@@ -1366,7 +1389,7 @@ module SortedContainers
 
     protected
 
-    attr_accessor :lists, :maxes, :index, :offset, :load_factor
+    attr_accessor :lists, :maxes, :array_index, :offset, :load_factor
 
     attr_writer :size
   end
