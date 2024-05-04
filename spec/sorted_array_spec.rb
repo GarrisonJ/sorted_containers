@@ -2,6 +2,13 @@
 
 require "English"
 RSpec.describe SortedContainers::SortedArray do
+  describe "SortedArray[]" do
+    it "should create a new SortedArray from the given values" do
+      array = SortedContainers::SortedArray[1, 2, 3, 4, 5]
+      expect(array.to_a).to eq([1, 2, 3, 4, 5])
+    end
+  end
+
   describe "&" do
     it "should return the intersection of two arrays" do
       array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])

@@ -29,6 +29,14 @@ module SortedContainers
       update(iterable)
     end
 
+    # Returns a new SortedArray populated with the given objects.
+    #
+    # @param args [Array] The objects to populate the array with.
+    # @return [SortedArray] The populated array.
+    def self.[](*args)
+      new(args)
+    end
+
     # Returns a new SortedArray with the values from the union of the two arrays.
     #
     # @param other [SortedArray] The other array to union with.
