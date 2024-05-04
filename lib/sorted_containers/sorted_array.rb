@@ -1077,6 +1077,16 @@ module SortedContainers
       end
     end
 
+    # Packs the values in the array into a binary sequence.
+    # @see Array#pack
+    #
+    # @param template [String] The template to pack the values with.
+    # @param buffer [String] The buffer to pack the values into.
+    # @return [String] The packed values.
+    def pack(template, buffer: nil)
+      to_a.pack(template, buffer: buffer)
+    end
+
     private
 
     # Performs a left bisect on the array.

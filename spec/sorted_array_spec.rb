@@ -1658,6 +1658,20 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "pack" do
+    it "should pack the values in the array" do
+      basic_array = ["a", "b", "c", "d", "e"]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.pack("A3A3A3A3A3")).to eq(basic_array.pack("A3A3A3A3A3"))
+    end
+
+    it "should respect the buffer size" do
+      basic_array = ["a", "b", "c", "d", "e"]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.pack("A3A3A3A3A3", buffer: "a".dup)).to eq(basic_array.pack("A3A3A3A3A3", buffer: "a".dup))
+    end
+  end
+
   describe "pop" do
     it "should pop the last value from the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
