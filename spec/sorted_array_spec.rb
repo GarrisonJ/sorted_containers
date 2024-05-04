@@ -25,6 +25,12 @@ RSpec.describe SortedContainers::SortedArray do
       array2 = SortedContainers::SortedArray.new
       expect((array1 & array2).to_a).to eq([])
     end
+
+    it "intersection is an alias for &" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([3, 4, 5, 6, 7])
+      expect(array1.intersection(array2).to_a).to eq([3, 4, 5])
+    end
   end
 
   describe "*" do

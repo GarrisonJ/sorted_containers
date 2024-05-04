@@ -37,6 +37,7 @@ module SortedContainers
       new_instance.update(to_a & other.to_a)
       new_instance
     end
+    alias intersection &
 
     # When non-negative, multiplies returns a new Array with each value repeated `int` times.
     #
