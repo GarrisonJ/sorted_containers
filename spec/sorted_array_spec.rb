@@ -1660,13 +1660,13 @@ RSpec.describe SortedContainers::SortedArray do
 
   describe "pack" do
     it "should pack the values in the array" do
-      basic_array = ["a", "b", "c", "d", "e"]
+      basic_array = %w[a b c d e]
       array = SortedContainers::SortedArray.new(basic_array)
       expect(array.pack("A3A3A3A3A3")).to eq(basic_array.pack("A3A3A3A3A3"))
     end
 
     it "should respect the buffer size" do
-      basic_array = ["a", "b", "c", "d", "e"]
+      basic_array = %w[a b c d e]
       array = SortedContainers::SortedArray.new(basic_array)
       expect(array.pack("A3A3A3A3A3", buffer: "a".dup)).to eq(basic_array.pack("A3A3A3A3A3", buffer: "a".dup))
     end

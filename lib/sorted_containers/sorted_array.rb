@@ -1068,8 +1068,8 @@ module SortedContainers
     def minmax
       if block_given?
         each.reduce([nil, nil]) do |(min_value, max_value), value|
-          min_value = value if min_value.nil? || yield(value, min_value) < 0
-          max_value = value if max_value.nil? || yield(value, max_value) > 0
+          min_value = value if min_value.nil? || yield(value, min_value).negative?
+          max_value = value if max_value.nil? || yield(value, max_value).positive?
           [min_value, max_value]
         end
       else
