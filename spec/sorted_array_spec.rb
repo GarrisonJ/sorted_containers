@@ -1735,6 +1735,18 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "rassoc" do
+    it "should return the first pair of values that match the given value" do
+      array = SortedContainers::SortedArray.new([["a", 1], ["b", 2], ["c", 3], ["d", 4], ["e", 5]])
+      expect(array.rassoc(3)).to eq(["c", 3])
+    end
+
+    it "should return nil if no pair of values match the given value" do
+      array = SortedContainers::SortedArray.new([["a", 1], ["b", 2], ["c", 3], ["d", 4], ["e", 5]])
+      expect(array.rassoc(6)).to be_nil
+    end
+  end
+
   describe "shift" do
     it "should shift the first value from the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])

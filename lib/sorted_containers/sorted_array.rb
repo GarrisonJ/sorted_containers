@@ -1108,6 +1108,17 @@ module SortedContainers
       )
     end
 
+    # Returns the first element in +self+ that is an +Array+ whose second element +==+ +obj+:
+    #
+    # Time complexity: O(n)
+    #
+    # @param obj [Object] The object to search for.
+    # @return [Array] The first element in +self+ that is an +Array+ whose second element +==+ +obj+.
+    def rassoc(obj)
+      index = find_index { |x| x.is_a?(Array) && x[1] >= obj }
+      index.nil? ? nil : self[index]
+    end
+
     private
 
     # Performs a left bisect on the array.
