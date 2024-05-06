@@ -1726,6 +1726,13 @@ RSpec.describe SortedContainers::SortedArray do
       array1.product(array2) { |a, b| values << (a + b) }
       expect(values).to eq([4, 5, 5, 6])
     end
+
+    it "should yield each element of self as a 1-element array if no arguments are given" do
+      array = SortedContainers::SortedArray.new([1, 2])
+      values = []
+      array.product { |a| values << a }
+      expect(values).to eq([[1], [2]])
+    end
   end
 
   describe "shift" do
