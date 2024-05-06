@@ -1799,6 +1799,9 @@ RSpec.describe SortedContainers::SortedArray do
     it "should return an enumerator if no block is given" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
       expect(array.reverse_each).to be_a(Enumerator)
+      values = []
+      array.reverse_each.each { |i| values << i }
+      expect(values).to eq([5, 4, 3, 2, 1])
     end
 
     it "should work when array size is larger than load factor" do
