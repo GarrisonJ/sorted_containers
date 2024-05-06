@@ -1799,8 +1799,7 @@ RSpec.describe SortedContainers::SortedArray do
     it "should return an enumerator if no block is given" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
       expect(array.reverse_each).to be_a(Enumerator)
-      values = []
-      array.reverse_each.each { |i| values << i }
+      values = array.reverse_each.map { |i| i }
       expect(values).to eq([5, 4, 3, 2, 1])
     end
 
@@ -1812,11 +1811,41 @@ RSpec.describe SortedContainers::SortedArray do
     end
 
     it "array can be modified during iteration" do
-      array = SortedContainers::SortedArray.new([:a, :b, :c, :d, :e])
+      array = SortedContainers::SortedArray.new(%i[a b c d e])
       values = []
-      array.reverse_each { |i| values << i; array.clear if i == :c }
-      expect(values).to eq([:e, :d, :c])
+      array.reverse_each do |i|
+        values << i
+        array.clear if i == :c
+      end
+      expect(values).to eq(%i[e d c])
       expect(array.to_a).to eq([])
+    end
+  end
+
+  describe "rindex" do
+    it "should return the index of the last value that meets the given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 3, 4, 5])
+      expect(array.rindex { |i| i < 4 }).to eq(3)
+    end
+
+    it "should return nil if no values meet the given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.rindex { |i| i > 5 }).to be_nil
+    end
+
+    it "should return the index of the last value that is equal to the given value" do
+      array = SortedContainers::SortedArray.new(%i[a b c d d e])
+      expect(array.rindex(:d)).to eq(4)
+    end
+
+    it "should return nil if no values are equal to the given value" do
+      array = SortedContainers::SortedArray.new(%i[a b c d e])
+      expect(array.rindex(:f)).to be_nil
+    end
+
+    it "should use the value if a block and value are given" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.rindex(3) { |i| i == 5 }).to eq(2)
     end
   end
 

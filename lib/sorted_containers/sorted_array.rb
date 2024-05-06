@@ -1165,6 +1165,43 @@ module SortedContainers
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/PerceivedComplexity
+
+    # Returns the index of the last element for which object +==+ element.
+    #
+    # Returns an Enumerator if no block or value is given.
+    #
+    # When a block is given but no value, the block is used to find the last element.
+    #
+    # @overload rindex(value)
+    #   @param value [Object] The value to find.
+    # @overload rindex
+    #   @yield [value] The block to find with.
+    # @return [Integer] The index of the value.
+    def rindex(value = nil)
+      return to_enum(:rindex, value) unless block_given? || value
+      return nil if @size.zero?
+
+      if value.nil?
+        reverse_each.with_index do |val, idx|
+          return @size - idx - 1 if yield(val)
+        end
+        nil
+      else
+        warn "given block not used" if block_given?
+        index = bisect_right(value)
+        self[index - 1] == value ? index - 1 : nil
+      end
+    end
+
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/PerceivedComplexity
+
     private
 
     # Performs a left bisect on the array.
