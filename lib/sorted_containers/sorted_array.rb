@@ -1119,6 +1119,39 @@ module SortedContainers
       index.nil? ? nil : self[index]
     end
 
+    # Returns a new SortedArray whose elements are all those from +self+ for which the block returns false or nil.
+    #
+    # Returns an Enumerator if no block is given.
+    #
+    # @yield [value] The block to reject with.
+    # @return [SortedArray, Enumerator] The rejected array.
+    def reject
+      return to_enum(:reject) unless block_given?
+
+      select { |value| !yield(value) }
+    end
+
+    # Deletes every element of +self+ for which block evaluates to true.
+    #
+    # Returns +self+ if any changes were made, otherwise returns +nil+.
+    #
+    # Returns an Enumerator if no block is given.
+    #
+    # @yield [value] The block to reject with.
+    # @return [SortedArray, Enumerator] The rejected array.
+    def reject!
+      return to_enum(:reject!) unless block_given?
+
+      indexes_to_delete = []
+      each_with_index do |value, index|
+        indexes_to_delete << index if yield(value)
+      end
+      return nil if indexes_to_delete.empty?
+
+      indexes_to_delete.reverse.each { |index| delete_at(index) }
+      self
+    end
+
     private
 
     # Performs a left bisect on the array.

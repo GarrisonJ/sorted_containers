@@ -1747,6 +1747,47 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "reject" do
+    it "should reject elements that meet the given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.reject { |i| i > 3 }).to eq(SortedContainers::SortedArray.new([1, 2, 3]))
+    end
+
+    it "should not modify the original array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.reject { |i| i > 3 }
+      expect(array).to eq(SortedContainers::SortedArray.new([1, 2, 3, 4, 5]))
+    end
+
+    it "should return an enumerator if no block is given" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.reject).to be_a(Enumerator)
+    end
+  end
+
+  describe "reject!" do
+    it "should reject elements that meet the given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.reject! { |i| i > 3 }
+      expect(array).to eq(SortedContainers::SortedArray.new([1, 2, 3]))
+    end
+
+    it "should return self if elements are rejected" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.reject! { |i| i > 3 }).to eq(array)
+    end
+
+    it "should return an enumerator if no block is given" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.reject!).to be_a(Enumerator)
+    end
+
+    it "should return nil if no elements meet the given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.reject! { |i| i > 5 }).to be_nil
+    end
+  end
+
   describe "shift" do
     it "should shift the first value from the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
