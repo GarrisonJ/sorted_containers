@@ -358,6 +358,7 @@ module SortedContainers
     #
     # @return [SortedArray] The cleared sorted array.
     def clear
+      @lists.map(&:clear)
       @lists.clear
       @maxes.clear
       @array_index.clear
