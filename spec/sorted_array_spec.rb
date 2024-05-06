@@ -1698,6 +1698,36 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "product" do
+    it "should return the cartesian product of the array" do
+      array1 = SortedContainers::SortedArray.new([1, 2])
+      array2 = SortedContainers::SortedArray.new([3, 4])
+      expect(array1.product(array2)).to eq(SortedContainers::SortedArray.new([[1, 3], [1, 4], [2, 3], [2, 4]]))
+    end
+
+    it "should return the cartesian product of multiple arrays" do
+      array1 = SortedContainers::SortedArray.new([1, 2])
+      array2 = SortedContainers::SortedArray.new([3, 4])
+      array3 = SortedContainers::SortedArray.new([5, 6])
+      expect(array1.product(array2, array3)).to eq(
+        SortedContainers::SortedArray.new(
+          [
+            [1, 3, 5], [1, 3, 6], [1, 4, 5], [1, 4, 6],
+            [2, 3, 5], [2, 3, 6], [2, 4, 5], [2, 4, 6]
+          ]
+        )
+      )
+    end
+
+    it "should return the cartesian product of the array with a block" do
+      array1 = SortedContainers::SortedArray.new([1, 2])
+      array2 = SortedContainers::SortedArray.new([3, 4])
+      values = []
+      array1.product(array2) { |a, b| values << (a + b) }
+      expect(values).to eq([4, 5, 5, 6])
+    end
+  end
+
   describe "shift" do
     it "should shift the first value from the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])

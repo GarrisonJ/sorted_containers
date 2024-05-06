@@ -1094,6 +1094,20 @@ module SortedContainers
     # rubocop:enable Naming/MethodParameterName
     # rubocop:enable Metrics/MethodLength
 
+    # Computes and returns or yields all combinations of elements from all the Arrays,
+    # including both +self+ and +other_arrays+.
+    #
+    # @param other_arrays [SortedArray] The arrays to combine with.
+    # @yield [value] The block to combine with.
+    # @return [SortedArray] The combined array.
+    def product(*other_arrays, &block)
+      arrays = other_arrays.map(&:to_a)
+      self.class.new(
+        to_a.product(*arrays, &block),
+        load_factor: @load_factor
+      )
+    end
+
     private
 
     # Performs a left bisect on the array.
