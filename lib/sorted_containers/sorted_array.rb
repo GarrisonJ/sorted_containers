@@ -924,27 +924,6 @@ module SortedContainers
 
     # rubocop:disable Metrics/MethodLength
 
-    # Pops the last value from the sorted array.
-    #
-    # @return [Object] The last value in the array.
-    def pop
-      return nil if @size.zero?
-
-      value = @lists.last.pop
-      if @lists.last.empty?
-        @lists.pop
-        @maxes.pop
-        @array_index.clear
-      else
-        @maxes[-1] = @lists.last.last
-      end
-      @size -= 1
-      value
-    end
-    # rubocop:enable Metrics/MethodLength
-
-    # rubocop:disable Metrics/MethodLength
-
     # Shifts the first value from the sorted array.
     #
     # @return [Object] The first value in the array.
@@ -1086,6 +1065,34 @@ module SortedContainers
     def pack(template, buffer: nil)
       to_a.pack(template, buffer: buffer)
     end
+
+    # rubocop:disable Naming/MethodParameterName
+    # rubocop:disable Metrics/MethodLength
+
+    # Pops the last value from the sorted array.
+    #
+    # @param n [Integer] The number of values to pop.
+    # @return [Object] The last value in the array.
+    def pop(n = nil)
+      return nil if @size.zero?
+
+      if n.nil?
+        index = @size - 1
+        delete_at(index)
+      else
+        values = []
+        n.times do
+          return values if @size.zero?
+
+          index = @size - 1
+          values.prepend(delete_at(index))
+        end
+        values
+      end
+    end
+
+    # rubocop:enable Naming/MethodParameterName
+    # rubocop:enable Metrics/MethodLength
 
     private
 

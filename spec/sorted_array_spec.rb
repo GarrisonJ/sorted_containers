@@ -1679,6 +1679,19 @@ RSpec.describe SortedContainers::SortedArray do
       expect(array.to_a).to eq([1, 2, 3, 4])
     end
 
+    it "should should pop the last n values from the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.pop(2)).to eq([4, 5])
+      expect(array.to_a).to eq([1, 2, 3])
+    end
+
+    it "should work when array size is larger than load factor" do
+      array = SortedContainers::SortedArray.new((1..100).to_a, load_factor: 2)
+      expect(array.pop).to eq(100)
+      expect(array.pop).to eq(99)
+      expect(array.pop(5)).to eq([94, 95, 96, 97, 98])
+    end
+
     it "should return nil if the array is empty" do
       array = SortedContainers::SortedArray.new
       expect(array.pop).to be_nil
