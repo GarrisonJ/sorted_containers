@@ -1202,6 +1202,31 @@ module SortedContainers
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/PerceivedComplexity
 
+    # rubocop:disable Naming/MethodParameterName
+
+    # Returns random elements from +self+.
+    #
+    # If +n+ is given, returns an array of +n+ random elements.
+    # If +n+ is not given, returns a single random element.
+    #
+    # @param n [Integer] The number of random elements to return.
+    # @param random [Random] The random number generator to use.
+    # @return [Object, Array] The random element(s).
+    def sample(n = nil, random: Random)
+      return nil if @size.zero?
+
+      if n.nil?
+        index = random.rand(@size)
+        self[index]
+      else
+        raise ArgumentError, "negative sample number" if n.negative?
+
+        n.times.map { self[random.rand(@size)] }
+      end
+    end
+
+    # rubocop:enable Naming/MethodParameterName
+
     private
 
     # Performs a left bisect on the array.

@@ -1849,6 +1849,38 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "sample" do
+    it "should return a random value from the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.include?(array.sample)).to be true
+    end
+
+    it "should return n random values from the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.sample(2).all? { |i| array.include?(i) }).to be true
+    end
+
+    it "should return nil if the array is empty" do
+      array = SortedContainers::SortedArray.new
+      expect(array.sample).to be_nil
+    end
+
+    it "should return an empty array if n is 0" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.sample(0)).to eq([])
+    end
+
+    it "should raise ArgumentError if n is negative" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect { array.sample(-1) }.to raise_error(ArgumentError)
+    end
+
+    it "should return a random value from the array with a random number generator" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.include?(array.sample(random: Random.new))).to be true
+    end
+  end
+
   describe "shift" do
     it "should shift the first value from the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
