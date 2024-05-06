@@ -1153,6 +1153,18 @@ module SortedContainers
       self
     end
 
+    # Iterates over the sorted array in reverse order.
+    #
+    # @yield [value] Gives each value to the block.
+    # @return [Enumerator] If no block is given, an Enumerator is returned.
+    def reverse_each(&block)
+      return to_enum(:reverse_each) unless block_given?
+
+      @lists.reverse_each do |sublist|
+        sublist.reverse_each(&block)
+      end
+    end
+
     private
 
     # Performs a left bisect on the array.

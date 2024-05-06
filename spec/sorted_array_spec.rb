@@ -1788,6 +1788,35 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "reverse_each" do
+    it "should iterate over the values in reverse order" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      values = []
+      array.reverse_each { |i| values << i }
+      expect(values).to eq([5, 4, 3, 2, 1])
+    end
+
+    it "should return an enumerator if no block is given" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.reverse_each).to be_a(Enumerator)
+    end
+
+    it "should work when array size is larger than load factor" do
+      array = SortedContainers::SortedArray.new((1..100).to_a, load_factor: 2)
+      values = []
+      array.reverse_each { |i| values << i }
+      expect(values).to eq((1..100).to_a.reverse)
+    end
+
+    it "array can be modified during iteration" do
+      array = SortedContainers::SortedArray.new([:a, :b, :c, :d, :e])
+      values = []
+      array.reverse_each { |i| values << i; array.clear if i == :c }
+      expect(values).to eq([:e, :d, :c])
+      expect(array.to_a).to eq([])
+    end
+  end
+
   describe "shift" do
     it "should shift the first value from the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
