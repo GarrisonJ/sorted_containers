@@ -81,7 +81,7 @@ module SortedContainers
     end
     alias - difference
 
-    # Returns -1, 0, or 1 as +self+ is less than, equal to, or greater than other. For each index +i+ in +self+,
+    # Returns -1, 0, or 1 if +self+ is less than, equal to, or greater than other. For each index +i+ in +self+,
     # evaluates +self[i] <=> other[i]+
     #
     # @param other [SortedArray] The other array to compare.
@@ -578,8 +578,8 @@ module SortedContainers
       @size.zero?
     end
 
-    # Returns +true+ if +self+ and +other+ are the same size,
-    # and if, for each index +i+ in +self+, +self[i].eql? other[i]+
+    # Returns +true+ if for every element in +self+ there is a corresponding element in +other+
+    # that are equal using +Object#eql?+.
     #
     # This method is different from method +SortedArray#==+,
     # which compares using method +Object#==+
@@ -859,12 +859,12 @@ module SortedContainers
       "SortedArray(#{to_a})"
     end
 
-    # Returns an index to insert `value` in the sorted list.
+    # Returns an index to insert +value+ in the sorted list.
     #
-    # If the `value` is already present, the insertion point will be before
+    # If the +value+ is already present, the insertion point will be before
     # (to the left of) any existing values.
     #
-    # Runtime complexity: `O(log(n))` -- approximate.
+    # Runtime complexity: +O(log(n))+ -- approximate.
     #
     # @param value [Object] The value to insert.
     # @return [Integer] The index to insert the value.
@@ -879,12 +879,12 @@ module SortedContainers
       loc(pos, idx)
     end
 
-    # Returns an index to insert `value` in the sorted list.
+    # Returns an index to insert +value+ in the sorted list.
     #
-    # If the `value` is already present, the insertion point will be after
+    # If the +value+ is already present, the insertion point will be after
     # (to the right of) any existing values.
     #
-    # Runtime complexity: `O(log(n))` -- approximate.
+    # Runtime complexity: +O(log(n))+ -- approximate.
     #
     # @param value [Object] The value to insert.
     # @return [Integer] The index to insert the value.
