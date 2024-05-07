@@ -976,6 +976,7 @@ module SortedContainers
     def to_a
       @lists.flatten(1)
     end
+    alias to_ary to_a
 
     # Creates a new SortedArray and resorts the values.
     # Usefull when the values are modified and the array needs to be resorted.

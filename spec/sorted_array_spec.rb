@@ -1991,6 +1991,13 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "to_ary" do
+    it "should return the array as an array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.to_ary).to eq([1, 2, 3, 4, 5])
+    end
+  end
+
   describe "stress test", :stress do
     it "should handle arrays with 10_000_000 values" do
       array = SortedContainers::SortedArray.new
