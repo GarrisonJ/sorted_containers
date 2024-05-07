@@ -1945,6 +1945,28 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "sum" do
+    it "should return the sum of the values in the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.sum).to eq(15)
+    end
+
+    it "should return the sum of the values in the array with a block" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.sum { |i| i * 2 }).to eq(30)
+    end
+
+    it "should add the initial value to the sum" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.sum(10)).to eq(25)
+    end
+
+    it "should add the initial value to the sum with a block" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.sum(10) { |i| i * 2 }).to eq(40)
+    end
+  end
+
   describe "stress test", :stress do
     it "should handle arrays with 10_000_000 values" do
       array = SortedContainers::SortedArray.new
