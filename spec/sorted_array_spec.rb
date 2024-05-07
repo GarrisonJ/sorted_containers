@@ -1967,6 +1967,18 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "take" do
+    it "should return the first n values from the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.take(3)).to eq([1, 2, 3])
+    end
+
+    it "should return the first n values from the array if n is greater than the array size" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.take(6)).to eq([1, 2, 3, 4, 5])
+    end
+  end
+
   describe "stress test", :stress do
     it "should handle arrays with 10_000_000 values" do
       array = SortedContainers::SortedArray.new
