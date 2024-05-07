@@ -1291,6 +1291,13 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "to_s" do
+    it "should return a string representation of the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5, 6, 7])
+      expect(array.to_s).to eq("SortedArray([1, 2, 3, 4, 5, 6, 7])")
+    end
+  end
+
   describe "intersect?" do
     it "should return true if the arrays have any elements in common" do
       array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
