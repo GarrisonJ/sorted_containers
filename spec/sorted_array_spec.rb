@@ -2087,6 +2087,33 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "values_at" do
+    it "should return the values at the given indices" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.values_at(1, 3)).to eq([2, 4])
+    end
+
+    it "should return the values at the given negative indices" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.values_at(-1, -3)).to eq([5, 3])
+    end
+
+    it "should return the values at the given indices with a range" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.values_at(1..3)).to eq([2, 3, 4])
+    end
+
+    it "should return the values at the given negative indices with a range" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.values_at(-3..-1)).to eq([3, 4, 5])
+    end
+
+    it "should return the values at the given ranges and indices" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.values_at(1, 3..4)).to eq([2, 4, 5])
+    end
+  end
+
   describe "stress test", :stress do
     it "should handle arrays with 10_000_000 values" do
       array = SortedContainers::SortedArray.new

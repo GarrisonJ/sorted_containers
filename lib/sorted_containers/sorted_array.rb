@@ -1248,6 +1248,20 @@ module SortedContainers
       self
     end
 
+    # Returns a new SortedArray containing the values from the given indexes and ranges.
+    #
+    # @param indexes [Integer, Range] The indexes and ranges to get values from.
+    # @return [Array] The values from the given indexes and ranges.
+    def values_at(*indexes)
+      indexes.map do |index|
+        if index.is_a?(Range)
+          get_values_from_range(index)
+        else
+          get_value_at_index(index)
+        end
+      end.flatten
+    end
+
     private
 
     # Performs a left bisect on the array.
