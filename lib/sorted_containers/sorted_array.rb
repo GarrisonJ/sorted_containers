@@ -1262,6 +1262,15 @@ module SortedContainers
       end.flatten
     end
 
+    # Combines each element of the sorted array with the corresponding elements from other arrays.
+    #
+    # @param other_arrays [Array] The other arrays to zip with the sorted array.
+    # @param block [Proc] An optional block to apply to each zipped element.
+    # @return [SortedArray] A new SortedArray containing the zipped elements.
+    def zip(*other_arrays, &block)
+      self.class.new(to_a.zip(*other_arrays, &block), load_factor: @load_factor)
+    end
+
     private
 
     # Performs a left bisect on the array.

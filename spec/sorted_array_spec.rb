@@ -2114,6 +2114,55 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "zip" do
+    it "should return a new array with the values zipped" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3])
+      array2 = SortedContainers::SortedArray.new([4, 5, 6])
+      expect(array1.zip(array2)).to eq(SortedContainers::SortedArray.new([[1, 4], [2, 5], [3, 6]]))
+    end
+
+    it "should return a new array with the values zipped with a block" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3])
+      array2 = SortedContainers::SortedArray.new([4, 5, 6])
+      values = []
+      array1.zip(array2) { |a, b| values << (a + b) }
+      expect(values).to eq([5, 7, 9])
+    end
+
+    it "should return a new array with the values zipped with multiple arrays" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3])
+      array2 = SortedContainers::SortedArray.new([4, 5, 6])
+      array3 = SortedContainers::SortedArray.new([7, 8, 9])
+      expect(array1.zip(array2, array3)).to eq(SortedContainers::SortedArray.new([[1, 4, 7], [2, 5, 8], [3, 6, 9]]))
+    end
+
+    it "should return a new array with the values zipped with multiple arrays with a block" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3])
+      array2 = SortedContainers::SortedArray.new([4, 5, 6])
+      array3 = SortedContainers::SortedArray.new([7, 8, 9])
+      values = []
+      array1.zip(array2, array3) { |a, b, c| values << (a + b + c) }
+      expect(values).to eq([12, 15, 18])
+    end
+
+    it "should return an array of arrays with the values zipped with no arguments" do
+      array = SortedContainers::SortedArray.new([1, 2, 3])
+      expect(array.zip).to eq(SortedContainers::SortedArray.new([[1], [2], [3]]))
+    end
+
+    it "should return the values zipped up to the length of the first array" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3])
+      array2 = SortedContainers::SortedArray.new([4, 5, 6, 7])
+      expect(array1.zip(array2)).to eq(SortedContainers::SortedArray.new([[1, 4], [2, 5], [3, 6]]))
+    end
+
+    it "should use nil values if the array is shorter than the first array" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4])
+      array2 = SortedContainers::SortedArray.new([5, 6])
+      expect(array1.zip(array2)).to eq(SortedContainers::SortedArray.new([[1, 5], [2, 6], [3, nil], [4, nil]]))
+    end
+  end
+
   describe "stress test", :stress do
     it "should handle arrays with 10_000_000 values" do
       array = SortedContainers::SortedArray.new
