@@ -1998,6 +1998,18 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "to_h" do
+    it "should return the array as a hash" do
+      array = SortedContainers::SortedArray.new([[:a, 1], [:b, 2], [:c, 3], [:d, 4], [:e, 5]])
+      expect(array.to_h).to eq({ a: 1, b: 2, c: 3, d: 4, e: 5 })
+    end
+
+    it "should return the array as a hash with a block" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.to_h { |i| [i, i * 2] }).to eq({ 1 => 2, 2 => 4, 3 => 6, 4 => 8, 5 => 10 })
+    end
+  end
+
   describe "stress test", :stress do
     it "should handle arrays with 10_000_000 values" do
       array = SortedContainers::SortedArray.new
