@@ -41,12 +41,12 @@ module SortedContainers
     #
     # @param other [SortedArray] The other array to union with.
     # @return [SortedArray] The union of the two arrays.
-    def &(other)
+    def intersection(other)
       new_instance = self.class.new
       new_instance.update(to_a & other.to_a)
       new_instance
     end
-    alias intersection &
+    alias & intersection
 
     # When non-negative, multiplies returns a new Array with each value repeated `int` times.
     #
@@ -74,12 +74,12 @@ module SortedContainers
     #
     # @param other [SortedArray] The other array to subtract.
     # @return [SortedArray] The difference of the two arrays.
-    def -(other)
+    def difference(other)
       new_instance = self.class.new
       new_instance.update(to_a - other.to_a)
       new_instance
     end
-    alias difference -
+    alias - difference
 
     # Returns -1, 0, or 1 as self is less than, equal to, or greater than other. For each index i in self,
     # evaluates self[i] <=> other[i]
