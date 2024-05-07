@@ -923,8 +923,6 @@ module SortedContainers
       loc(pos, idx)
     end
 
-    # rubocop:disable Metrics/MethodLength
-
     # Shifts the first value from the sorted array.
     #
     # @return [Object] The first value in the array.
@@ -933,8 +931,6 @@ module SortedContainers
 
       delete_at(0)
     end
-    # rubocop:enable Metrics/MethodLength
-
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
 
