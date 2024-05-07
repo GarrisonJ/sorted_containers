@@ -1246,10 +1246,10 @@ RSpec.describe SortedContainers::SortedArray do
 
   describe "inspect" do
     it "should return a string representation of the array" do
-      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5, 6, 7])
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5, 6, 7], load_factor: 2)
       expect(array.inspect).to eq(
-        "#<SortedContainers::SortedArray size=7 array_index=[] offset=0 maxes=[7] " \
-        "items=[1, 2, 3, 4, 5, 6, 7]>"
+        "#<SortedContainers::SortedArray size=7 array_index=[] offset=0 maxes=[2, 4, 6, 7] " \
+        "items=[[1, 2], [3, 4], [5, 6], [7]]>"
       )
     end
   end
