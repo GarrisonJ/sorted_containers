@@ -81,8 +81,8 @@ module SortedContainers
     end
     alias - difference
 
-    # Returns -1, 0, or 1 as self is less than, equal to, or greater than other. For each index i in self,
-    # evaluates self[i] <=> other[i]
+    # Returns -1, 0, or 1 as +self+ is less than, equal to, or greater than other. For each index +i+ in +self+,
+    # evaluates +self[i] <=> other[i]+
     #
     # @param other [SortedArray] The other array to compare.
     # @return [Integer] -1, 0, or 1 as self is less than, equal to, or greater than other.
@@ -368,12 +368,12 @@ module SortedContainers
     end
 
     # Calls the block, if given, with each element of +self+;
-    # returns a new Array whose elements are the return values from the block.
+    # returns a new +SortedArray+ whose elements are the return values from the block.
     #
     # If no block is given, returns an Enumerator.
     #
     # @yield [value] The block to map with.
-    # @return [Array, Enumerator] The mapped array.
+    # @return [SortedArray, Enumerator] The mapped array.
     def map
       return to_enum(:map) unless block_given?
 
@@ -647,7 +647,6 @@ module SortedContainers
     # @overload fill(value, range)
     #   @param value [Object] The value to fill the array with.
     #   @param range [Range] The range of values to fill.
-    # # Overload for if block given
     # @overload fill
     #   @yield [index] The block to fill with.
     # @overload fill(start)
