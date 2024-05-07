@@ -812,7 +812,7 @@ module SortedContainers
     # @return [String] A string representation of the sorted array.
     def inspect
       "#<#{self.class} size=#{@size} array_index=#{@array_index} " \
-        "offset=#{@offset} maxes=#{@maxes} items=#{to_a.inspect}>"
+        "offset=#{@offset} maxes=#{@maxes} items=#{@lists}>"
     end
 
     # Returns +true+ if the SortedArray and +other+ have at least one element in common, otherwise returns +false+
