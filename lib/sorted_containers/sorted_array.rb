@@ -409,25 +409,6 @@ module SortedContainers
     end
     alias collect! map!
 
-    # Returns a new SortedArray containing of non-nil elements.
-    #
-    # @return [SortedArray] The compacted array.
-    def compact
-      new_instance = self.class.new
-      new_instance.update(to_a.compact)
-      new_instance
-    end
-
-    # Removes nil elements from the SortedArray.
-    #
-    # @return [SortedArray] +self+. The compacted array.
-    def compact!
-      values = to_a.compact
-      clear
-      update(values)
-      self
-    end
-
     # Adds the elements of one or more arrays to the SortedArray.
     #
     # @param other_arrays [Array] The arrays to concatenate.
