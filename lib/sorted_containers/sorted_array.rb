@@ -769,9 +769,7 @@ module SortedContainers
     # @param level [Integer] The level to flatten to.
     # @return [SortedArray] The flattened array.
     def flatten(level = nil)
-      new_instance = self.class.new
-      new_instance.update(to_a.flatten(level))
-      new_instance
+      self.class.new(to_a.flatten(level), load_factor: @load_factor)
     end
 
     # Flattens the array in place.
