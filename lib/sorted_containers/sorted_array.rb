@@ -1215,6 +1215,16 @@ module SortedContainers
 
     # rubocop:enable Naming/MethodParameterName
 
+    # Returns a new SortedArray that is the union of +self+ and +other_arrays+.
+    # Duplicates are removed.
+    #
+    # @param other_arrays [Array] The arrays to union with.
+    # @return [SortedArray] The unioned array.
+    def union(*other_arrays)
+      self.class.new(to_a | other_arrays.flatten, load_factor: @load_factor)
+    end
+    alias | union
+
     private
 
     # Performs a left bisect on the array.

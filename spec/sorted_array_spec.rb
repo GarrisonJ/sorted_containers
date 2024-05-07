@@ -1298,6 +1298,35 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "union" do
+    it "should return a new array with the elements of both arrays" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([6, 7, 8, 9, 10])
+      expect(array1.union(array2)).to eq(SortedContainers::SortedArray.new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
+    end
+
+    it "should return a new array with the elements of both arrays without duplicates" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([4, 5, 6, 7, 8])
+      expect(array1.union(array2)).to eq(SortedContainers::SortedArray.new([1, 2, 3, 4, 5, 6, 7, 8]))
+    end
+
+    it "should return a new array with all the elements from all the arrays given" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([6, 7, 8, 9, 10])
+      array3 = SortedContainers::SortedArray.new([11, 12, 13, 14, 15])
+      expect(array1.union(array2,
+                          array3)).to eq(SortedContainers::SortedArray.new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+                                                                            14, 15]))
+    end
+
+    it "should have | as an alias" do
+      array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array2 = SortedContainers::SortedArray.new([6, 7, 8, 9, 10])
+      expect(array1 | array2).to eq(SortedContainers::SortedArray.new([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
+    end
+  end
+
   describe "intersect?" do
     it "should return true if the arrays have any elements in common" do
       array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
