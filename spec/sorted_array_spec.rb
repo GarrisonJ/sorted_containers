@@ -1979,6 +1979,18 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "take_while" do
+    it "should return the first values that meet the given criterion" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.take_while { |i| i < 4 }).to eq([1, 2, 3])
+    end
+
+    it "should return an enumerator if no block is given" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.take_while).to be_a(Enumerator)
+    end
+  end
+
   describe "stress test", :stress do
     it "should handle arrays with 10_000_000 values" do
       array = SortedContainers::SortedArray.new
