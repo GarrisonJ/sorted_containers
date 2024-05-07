@@ -409,27 +409,6 @@ module SortedContainers
     end
     alias collect! map!
 
-    # rubocop:disable Naming/MethodParameterName
-
-    # Calls the block, if given, with combinations of elements from +self+; returns +self+.
-    # The order of combinations is indeterminate.
-    #
-    # When a block and an in-range positive Integer argument +n (0 < n <= self.size)+ are given,
-    # calls the block with all n-tuple combinations of +self+.
-    #
-    # If no block is given, returns an Enumerator.
-    #
-    # @param n [Integer] The number of elements to combine.
-    # @yield [value] The block to combine with.
-    # @return [SortedArray, Enumerator] The combined array.
-    def combination(n, &block)
-      return to_enum(:combination, n) unless block_given?
-
-      to_a.combination(n, &block)
-    end
-
-    # rubocop:enable Naming/MethodParameterName
-
     # Returns a new SortedArray containing of non-nil elements.
     #
     # @return [SortedArray] The compacted array.
