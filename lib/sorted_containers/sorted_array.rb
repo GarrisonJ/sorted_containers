@@ -1225,6 +1225,29 @@ module SortedContainers
     end
     alias | union
 
+    # Returns a new SortedArray containing the unique values in +self+.
+    #
+    # @return [SortedArray] The unique array.
+    def uniq(&block)
+      self.class.new(to_a.uniq(&block), load_factor: @load_factor)
+    end
+
+    # Removes duplicate values from the sorted array.
+    # Returns +self+ if any changes were made, otherwise returns +nil+.
+    # If a block is given, it will use the block to determine uniqueness.
+    #
+    # @yield [value] The block to determine uniqueness.
+    # @return [SortedArray, nil] The array with the unique values.
+    def uniq!(&block)
+      values = to_a.uniq(&block)
+
+      return nil if values.size == @size
+
+      clear
+      update(values)
+      self
+    end
+
     private
 
     # Performs a left bisect on the array.

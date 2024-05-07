@@ -2046,6 +2046,47 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
+  describe "uniq" do
+    it "should return a new array with duplicate values removed" do
+      array = SortedContainers::SortedArray.new([1, 2, 2, 3, 4, 5, 5])
+      expect(array.uniq).to eq(SortedContainers::SortedArray.new([1, 2, 3, 4, 5]))
+    end
+
+    it "should return a new array with duplicate values removed with a block" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.uniq { |i| i % 2 }).to eq(SortedContainers::SortedArray.new([1, 2]))
+    end
+  end
+
+  describe "uniq!" do
+    it "should remove duplicate values from the array" do
+      array = SortedContainers::SortedArray.new([1, 2, 2, 3, 4, 5, 5])
+      array.uniq!
+      expect(array).to eq(SortedContainers::SortedArray.new([1, 2, 3, 4, 5]))
+    end
+
+    it "should return nil if no duplicate values are removed" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.uniq!).to be_nil
+    end
+
+    it "should return self if duplicate values are removed" do
+      array = SortedContainers::SortedArray.new([1, 2, 2, 3, 4, 5, 5])
+      expect(array.uniq!).to eq(array)
+    end
+
+    it "should remove duplicate values from the array with a block" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      array.uniq! { |i| i % 2 }
+      expect(array).to eq(SortedContainers::SortedArray.new([1, 2]))
+    end
+
+    it "should return nil if no duplicate values are removed with a block" do
+      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
+      expect(array.uniq! { |i| i % 10 }).to be_nil
+    end
+  end
+
   describe "stress test", :stress do
     it "should handle arrays with 10_000_000 values" do
       array = SortedContainers::SortedArray.new
