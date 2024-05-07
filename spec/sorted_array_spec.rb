@@ -808,7 +808,7 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
-  # rubocop:disable Lint/SingleArgumentDig
+  # rubocop:disable Style/SingleArgumentDig
 
   describe "dig" do
     it "should return the value at the given index" do
@@ -872,7 +872,7 @@ RSpec.describe SortedContainers::SortedArray do
     end
   end
 
-  # rubocop:enable Lint/SingleArgumentDig
+  # rubocop:enable Style/SingleArgumentDig
 
   describe "drop" do
     it "should return the array without the first n elements" do
