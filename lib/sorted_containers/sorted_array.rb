@@ -42,9 +42,7 @@ module SortedContainers
     # @param other [SortedArray] The other array to union with.
     # @return [SortedArray] The union of the two arrays.
     def intersection(other)
-      new_instance = self.class.new
-      new_instance.update(to_a & other.to_a)
-      new_instance
+      self.class.new(to_a & other.to_a, load_factor: @load_factor)
     end
     alias & intersection
 
@@ -53,10 +51,7 @@ module SortedContainers
     # @param num [Integer] The integer to multiply the array by.
     # @return [SortedArray] The multiplied sorted array.
     def multiply(num)
-      values = @lists.flatten * num
-      new_instance = self.class.new
-      new_instance.update(values)
-      new_instance
+      self.class.new(to_a * num, load_factor: @load_factor)
     end
     alias * multiply
 
@@ -65,9 +60,7 @@ module SortedContainers
     # @param other [SortedArray] The other array to add.
     # @return [SortedArray] The combined array.
     def +(other)
-      new_instance = self.class.new
-      new_instance.update(to_a + other.to_a)
-      new_instance
+      self.class.new(to_a + other.to_a, load_factor: @load_factor)
     end
 
     # Returns a new SortedArray with the values from the difference of the two arrays.
@@ -75,9 +68,7 @@ module SortedContainers
     # @param other [SortedArray] The other array to subtract.
     # @return [SortedArray] The difference of the two arrays.
     def difference(other)
-      new_instance = self.class.new
-      new_instance.update(to_a - other.to_a)
-      new_instance
+      self.class.new(to_a - other.to_a, load_factor: @load_factor)
     end
     alias - difference
 
@@ -509,11 +500,9 @@ module SortedContainers
     # @return [SortedArray] The array with the dropped values.
     def drop(n)
       raise ArgumentError, "attempt to drop negative size" if n.negative?
-      return self.class.new if n >= @size
+      return self.class.new(load_factor: @load_factor) if n >= @size
 
-      new_instance = self.class.new
-      new_instance.update(to_a.drop(n))
-      new_instance
+      self.class.new(to_a.drop(n), load_factor: @load_factor)
     end
 
     # rubocop:enable Naming/MethodParameterName
@@ -527,7 +516,7 @@ module SortedContainers
     def drop_while
       return to_enum(:drop_while) unless block_given?
 
-      self.class.new(super)
+      self.class.new(super(), load_factor: @load_factor)
     end
 
     # Iterates over each value in the sorted array.
