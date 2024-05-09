@@ -10,6 +10,7 @@ module SortedContainers
 
     # Initializes a new instance of the SortedHash class.
     #
+    # @param hash [Hash] The initial key-value pairs for the SortedHash.
     # @param load_factor [Integer] The load factor for the SortedHash.
     def initialize(hash = {}, load_factor: SortedArray::DEFAULT_LOAD_FACTOR)
       @hash = hash
