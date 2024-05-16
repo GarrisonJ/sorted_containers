@@ -359,26 +359,6 @@ module SortedContainers
     end
 
     # Calls the block, if given, with each element of +self+;
-    # returns a new +SortedArray+ whose elements are the return values from the block.
-    #
-    # If no block is given, returns an Enumerator.
-    #
-    # @yield [value] The block to map with.
-    # @return [SortedArray, Enumerator] The mapped array.
-    def map
-      return to_enum(:map) unless block_given?
-
-      new_values = []
-      # rubocop:disable Style/MapIntoArray
-      each { |value| new_values << yield(value) }
-      # rubocop:enable Style/MapIntoArray
-      # Experimitation shows that it's faster to add all values at once
-      # rather than adding them one by one
-      self.class.new(new_values, load_factor: @load_factor)
-    end
-    alias collect map
-
-    # Calls the block, if given, with each element of +self+;
     # returns +self+ after the block has been executed.
     #
     # If no block is given, returns an Enumerator.

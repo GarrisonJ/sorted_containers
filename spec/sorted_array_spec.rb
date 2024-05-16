@@ -457,7 +457,7 @@ RSpec.describe SortedContainers::SortedArray do
   describe "collect" do
     it "should return a new array with the results of running the block once for every element" do
       array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5]).collect { |i| i * 2 }
-      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5].collect { |i| i * 2 })
+      array2 = [1, 2, 3, 4, 5].collect { |i| i * 2 }
       expect(array1).to eq(array2)
     end
 
@@ -466,25 +466,14 @@ RSpec.describe SortedContainers::SortedArray do
       expect(array.collect).to be_a(Enumerator)
     end
 
-    it "should return an enumerator if no block is given and the array is empty" do
-      array = SortedContainers::SortedArray.new
-      expect(array.collect).to be_a(Enumerator)
-    end
-
     it "should return an enumerator that loops through the array" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
       expect(array.collect.to_a).to eq([1, 2, 3, 4, 5])
     end
 
-    it "should keep array sorted after operation" do
-      array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-      array = array.collect { |i| i * -1 }
-      expect(array.to_a).to eq([-5, -4, -3, -2, -1])
-    end
-
     it "map is an alias for collect" do
       array1 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5]).map { |i| i * 2 }
-      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5].collect { |i| i * 2 })
+      array2 = SortedContainers::SortedArray.new([1, 2, 3, 4, 5]).collect { |i| i * 2 }
       expect(array1).to eq(array2)
     end
   end
