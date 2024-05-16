@@ -621,25 +621,6 @@ module SortedContainers
     # rubocop:enable Metrics/MethodLength
 
     # Calls the block, if given, with each element of +self+;
-    # returns a new SortedArray containing those elements of +self+
-    # for which the block returns a truthy value.
-    #
-    # If no block is given, an Enumerator is returned instead.
-    #
-    # @yield [value] The block to filter with.
-    # @return [SortedArray, Enumerator] The filtered array.
-    def select
-      return to_enum(:select) unless block_given?
-
-      new_values = []
-      each do |value|
-        new_values << value if yield(value)
-      end
-      self.class.new(new_values, load_factor: @load_factor)
-    end
-    alias filter select
-
-    # Calls the block, if given, with each element of +self+;
     # returns +self+ with the elements for which the block returns a truthy value.
     #
     # If no block is given, returns an Enumerator.
@@ -1032,18 +1013,6 @@ module SortedContainers
     def rassoc(obj)
       index = find_index { |x| x.is_a?(Array) && x[1] >= obj }
       index.nil? ? nil : self[index]
-    end
-
-    # Returns a new SortedArray whose elements are all those from +self+ for which the block returns false or nil.
-    #
-    # Returns an Enumerator if no block is given.
-    #
-    # @yield [value] The block to reject with.
-    # @return [SortedArray, Enumerator] The rejected array.
-    def reject
-      return to_enum(:reject) unless block_given?
-
-      select { |value| !yield(value) }
     end
 
     # Deletes every element of +self+ for which block evaluates to true.

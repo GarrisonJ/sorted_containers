@@ -1030,7 +1030,7 @@ RSpec.describe SortedContainers::SortedArray do
   describe "select" do
     it "should return the values that meet the given criterion" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-      expect(array.select { |i| i > 3 }).to eq(SortedContainers::SortedArray.new([4, 5]))
+      expect(array.select { |i| i > 3 }).to eq([4, 5])
     end
 
     it "should return an enumerator if no block is given" do
@@ -1040,7 +1040,7 @@ RSpec.describe SortedContainers::SortedArray do
 
     it "filter should be an alias for select" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-      expect(array.filter { |i| i > 3 }).to eq(SortedContainers::SortedArray.new([4, 5]))
+      expect(array.filter { |i| i > 3 }).to eq([4, 5])
     end
   end
 
@@ -1697,7 +1697,7 @@ RSpec.describe SortedContainers::SortedArray do
   describe "reject" do
     it "should reject elements that meet the given criterion" do
       array = SortedContainers::SortedArray.new([1, 2, 3, 4, 5])
-      expect(array.reject { |i| i > 3 }).to eq(SortedContainers::SortedArray.new([1, 2, 3]))
+      expect(array.reject { |i| i > 3 }).to eq([1, 2, 3])
     end
 
     it "should not modify the original array" do
