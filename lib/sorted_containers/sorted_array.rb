@@ -12,7 +12,7 @@ module SortedContainers
     # Sublists are split when they exceed 2 * load_factor
     DEFAULT_LOAD_FACTOR = 1000
 
-    attr_reader :size
+    attr_reader :size, :load_factor
     alias length size
 
     # Initializes a new SortedArray object.
@@ -1607,7 +1607,7 @@ module SortedContainers
       index ? self[index].eql?(value) : false
     end
 
-    attr_accessor :lists, :maxes, :array_index, :offset, :load_factor
+    attr_accessor :lists, :maxes, :array_index, :offset
 
     attr_writer :size
   end
