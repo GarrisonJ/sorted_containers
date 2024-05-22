@@ -1193,4 +1193,38 @@ RSpec.describe SortedContainers::SortedHash do
       expect(pair).to be_nil
     end
   end
+
+  describe "integration tests" do
+    it "methods done in succession should work" do
+      dict = SortedContainers::SortedHash.new
+      (0..1000).each { |i| dict[i] = i }
+      dict.delete_if { |key, _value| key.even? }
+      dict.keep_if { |key, _value| key % 3 == 0 }
+      dict.reject! { |key, _value| key % 5 == 0 }
+      dict.select! { |key, _value| key % 7 == 0 }
+      expect(dict.keys).to eq([21, 63, 147, 189, 231,
+                               273, 357, 399, 441, 483,
+                               567, 609, 651, 693, 777,
+                               819, 861, 903, 987])
+      expect(dict.bisect_left(148)).to eq(3)
+      expect(dict.bisect_right(148)).to eq(3)
+      expect(dict.first).to eq([21, 21])
+      expect(dict.last).to eq([987, 987])
+      dict[147] = nil
+      dict.compact!
+      expect(dict.bisect_left(148)).to eq(2)
+      expect(dict.bisect_right(148)).to eq(2)
+      dict.delete_at(1)
+      expect(dict.bisect_left(148)).to eq(1)
+      expect(dict.bisect_right(148)).to eq(1)
+      expect(dict.keys).to eq([21, 189, 231,
+                               273, 357, 399, 441, 483,
+                               567, 609, 651, 693, 777,
+                               819, 861, 903, 987])
+      expect(dict.shift).to eq([21, 21])
+      expect(dict.keys).to eq([189, 231, 273, 357, 399,
+                               441, 483, 567, 609, 651,
+                               693, 777, 819, 861, 903, 987])
+    end
+  end
 end
