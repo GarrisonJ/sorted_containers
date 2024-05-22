@@ -340,6 +340,12 @@ RSpec.describe SortedContainers::SortedArray do
       expect(array.add(5)).to eq(array)
     end
 
+    it "should raise an error if items are not comparable" do
+      array = SortedContainers::SortedArray.new
+      expect { array.add(5) }.not_to raise_error
+      expect { array.add("a") }.to raise_error(ArgumentError)
+    end
+
     it "a load factor of 10 should work" do
       array = SortedContainers::SortedArray.new([], load_factor: 10)
       (1..1000).to_a.shuffle.each do |i|

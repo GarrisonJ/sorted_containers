@@ -266,6 +266,7 @@ module SortedContainers
     end
 
     # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/AbcSize
 
     # Adds a value to the sorted array.
     #
@@ -275,6 +276,8 @@ module SortedContainers
         @lists.append([value])
         @maxes.append(value)
       else
+        raise ArgumentError, "value must be comparable" unless @maxes[0] <=> value
+
         pos = internal_bisect_right(@maxes, value)
 
         if pos == @maxes.size
@@ -295,6 +298,7 @@ module SortedContainers
     alias append add
 
     # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/AbcSize
 
     # Returns the first element in +self+ that is an +Array+ whose first element +==+ +obj+:
     #
