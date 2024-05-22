@@ -82,7 +82,7 @@ module SortedContainers
     # @!method fetch_values
     #   @see Hash#fetch_values
     # @!method flatten
-    #   @see Hash#flattens
+    #   @see Hash#flatten
     # @!method has_key?
     #   @see Hash#has_key?
     # @!method has_value?
