@@ -16,7 +16,8 @@ class Array
   # @param load_factor [Integer] The load factor for the SortedHash.
   # @return [SortedContainers::SortedHash] The new SortedHash.
   def to_sorted_h(load_factor: SortedContainers::SortedArray::DEFAULT_LOAD_FACTOR)
-    SortedContainers::SortedHash.new(to_h, load_factor: load_factor)
+    hash = SortedContainers::SortedHash.new(load_factor: load_factor)
+    hash.merge!(self)
   end
 
   # Converts the array to a SortedArray.
@@ -36,7 +37,9 @@ class Hash
   # @param load_factor [Integer] The load factor for the SortedHash.
   # @return [SortedContainers::SortedHash] The new SortedHash.
   def to_sorted_h(load_factor: SortedContainers::SortedArray::DEFAULT_LOAD_FACTOR)
-    SortedContainers::SortedHash.new(self, load_factor: load_factor)
+    hash = SortedContainers::SortedHash.new(load_factor: load_factor)
+    hash.merge!(self)
+    hash
   end
 end
 
