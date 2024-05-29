@@ -4,7 +4,21 @@
 # rubocop:disable Metrics/ClassLength
 require "English"
 module SortedContainers
-  # The SortedArray class is a sorted array implementation.
+  # SortedArray is an array that maintains its elements in sorted order.
+  #
+  # It contains most of the same methods as a regular Array, but some methods
+  # have been removed because they would not make sense for a sorted array. For
+  # example, the #rotate, #shuffle, and #reverse methods have been removed.
+  #
+  # SortedArray also has the additional following methods:
+  # - #add
+  # - #update
+  # - #bisect_left
+  # - #bisect_right
+  #
+  # There are also methods that have been obtimized using the sorted nature of
+  # the array. For example, the #include? method has been optimized to use
+  # binary search.
   class SortedArray
     include Enumerable
 

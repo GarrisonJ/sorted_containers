@@ -7,7 +7,7 @@ require "forwardable"
 module SortedContainers
   # rubocop:disable Metrics/ClassLength
 
-  # The SortedHash is a hash that maintains the order of its keys.
+  # SortedHash is a hash that maintains the order of its keys.
   #
   # SortedHash has most of the same methods as a regular Hash,
   # but also has the additional following methods:
