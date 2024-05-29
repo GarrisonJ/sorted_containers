@@ -468,6 +468,17 @@ module SortedContainers
       self
     end
 
+    # Returns the index of the given value.
+    # If the value is not found, returns nil.
+    #
+    # @param value [Object] The value to find the index of.
+    # @return [Integer, nil] The index of the value, or nil if the value is not found.
+    def index(value)
+      return nil unless @internal_hash.key?(value)
+
+      @sorted_array.bisect_left(value)
+    end
+
     # Retrieves the first key-value pair from the SortedHash as a two-element array.
     #
     # @return [Array] A two-element array containing the key and value of the first key-value pair.
