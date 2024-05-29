@@ -54,7 +54,7 @@ module SortedContainers
 
     # @!method keys
     #   @see Hash#keys
-    def_delegator :@sorted_array, :keys, :to_a
+    def_delegator :@sorted_array, :to_a, :keys
 
     # @!method any?
     #   @see Hash#any?
@@ -508,27 +508,6 @@ module SortedContainers
       key = @sorted_array.shift
       value = @internal_hash.delete(key)
       [key, value]
-    end
-
-    # Returns the number of key-value pairs in the SortedHash.
-    #
-    # @return [Integer] The number of key-value pairs.
-    def bisect_left(key)
-      @sorted_array.bisect_left(key)
-    end
-
-    # Returns the number of key-value pairs in the SortedHash.
-    #
-    # @return [Integer] The number of key-value pairs.
-    def bisect_right(key)
-      @sorted_array.bisect_right(key)
-    end
-
-    # Returns an array of all the keys in the SortedHash.
-    #
-    # @return [Array] An array of all the keys.
-    def keys
-      @sorted_array.to_a
     end
 
     # Returns an array of all the values in the SortedHash.
