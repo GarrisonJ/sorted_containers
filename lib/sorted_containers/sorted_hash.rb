@@ -266,17 +266,8 @@ module SortedContainers
     # @see Hash#except
     def except(*keys)
       new_hash = dup
-      new_hash.except!(*keys)
+      keys.each { |key| new_hash.delete(key) }
       new_hash
-    end
-
-    # @see Hash#except!
-    def except!(*keys)
-      keys.each do |key|
-        @internal_hash.delete(key)
-        @sorted_array.delete(key)
-      end
-      self
     end
 
     # @see Hash#filter
