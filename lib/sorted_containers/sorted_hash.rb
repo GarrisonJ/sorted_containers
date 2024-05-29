@@ -38,8 +38,6 @@ module SortedContainers
       hash.merge!(Hash[*args])
     end
 
-    # @!method join
-    #   @see SortedArray#join
     # @!method first
     #   @see SortedArray#first
     # @!method last
@@ -49,7 +47,6 @@ module SortedContainers
     # @!method bisect_right
     #   @see SortedArray#bisect_right
     def_delegators :@sorted_array,
-                   :join,
                    :first,
                    :last,
                    :bisect_left,
