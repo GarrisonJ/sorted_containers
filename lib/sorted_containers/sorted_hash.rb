@@ -18,16 +18,30 @@ module SortedContainers
   # - #index
   # - #last
   # - #pop
+  #
+  # Addtionally, there are methods that work differently than their Hash counterparts.
+  # Generally, methods that use Entry Order will use the sort order of the keys instead.
+  # For example:
+  #
+  #   h = Hash.new
+  #   h[:b] = 1
+  #   h[:a] = 2
+  #   h.first # => [:b, 1]
+  #
+  #   sh = SortedHash.new
+  #   sh[:b] = 1
+  #   sh[:a] = 2
+  #   sh.first # => [:a, 2]
+  #
   class SortedHash
     include Enumerable
     extend Forwardable
 
     # Initializes a new instance of the SortedHash class.
     #
-    # @param hash [Hash] The initial key-value pairs for the SortedHash.
     # @param default_value [Object] The default value for the SortedHash.
-    # @param block [Proc] The block to call to calculate the default value.
     # @param load_factor [Integer] The load factor for the SortedHash.
+    # @yield [Proc] The block to call to calculate the default value.
     def initialize(default_value = nil, load_factor: SortedArray::DEFAULT_LOAD_FACTOR)
       raise ArgumentError, "cannot specify both default value and block" if !default_value.nil? && block_given?
 
