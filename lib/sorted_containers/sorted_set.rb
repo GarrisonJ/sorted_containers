@@ -8,7 +8,29 @@ require "forwardable"
 module SortedContainers
   # rubocop:disable Metrics/ClassLength
 
-  # The SortedSet class is a sorted set implementation.
+  # SortedSet is a set that maintains its elements in sorted order.
+  #
+  # SortedSet has most of the same methods as Set, but also has the following
+  # additional methods:
+  # - #bisect_left
+  # - #bisect_right
+  # - #delete_at
+  # - #last
+  # - #[]
+  #
+  # Addtionally, there are methods that work differently than their Set counterparts.
+  # Generally, methods that use Entry Order will use the sort order of the keys instead.
+  # For example:
+  #
+  #   s = Set.new
+  #   s.add(2)
+  #   s.add(1)
+  #   s.first # => 2
+  #
+  #   ss = SortedSet.new
+  #   ss.add(2)
+  #   ss.add(1)
+  #   ss.first # => 1
   class SortedSet
     include Enumerable
     extend Forwardable
