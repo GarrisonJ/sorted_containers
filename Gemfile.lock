@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sorted_containers (0.1.1)
+    sorted_containers (1.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -59,4 +59,4 @@ DEPENDENCIES
   sorted_containers!
 
 BUNDLED WITH
-   2.5.9
+   2.5.10
