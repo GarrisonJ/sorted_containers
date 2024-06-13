@@ -4,7 +4,17 @@
 
 [![Gem Version](https://badge.fury.io/rb/sorted_containers.svg)](https://badge.fury.io/rb/sorted_containers)
 
-SortedContainers is a fast implementation of sorted arrays, sets, and hashes in pure Ruby. It is based on the [sortedcontainers](https://grantjenks.com/docs/sortedcontainers/) Python library by Grant Jenks.
+SortedContainers is a fast implementation of sorted arrays, sets, and hashes in pure Ruby. 
+
+- SortedArray, SortedSet, and SortedHash
+- Pure Ruby
+- Fast Performance
+- (almost) Identical API to Array, Set, and Hash
+- No dependencies
+- Benchmarks
+- Unit Tested
+
+This library is based on the [sortedcontainers](https://grantjenks.com/docs/sortedcontainers/) Python library by Grant Jenks.
 
 SortedContainers provides three main classes: `SortedArray`, `SortedSet`, and `SortedHash`. Each class is a drop-in replacement for the corresponding Ruby class, but with the added benefit of maintaining the elements in sorted order.
 
