@@ -355,9 +355,7 @@ module SortedContainers
     def bsearch_index(&block)
       return nil if @maxes.empty?
 
-      pos = @maxes.bsearch_index(&block)
-
-      return nil if pos.nil?
+      pos = @maxes.bsearch_index(&block) || 0
 
       idx = @lists[pos].bsearch_index(&block)
       loc(pos, idx)

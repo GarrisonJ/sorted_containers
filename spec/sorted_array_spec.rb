@@ -420,6 +420,12 @@ RSpec.describe SortedContainers::SortedArray do
       array = SortedContainers::SortedArray.new(basic_array, load_factor: 2)
       expect(array.bsearch { |x| x >= 3 }).to eq(basic_array.bsearch { |x| x >= 3 })
     end
+
+    it "should work with the comparable operator" do
+      basic_array = [1, 2, 3, 4, 5]
+      array = SortedContainers::SortedArray.new(basic_array)
+      expect(array.bsearch { |x| x <=> 3 }).to eq(basic_array.bsearch { |x| x <=> 3 })
+    end
   end
 
   describe "bsearch_index" do
