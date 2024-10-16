@@ -1,6 +1,7 @@
 ## [Unreleased]
 
 - Fix `SortedArray#bsearch_index` to work with comparable operator `<=>`
+- Fix bug where deleting elements can cause array to become corrupted
 
 ## [0.1.1] - 2024-04-25
 

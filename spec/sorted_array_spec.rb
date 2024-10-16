@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require "English"
+require_relative "fixtures/large_operations_list"
+
 RSpec.describe SortedContainers::SortedArray do
   describe "SortedArray[]" do
     it "should create a new SortedArray from the given values" do
@@ -2083,6 +2085,20 @@ RSpec.describe SortedContainers::SortedArray do
       array1 = SortedContainers::SortedArray.new([1, 2, 3, 4])
       array2 = SortedContainers::SortedArray.new([5, 6])
       expect(array1.zip(array2)).to eq(SortedContainers::SortedArray.new([[1, 5], [2, 6], [3, nil], [4, nil]]))
+    end
+  end
+
+  describe "Bug regression tests" do
+    let(:opts) { LargeOperationsList::LIST }
+
+    # https://github.com/GarrisonJ/sorted_containers/issues/7
+    it "should always store a sorted collection" do
+      array = SortedContainers::SortedArray.new
+
+      opts.each { |x| array.public_send(*x) }
+
+      elements = array.to_a
+      expect(elements).to eq(elements.sort)
     end
   end
 

@@ -1382,7 +1382,7 @@ module SortedContainers
         pos += 1 if pos.zero?
 
         prev = pos - 1
-        @lists[prev].concat(list)
+        @lists[prev].concat(@lists[pos])
         @maxes[prev] = @lists[prev].last
 
         @lists.delete_at(pos)
